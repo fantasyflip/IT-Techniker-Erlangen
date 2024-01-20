@@ -1,0 +1,24 @@
+body {
+  padding: 15px;
+}
+
+.flexbox {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-evenly;
+}
+
+.gallery-item {
+  max-width: 20vw;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.gallery-item:hover {
+  /* scale and ease in and out */
+  transform: scale(1.1);
+  transition: transform 0.5s ease;
+  /* box shadow */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>HTML-Form</title>
+    <link rel="stylesheet" href="style.css" />
+    <script type="text/javascript" src="script.js"></script>
+  </head>
+  <body>
+    <form action="">
+      <label for="fname">Vorname:</label>
+      <input type="text" id="fname" name="fname" value="" />
+
+      <br />
+
+      <label for="lname">Nachname:</label>
+      <input type="text" id="lname" name="lname" value="" />
+
+      <br />
+
+      <label for="lyear">Jahrgang:</label>
+      <input type="number" id="lyear" name="lyear" min="1930" max="2023" />
+
+      <br />
+
+      <label for="lcolor">Lieblingsfarbe:</label>
+      <select name="lcolor" id="lcolor">
+        <option value="red">Rot</option>
+        <option value="green">Grün</option>
+        <option value="blue">Blau</option>
+        <option value="yellow">Gelb</option>
+        <option value="orange">Orange</option>
+        <option value="purple">Lila</option>
+        <option value="pink">Pink</option>
+        <option value="brown">Braun</option>
+        <option value="black">Schwarz</option>
+        <option value="white">Weiß</option>
+      </select>
+
+      <br />
+
+      <label for="rdays">Ruhetage:</label>
+      <input type="checkbox" id="monday" name="monday" value="monday" />
+      <label for="monday">Montag</label>
+      <input type="checkbox" id="tuesday" name="tuesday" value="tuesday" />
+      <label for="tuesday">Dienstag</label>
+      <input
+        type="checkbox"
+        id="wednesday"
+        name="wednesday"
+        value="wednesday"
+      />
+      <label for="wednesday">Mittwoch</label>
+      <input type="checkbox" id="thursday" name="thursday" value="thursday" />
+      <label for="thursday">Donnerstag</label>
+      <input type="checkbox" id="friday" name="friday" value="friday" />
+      <label for="friday">Freitag</label>
+      <input type="checkbox" id="saturday" name="saturday" value="saturday" />
+      <label for="saturday">Samstag</label>
+      <input type="checkbox" id="sunday" name="sunday" value="sunday" />
+      <label for="sunday">Sonntag</label>
+
+      <br />
+
+      <label for="fdays">Lieblingstag:</label>
+      <input type="radio" id="monday" name="fdays" value="monday" />
+      <label for="fdays">Montag</label>
+      <input type="radio" id="tuesday" name="fdays" value="tuesday" />
+      <label for="fdays">Dienstag</label>
+      <input type="radio" id="wednesday" name="fdays" value="wednesday" />
+      <label for="fdays">Mittwoch</label>
+      <input type="radio" id="thursday" name="fdays" value="thursday" />
+      <label for="fdays">Donnerstag</label>
+      <input type="radio" id="friday" name="fdays" value="friday" />
+      <label for="fdays">Freitag</label>
+      <input type="radio" id="saturday" name="fdays" value="saturday" />
+      <label for="fdays">Samstag</label>
+      <input type="radio" id="sunday" name="fdays" value="sunday" />
+      <label for="fdays">Sonntag</label>
+
+      <br />
+
+      <label for="lcomment">Kommentar</label>
+      <textarea name="lcomment" id="lcomment" cols="30" rows="10"></textarea>
+
+      <br />
+      <br />
+
+      <input type="reset" value="Alles löschen" />
+      <input type="submit" value="Abschicken" />
+    </form>
+  </body>
+</html>

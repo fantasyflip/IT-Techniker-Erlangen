@@ -1,0 +1,58 @@
+* {
+  /* Globaler Selektor */
+  box-sizing: border-box;
+}
+body {
+  /* Selektor auf das HTML Element body */
+  /* Body zur Flexbox gemacht */
+  display: flex;
+  /* Minimale Höhe des Bodys ist die volle Viewport-Höhe */
+  min-height: 100vh;
+  /* Flex-Items werden untereinander angeordnet */
+  flex-direction: column;
+  /* Kein Margin um den Body */
+  margin: 0;
+}
+#main {
+  /* Selektor für die ID main */
+  /* Main zur Flexbox gemacht */
+  display: flex;
+  flex: 1;
+}
+#main > article {
+  /* Selektor für das HTML Element Article im Element mit der ID main */
+  flex: 1;
+}
+#main > nav,
+#main > aside {
+  /* Selektor für die HTML Elemente nav und aside im Element mit der ID main */
+  flex: 0 0 20vw;
+  /* Setzt die Hintergrundfarbe auf beige */
+  background: beige;
+}
+#main > nav {
+  /* Selektor für das HTML Element nav im Element mit der ID main */
+  order: -1;
+}
+header,
+footer {
+  /* Selektor für die HTML Elemente header und footer */
+  /* Setzt die Hintergrundfarbe auf yellowgreen */
+  background: yellowgreen;
+  /* Setzt die Höhe auf 20vh */
+  height: 20vh;
+}
+header,
+footer,
+article,
+nav,
+aside {
+  /* Selektor für die HTML Elemente header, footer, article, nav und aside */
+  /* Setzt das Padding auf 1em */
+  padding: 1em;
+}
+@media screen and (max-width: 575px) {
+  #main {
+    display: block;
+  }
+}
