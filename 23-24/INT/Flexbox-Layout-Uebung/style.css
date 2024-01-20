@@ -1,0 +1,39 @@
+header,
+footer {
+  border: 1px solid blue;
+  background-color: rgba(0, 153, 255, 0.5);
+  margin: 10px;
+  padding: 10px;
+}
+
+aside {
+  border: 1px solid green;
+  background-color: rgba(0, 255, 0, 0.5);
+  min-width: 10vw;
+  padding: 10px;
+}
+
+article {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding: 10px;
+  gap: 10px;
+}
+
+#nav-box {
+  border: 1px solid yellow;
+  background-color: rgba(255, 255, 0, 0.5);
+  margin: 10px;
+}
+
+#info-box {
+  border: 1px solid red;
+  background-color: rgba(255, 0, 0, 0.5);
+  padding: 10px;
+  flex-grow: 1;
+}
+
+.rounded-box {
+  border-radius: 0 0.5em 0.5em 0.5em;
+}
