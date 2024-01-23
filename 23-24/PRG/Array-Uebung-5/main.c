@@ -320,6 +320,35 @@ void task1Instructor(){
     }
 
     printf("Nachher: %s\n", satz);
+
+    printf("\n\n");
+}
+
+#define LEN 50
+
+void task3Instructor(){
+    printf("Aufgabe 3 (Instructor): Array-Swap\n\n");
+
+    char satz1[LEN] = "Programmieren ist schoen!";
+    char satz2[LEN] = "Der Computer funktioniert nicht!";
+    int i;
+    char buffer;
+
+    printf("%s\n", satz1);
+    printf("%s\n", satz2);
+
+    for(i=0;i<LEN-1;i++){
+        //Dreieckstausch
+        buffer = satz1[i];
+        satz1[i] = satz2[i];
+        satz2[i] = buffer;
+    }
+
+    printf("%s\n", satz1);
+    printf("%s\n", satz2);
+
+    printf("\n\n");
+
 }
 
 int main()
@@ -333,6 +362,7 @@ int main()
     task6(1);
     task7();
     task1Instructor();
+    task3Instructor();
 
     return 0;
 }
