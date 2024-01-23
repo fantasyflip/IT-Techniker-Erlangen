@@ -297,8 +297,34 @@ void task7(){
 
 }
 
+
+void task1Instructor(){
+    printf("Aufgabe 1 (Instructor): Satz umkehren\n\n");
+
+    char satz[] = "Heute ist ein sonniger Tag! Die Luft ist frisch und warm.";
+    int i,j,len;
+    char buffer;
+
+    printf("Vorher: %s\n", satz);
+
+    //Ermittlung der Anzahl der Buchstaben
+    for(i=0;satz[i]!='\0';i++);
+    len = i;
+
+    //Vertauschen
+    for(i=0,j=len-1-i; i<j; i++,j--){
+        //Dreieckstausch
+        buffer = satz[i];
+        satz[i] = satz[j];
+        satz[j] = buffer;
+    }
+
+    printf("Nachher: %s\n", satz);
+}
+
 int main()
 {
+
     task1();
     task2();
     task3();
@@ -306,6 +332,7 @@ int main()
     task5();
     task6(1);
     task7();
+    task1Instructor();
 
     return 0;
 }
