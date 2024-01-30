@@ -380,6 +380,42 @@ void task6Instructor(){
     }
 }
 
+void task7Instructor(){
+    char zeichen = 'A';
+    char text[] = "ABCDEFG Diese Botschaft ist geheim!";
+    unsigned int schluessel = 1;
+    int i, len;
+    unsigned int result;
+
+    len = strlen(text);
+
+    printf("vorher: %s\n",text);
+
+    for(i = 0; i<len; i++){
+        result = (unsigned int) text[i] - (unsigned int)' '; // -32
+        result = result + schluessel;
+        result %= 255 - (unsigned int)' ';   // result = result % (255 - (unsigned int)' ');
+        result = result + (unsigned int)' ';
+
+        text[i] = (char)result;
+    }
+
+    printf("nachher: %s\n",text);
+
+    for(i = 0; i<len; i++){
+        result = (unsigned int) text[i] - (unsigned int)' '; // -32
+        result = result - schluessel;
+        result %= 255 - (unsigned int)' ';   // result = result % (255 - (unsigned int)' ');
+        result = result + (unsigned int)' ';
+
+        text[i] = (char)result;
+    }
+
+    printf("rueckuebersetzt: %s\n",text);
+
+
+}
+
 int main()
 {
 
@@ -388,11 +424,12 @@ int main()
     task3();
     task4();
     task5();
-    task6(1);
+    task6(0);
     task7();
     task1Instructor();
     task3Instructor();
-    task6Instructor();
+//    task6Instructor();
+    task7Instructor();
 
     return 0;
 }
