@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <string.h>
+#include <windows.h>
 
 void task1(){
 
@@ -351,6 +353,33 @@ void task3Instructor(){
 
 }
 
+void task6Instructor(){
+    char text[] = "Doener schmeckt manchmal gut!    ";
+    int len;
+    char buf;
+    int i;
+
+    len = strlen(text); //Bestimmt die Größe des char-Arrays - Genau die Textlänge
+
+    while(1){
+        printf("\r");   //Sprint an Zeilenanfang
+        printf("%s",text);
+
+        buf = text[0];  //Sichern des ersten Buchstaben
+
+        // Verschieben es Inhalts um eine Stelle nachlinks
+
+        for(i=1;i<len;i++){
+            text[i-1]=text[i];
+        }
+
+        text[len-1] = buf;  //Zurückschreiben des Buffers an die letzte Stelle
+
+        Sleep(80);
+
+    }
+}
+
 int main()
 {
 
@@ -363,6 +392,7 @@ int main()
     task7();
     task1Instructor();
     task3Instructor();
+    task6Instructor();
 
     return 0;
 }
