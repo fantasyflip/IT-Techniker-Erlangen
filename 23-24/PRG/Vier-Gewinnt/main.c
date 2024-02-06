@@ -49,7 +49,7 @@ int selectCol(){
     scanf("%d", &col);
 
     printf("\nSpalte %i wurde gewaehlt.\n", col);
-    return col;
+    return (col-1);
 }
 
 int main()
@@ -75,10 +75,31 @@ int main()
     };
 
     while(1){
-
         printField(field);
-
         int selectedCol = selectCol();
+
+        int freeSpaces=-1;
+
+        for(int i = 0; i < ROWS; i++){
+            if(field[i][selectedCol] == 0){
+                freeSpaces = i + 1;
+            }
+        }
+
+        if(freeSpaces == -1){
+            printf("Spalte ist voll");
+        } else {
+            for(int i = 0; i < freeSpaces ; i++){
+                field[i][selectedCol] = 1;
+                printField(field);
+
+                if(i != freeSpaces-1){
+                    field[i][selectedCol] = 0;
+                }
+            }
+        }
+
+
 
     }
 
