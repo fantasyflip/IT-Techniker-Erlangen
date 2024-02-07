@@ -1,10 +1,21 @@
 #include <stdio.h>
 #include <windows.h>
+#include <unistd.h>
 
 #define ROWS 6
 #define COLS 7
 
-void printField(int field[ROWS][COLS]){
+//instructor way of filling field (static, not automatically adjusting)
+int field[ROWS][COLS]={
+    0,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,
+};
+
+void printField(){
 
     system("cls");
 
@@ -52,6 +63,30 @@ int selectCol(){
     return (col-1);
 }
 
+void makeTurn(int selectedCol){
+    int freeSpaces=-1;
+
+    for(int i = 0; i < ROWS; i++){
+        if(field[i][selectedCol] == 0){
+            freeSpaces = i + 1;
+        }
+    }
+
+    if(freeSpaces == -1){
+        printf("Spalte ist voll");
+    } else {
+        for(int i = 0; i < freeSpaces ; i++){
+            field[i][selectedCol] = 1;
+            printField();
+
+            if(i != freeSpaces-1){
+                usleep(80000);
+                field[i][selectedCol] = 0;
+            }
+        }
+    }
+}
+
 int main()
 {
 
@@ -64,40 +99,14 @@ int main()
 //        }
 //    }
 
-    //instructor way of filling field (static, not automatically adjusting)
-    int field[ROWS][COLS]={
-        0,0,0,0,0,0,0,
-        0,0,0,0,0,0,0,
-        0,0,0,0,0,0,0,
-        0,0,0,0,0,0,0,
-        0,0,0,0,0,0,0,
-        0,0,0,0,0,0,0,
-    };
+
+
 
     while(1){
-        printField(field);
-        int selectedCol = selectCol();
+        printField();
+        makeTurn(selectCol());
 
-        int freeSpaces=-1;
 
-        for(int i = 0; i < ROWS; i++){
-            if(field[i][selectedCol] == 0){
-                freeSpaces = i + 1;
-            }
-        }
-
-        if(freeSpaces == -1){
-            printf("Spalte ist voll");
-        } else {
-            for(int i = 0; i < freeSpaces ; i++){
-                field[i][selectedCol] = 1;
-                printField(field);
-
-                if(i != freeSpaces-1){
-                    field[i][selectedCol] = 0;
-                }
-            }
-        }
 
 
 
