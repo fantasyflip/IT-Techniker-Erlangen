@@ -73,7 +73,7 @@ int selectCol(){
     return (col-1);
 }
 
-void makeTurn(int selectedCol){
+void makeTurn(int selectedCol, int player){
     int freeSpaces=-1;
 
     for(int i = 0; i < ROWS; i++){
@@ -86,7 +86,7 @@ void makeTurn(int selectedCol){
         printf("Spalte ist voll");
     } else {
         for(int i = 0; i < freeSpaces ; i++){
-            field[i][selectedCol] = 1;
+            field[i][selectedCol] = player;
             printField();
 
             if(i != freeSpaces-1){
@@ -110,16 +110,18 @@ int main()
 //    }
 
 
+    int player = 1;
 
 
     while(1){
+
         printField();
-        makeTurn(selectCol());
-
-
-
-
-
+        makeTurn(selectCol(),player);
+        if(player == 1){
+            player = 2;
+        } else {
+            player = 1;
+        }
     }
 
     printf("\n\n\n");
