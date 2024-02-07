@@ -2,7 +2,7 @@
 #include <windows.h>
 #include <unistd.h>
 
-#define ROWS 2
+#define ROWS 6
 #define COLS 7
 
 //instructor way of filling field (static, not automatically adjusting)
@@ -138,7 +138,44 @@ int randomNotEmptyCol(){
 
 }
 
+int checkVerticalCondition(int player){
+    int neighbourCount = 0;
+    int hasWon = 0;
 
+    for(int i = 0; i < COLS; i++){
+        for(int j = 0; j < ROWS; j++){
+            if(field[j][i] == player){
+                neighbourCount++;
+                if(neighbourCount == 4){
+                    hasWon = 1;
+                    i = COLS;
+                    j = ROWS;
+                }
+            }
+        }
+        neighbourCount = 0;
+    }
+
+    return hasWon;
+}
+
+int checkWinningConditions(){
+    //0 -> niemand gewinnt
+    //1 -> player 1 gewinnt
+    //2 -> player 2 gewinnt
+    int winner = 0;
+
+    int hasWon = 0;
+    for(int i = 1; i <=2; i++){
+        hasWon = checkVerticalCondition(i);
+        if(hasWon == 1){
+            winner = i;
+            i = 3;
+        }
+    }
+
+    return winner;
+}
 
 int main()
 {
@@ -155,6 +192,7 @@ int main()
 
     int player = 1;
     int isGameOver = 0;
+    int winner = 0;
 
 
     while(isGameOver == 0){
@@ -172,7 +210,12 @@ int main()
             }
 
 
+            winner = checkWinningConditions();
 
+            if(winner != 0){
+                isGameOver = 1;
+                printf("\nSpieler %d hat gewonnen!", winner);
+            }
 
 
             if(player == 1){
