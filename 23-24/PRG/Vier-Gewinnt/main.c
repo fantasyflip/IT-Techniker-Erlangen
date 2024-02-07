@@ -55,11 +55,21 @@ void printField(){
 
 int selectCol(){
     int col=-1;
+    int castCount = -1;
 
-    printf("\n\nSpalte waehlen: ");
-    scanf("%d", &col);
+    printf("\nSpalte waehlen: ");
+    castCount = scanf("%d", &col);
 
-    printf("\nSpalte %i wurde gewaehlt.\n", col);
+    if(col > COLS || col < 0 || castCount != 1){
+        printf("\nUngueltige Eingabe. Bitte erneut versuchen.");
+
+        // Clear the input buffer
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF);
+
+        return selectCol();
+    }
+
     return (col-1);
 }
 
