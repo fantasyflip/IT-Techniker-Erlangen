@@ -90,7 +90,7 @@ void makeTurn(int selectedCol, int player){
             printField();
 
             if(i != freeSpaces-1){
-                usleep(80000);
+                usleep(60000);
                 field[i][selectedCol] = 0;
             }
         }
@@ -226,6 +226,45 @@ int checkDiagBlTrCondition(int player){
     return hasWon;
 }
 
+int checkDiagTlBrCondition(int player){
+    int neighbourCount = 0;
+    int hasWon = 0;
+
+    //vertical start positions
+    for(int i = 0; i < ROWS-3; i++){
+        for(int j = 0; j < COLS && i+j < ROWS; j++){
+            if(field[i+j][j]==player){
+                neighbourCount++;
+                if(neighbourCount == 4){
+                    hasWon = 1;
+                    i = ROWS-3;
+                }
+            } else {
+                neighbourCount = 0;
+            }
+        }
+    }
+
+    if(hasWon == 0){
+        //horizontal start positions
+        for(int i = 1; i < COLS-3;i++){
+            for(int j = 0; j < ROWS; j++){
+                if(field[j][i+j-1]==player){
+                    neighbourCount++;
+                    if(neighbourCount == 4){
+                        hasWon = 1;
+                        i = COLS-3;
+                    }
+                } else {
+                    neighbourCount = 0;
+                }
+            }
+        }
+    }
+
+    return hasWon;
+}
+
 int checkWinningConditions(){
     //0 -> niemand gewinnt
     //1 -> player 1 gewinnt
@@ -250,8 +289,16 @@ int checkWinningConditions(){
             if(hasWon == 0){
                 hasWon = checkDiagBlTrCondition(i);
                 if(hasWon == 1){
-                    winner = 1;
+                    winner = i;
                     i = 3;
+                }
+
+                if(hasWon == 0){
+                    hasWon = checkDiagTlBrCondition(i);
+                    if(hasWon == 1){
+                        winner = i;
+                        i = 3;
+                    }
                 }
             }
         }
