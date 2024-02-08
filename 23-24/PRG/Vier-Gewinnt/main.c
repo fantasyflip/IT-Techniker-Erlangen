@@ -265,47 +265,27 @@ int checkDiagTlBrCondition(int player){
     return hasWon;
 }
 
-int checkWinningConditions(){
-    //0 -> niemand gewinnt
-    //1 -> player 1 gewinnt
-    //2 -> player 2 gewinnt
-    int winner = 0;
+int checkWinningConditions(int player){
 
     int hasWon = 0;
-    for(int i = 1; i <=2; i++){
-        hasWon = checkVerticalCondition(i);
-        if(hasWon == 1){
-            winner = i;
-            i = 3;
-        }
+
+    hasWon = checkVerticalCondition(player);
+
+    if(hasWon == 0){
+        hasWon = checkHorizontalCondition(player);
 
         if(hasWon == 0){
-            hasWon = checkHorizontalCondition(i);
-            if(hasWon == 1){
-                winner = i;
-                i = 3;
-            }
+            hasWon = checkDiagBlTrCondition(player);
 
             if(hasWon == 0){
-                hasWon = checkDiagBlTrCondition(i);
-                if(hasWon == 1){
-                    winner = i;
-                    i = 3;
-                }
-
-                if(hasWon == 0){
-                    hasWon = checkDiagTlBrCondition(i);
-                    if(hasWon == 1){
-                        winner = i;
-                        i = 3;
-                    }
-                }
+                hasWon = checkDiagTlBrCondition(player);
             }
         }
-
     }
 
-    return winner;
+
+
+    return hasWon;
 }
 
 int main()
@@ -341,9 +321,8 @@ int main()
             }
 
 
-            winner = checkWinningConditions();
-
-            if(winner != 0){
+            if(checkWinningConditions(player) == 1){
+                winner = player;
                 isGameOver = 1;
                 printf("\nSpieler %d hat gewonnen!", winner);
             }
