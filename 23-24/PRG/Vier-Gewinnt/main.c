@@ -10,9 +10,9 @@ int field[ROWS][COLS]={
     0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,
+    1,0,0,0,0,0,0,
+    1,0,0,0,0,0,0,
+    1,0,0,0,0,0,0,
 };
 
 void printField(){
@@ -60,12 +60,12 @@ int selectCol(){
     printf("\nSpalte waehlen: ");
     castCount = scanf("%d", &col);
 
+    // Clear the input buffer
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+
     if(col > COLS || col < 0 || castCount != 1){
         printf("\nUngueltige Eingabe. Bitte erneut versuchen.");
-
-        // Clear the input buffer
-        int c;
-        while ((c = getchar()) != '\n' && c != EOF);
 
         return selectCol();
     }
@@ -288,55 +288,92 @@ int checkWinningConditions(int player){
     return hasWon;
 }
 
+int checkPlayAgain(){
+    char playAgain = 'x';
+    int castCount = -1;
+
+    printf("\n\nNochmal spielen? (j/n): ");
+    castCount = scanf("%c", &playAgain);
+
+    // Clear the input buffer
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+
+    if((playAgain != 'j' && playAgain != 'J' && playAgain != 'n' && playAgain != 'N') || castCount != 1){
+        printf("\nUngueltige Eingabe. Bitte erneut versuchen.");
+
+        return checkPlayAgain();
+    }
+
+    if(playAgain == 'j' || playAgain == 'J'){
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+void initField(){
+    //fill field with empty spaces (dynamic depending on constants)
+    for(int i = 0; i < ROWS; i++){
+        for(int j = 0; j < COLS; j++){
+            field[i][j] = 0;
+        }
+    }
+}
+
 int main()
 {
+    int playAgain = 1;
 
-//    int field[ROWS][COLS];
+    while(playAgain==1){
 
-    //fill field with empty spaces (dynamic depending on constants)
-//    for(int i = 0; i < ROWS; i++){
-//        for(int j = 0; j < COLS; j++){
-//            field[i][j] = 0;
-//        }
-//    }
+        playAgain = 0;
 
-
-    int player = 1;
-    int isGameOver = 0;
-    int winner = 0;
+        int player = 1;
+        int isGameOver = 0;
+        int winner = 0;
 
 
-    while(isGameOver == 0){
+        while(isGameOver == 0){
 
-        printField();
+            printField();
 
-        if(checkFieldFull()==1){
-            isGameOver = 1;
-            printf("\nSpielfeld ist voll!");
-        } else {
-            if(player == 1){
-                makeTurn(selectCol(),player);
-            } else {
-                makeTurn(randomNotEmptyCol(),player);
-            }
-
-
-            if(checkWinningConditions(player) == 1){
-                winner = player;
+            if(checkFieldFull()==1){
                 isGameOver = 1;
-                printf("\nSpieler %d hat gewonnen!", winner);
-            }
-
-
-            if(player == 1){
-                player = 2;
+                printf("\nSpielfeld ist voll!");
             } else {
-                player = 1;
+                if(player == 1){
+                    makeTurn(selectCol(),player);
+                } else {
+                    makeTurn(randomNotEmptyCol(),player);
+                }
+
+
+                if(checkWinningConditions(player) == 1){
+                    winner = player;
+                    isGameOver = 1;
+                    printf("\nSpieler %d hat gewonnen!", winner);
+                }
+
+
+                if(player == 1){
+                    player = 2;
+                } else {
+                    player = 1;
+                }
             }
+
+
         }
 
+        playAgain = checkPlayAgain();
 
+        if(playAgain == 1){
+            initField();
+        }
     }
+
+
 
     printf("\n\n\n");
     return 0;
