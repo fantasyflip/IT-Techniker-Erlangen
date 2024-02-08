@@ -159,6 +159,27 @@ int checkVerticalCondition(int player){
     return hasWon;
 }
 
+int checkHorizontalCondition(int player){
+    int neighbourCount = 0;
+    int hasWon = 0;
+
+    for(int i = 0; i < ROWS; i++){
+        for(int j = 0; j < COLS; j++){
+            if(field[i][j] == player){
+                neighbourCount++;
+                if(neighbourCount == 4){
+                    hasWon = 1;
+                    i = COLS;
+                    j = ROWS;
+                }
+            }
+        }
+        neighbourCount = 0;
+    }
+
+    return hasWon;
+}
+
 int checkWinningConditions(){
     //0 -> niemand gewinnt
     //1 -> player 1 gewinnt
@@ -168,6 +189,11 @@ int checkWinningConditions(){
     int hasWon = 0;
     for(int i = 1; i <=2; i++){
         hasWon = checkVerticalCondition(i);
+        if(hasWon == 1){
+            winner = i;
+            i = 3;
+        }
+        hasWon = checkHorizontalCondition(i);
         if(hasWon == 1){
             winner = i;
             i = 3;
