@@ -53,11 +53,11 @@ void printField(){
     printf("%c",238);
 }
 
-int selectCol(){
+int selectCol(int player){
     int col=-1;
     int castCount = -1;
 
-    printf("\nSpalte waehlen: ");
+    printf("\n-- Spieler %d --\nSpalte waehlen: ", player);
     castCount = scanf("%d", &col);
 
     // Clear the input buffer
@@ -67,7 +67,7 @@ int selectCol(){
     if(col > COLS || col < 0 || castCount != 1){
         printf("\nUngueltige Eingabe. Bitte erneut versuchen.");
 
-        return selectCol();
+        return selectCol(player);
     }
 
     return (col-1);
@@ -312,6 +312,30 @@ int checkPlayAgain(){
     }
 }
 
+int checkBotGame() {
+    char botGame = 'x';
+    int castCount = -1;
+
+    printf("\n\nGegen Computer spielen? (j/n): ");
+    castCount = scanf("%c", &botGame);
+
+    // Clear the input buffer
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+
+    if((botGame != 'j' && botGame != 'J' && botGame != 'n' && botGame != 'N') || castCount != 1){
+        printf("\nUngueltige Eingabe. Bitte erneut versuchen.");
+
+        return checkPlayAgain();
+    }
+
+    if(botGame == 'j' || botGame == 'J'){
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
 void initField(){
     //fill field with empty spaces (dynamic depending on constants)
     for(int i = 0; i < ROWS; i++){
@@ -319,6 +343,15 @@ void initField(){
             field[i][j] = 0;
         }
     }
+}
+
+int initGame(){
+    // 1 -> bot game
+    // 0 -> local multiplayer
+    initField();
+    return checkBotGame();
+
+
 }
 
 int main()
@@ -333,6 +366,8 @@ int main()
         int isGameOver = 0;
         int winner = 0;
 
+        int botGame = initGame();
+
 
         while(isGameOver == 0){
 
@@ -342,10 +377,12 @@ int main()
                 isGameOver = 1;
                 printf("\nSpielfeld ist voll!");
             } else {
-                if(player == 1){
-                    makeTurn(selectCol(),player);
+                if(botGame == 1 && player == 1){
+                    makeTurn(selectCol(player),player);
+                } else if(botGame == 1 && player == 2) {
+                    makeTurn(randomNotEmptyCol(player),player);
                 } else {
-                    makeTurn(randomNotEmptyCol(),player);
+                    makeTurn(selectCol(player),player);
                 }
 
 
@@ -367,10 +404,6 @@ int main()
         }
 
         playAgain = checkPlayAgain();
-
-        if(playAgain == 1){
-            initField();
-        }
     }
 
 
