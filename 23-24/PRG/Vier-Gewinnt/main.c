@@ -151,6 +151,8 @@ int checkVerticalCondition(int player){
                     i = COLS;
                     j = ROWS;
                 }
+            } else {
+                neighbourCount = 0;
             }
         }
         neighbourCount = 0;
@@ -172,9 +174,53 @@ int checkHorizontalCondition(int player){
                     i = COLS;
                     j = ROWS;
                 }
+            } else {
+                neighbourCount = 0;
             }
         }
         neighbourCount = 0;
+    }
+
+    return hasWon;
+}
+
+int checkDiagBlTrCondition(int player){
+    int neighbourCount = 0;
+    int hasWon = 0;
+
+    //vertical start positions
+    for(int i = (ROWS-1);i> (ROWS-1)-3;i-- ){
+        for(int j = 0; j < COLS-1 && i-j >= 0; j++){
+            if(field[i-j][j]==player){
+                neighbourCount++;
+                if(neighbourCount == 4){
+                    hasWon = 1;
+                    i = 0;
+                }
+            } else {
+                neighbourCount = 0;
+            }
+        }
+        neighbourCount = 0;
+    }
+
+    if(hasWon == 0){
+        neighbourCount = 0;
+
+        //horizontal start positions
+        for(int i = 1; i < COLS-3; i++){
+            for(int j = ROWS-1; j >= 0;j--){
+                if(field[j][i+(ROWS-1)-j]==player){
+                    neighbourCount++;
+                    if(neighbourCount == 4){
+                        hasWon = 1;
+                        i = COLS-3;
+                    }
+                } else {
+                    neighbourCount = 0;
+                }
+            }
+        }
     }
 
     return hasWon;
@@ -193,11 +239,23 @@ int checkWinningConditions(){
             winner = i;
             i = 3;
         }
-        hasWon = checkHorizontalCondition(i);
-        if(hasWon == 1){
-            winner = i;
-            i = 3;
+
+        if(hasWon == 0){
+            hasWon = checkHorizontalCondition(i);
+            if(hasWon == 1){
+                winner = i;
+                i = 3;
+            }
+
+            if(hasWon == 0){
+                hasWon = checkDiagBlTrCondition(i);
+                if(hasWon == 1){
+                    winner = 1;
+                    i = 3;
+                }
+            }
         }
+
     }
 
     return winner;
