@@ -5,6 +5,24 @@
 #define ROWS 6
 #define COLS 7
 
+// Deklaration
+// Rückgabetyp Funktionsname(Liste Übergabeparametertypen + -namen)
+
+void printField();
+int selectCol(int player);
+void makeTurn(int selectedCol, int player);
+int checkFieldFull();
+int randomNotEmptyCol();
+int checkVerticalCondition(int player);
+int checkHorizontalCondition(int player);
+int checkDiagBlTrCondition(int player);
+int checkDiagTlBrCondition(int player);
+int checkWinningConditions(int player);
+int checkPlayAgain();
+int checkBotGame();
+void initField();
+int initGame();
+
 //instructor way of filling field (static, not automatically adjusting)
 int field[ROWS][COLS]={
     0,0,0,0,0,0,0,
@@ -14,6 +32,9 @@ int field[ROWS][COLS]={
     1,0,0,0,0,0,0,
     1,0,0,0,0,0,0,
 };
+
+// Definiton
+// Inhalt und Logik der Funktion
 
 void printField(){
 
@@ -353,6 +374,8 @@ int initGame(){
 
 
 }
+
+// Programm ausführen
 
 int main()
 {
