@@ -22,15 +22,17 @@ int checkPlayAgain();
 int checkBotGame();
 void initField();
 int initGame();
+int smartBotColChoice();
+int searchHorizontalFinals();
 
 //instructor way of filling field (static, not automatically adjusting)
 int field[ROWS][COLS]={
     0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,
-    1,0,0,0,0,0,0,
-    1,0,0,0,0,0,0,
-    1,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,
+    0,1,1,0,0,0,0,
 };
 
 // Definiton
@@ -369,10 +371,71 @@ void initField(){
 int initGame(){
     // 1 -> bot game
     // 0 -> local multiplayer
-    initField();
+//    initField();
     return checkBotGame();
 
 
+}
+
+
+// Advanced Bot Moves
+int smartBotColChoice(){
+    //check if player has 3 placings in line horizontally
+
+    int place = searchHorizontalFinals();
+    if(place == -1){
+        place = randomNotEmptyCol();
+    }
+
+    return place;
+}
+
+int isEmptyField(int row, int col){
+    int isEmpty = 0;
+
+    if((col <= COLS && col >=0) && (row <= ROWS && row >=0) ){
+        if(field[row][col]==0){
+            isEmpty = 1;
+        }
+    }
+
+
+    return isEmpty;
+}
+
+int searchHorizontalFinals(){
+    int neighbourCount = 0;
+    int finalPlace = -1;
+
+    for(int i = 0; i < ROWS; i++){
+        for(int j = 0; j < COLS; j++){
+            if(field[i][j] == 1){
+                neighbourCount++;
+                if(neighbourCount == 3){
+                    int rightNeighbour = j+1;
+                    int leftNeighbour = j-3;
+
+                    if(isEmptyField(i,rightNeighbour) == 1 || isEmptyField(i,leftNeighbour) == 1){
+
+                        if(isEmptyField(i,rightNeighbour) == 1){
+                            finalPlace = rightNeighbour;
+                        } else {
+                            finalPlace = leftNeighbour;
+                        }
+
+                        i = COLS;
+                        j = ROWS;
+                    }
+
+                }
+            } else {
+                neighbourCount = 0;
+            }
+        }
+        neighbourCount = 0;
+    }
+
+    return finalPlace;
 }
 
 // Programm ausführen
@@ -403,7 +466,7 @@ int main()
                 if(botGame == 1 && player == 1){
                     makeTurn(selectCol(player),player);
                 } else if(botGame == 1 && player == 2) {
-                    makeTurn(randomNotEmptyCol(player),player);
+                    makeTurn(smartBotColChoice(),player);
                 } else {
                     makeTurn(selectCol(player),player);
                 }
