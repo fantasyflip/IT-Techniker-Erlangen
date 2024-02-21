@@ -23,7 +23,10 @@ int checkBotGame();
 void initField();
 int initGame();
 int smartBotColChoice();
+int isEmptyField(int row, int col);
 int searchHorizontalFinals();
+int searchVerticalFinals();
+
 
 //instructor way of filling field (static, not automatically adjusting)
 int field[ROWS][COLS]={
@@ -31,7 +34,7 @@ int field[ROWS][COLS]={
     0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,
+    0,1,0,0,0,0,0,
     0,1,1,0,0,0,0,
 };
 
@@ -384,7 +387,15 @@ int smartBotColChoice(){
 
     int place = searchHorizontalFinals();
     if(place == -1){
-        place = randomNotEmptyCol();
+
+        //check if player hast 3 placings in line vertically
+
+        place = searchVerticalFinals();
+
+        if(place == -1){
+            place = randomNotEmptyCol();
+        }
+
     }
 
     return place;
@@ -398,7 +409,6 @@ int isEmptyField(int row, int col){
             isEmpty = 1;
         }
     }
-
 
     return isEmpty;
 }
@@ -423,6 +433,34 @@ int searchHorizontalFinals(){
                             finalPlace = leftNeighbour;
                         }
 
+                        i = COLS;
+                        j = ROWS;
+                    }
+
+                }
+            } else {
+                neighbourCount = 0;
+            }
+        }
+        neighbourCount = 0;
+    }
+
+    return finalPlace;
+}
+
+int searchVerticalFinals(){
+    int neighbourCount = 0;
+    int finalPlace = -1;
+
+    for(int i = 0; i < COLS; i++){
+        for(int j = 0; j < ROWS; j++){
+            if(field[j][i] == 1){
+                neighbourCount++;
+                if(neighbourCount == 3){
+                    int topNeighbour = j-3;
+
+                    if(isEmptyField(topNeighbour,i)){
+                        finalPlace = i;
                         i = COLS;
                         j = ROWS;
                     }
