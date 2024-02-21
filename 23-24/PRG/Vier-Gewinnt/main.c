@@ -34,7 +34,7 @@ int field[ROWS][COLS]={
     0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,
-    0,1,0,0,0,0,0,
+    0,1,1,0,0,0,0,
     0,1,1,0,0,0,0,
 };
 
@@ -425,16 +425,29 @@ int searchHorizontalFinals(){
                     int rightNeighbour = j+1;
                     int leftNeighbour = j-3;
 
-                    if(isEmptyField(i,rightNeighbour) == 1 || isEmptyField(i,leftNeighbour) == 1){
+                    //edge case: unterste reihe
+                    if(i+1 == ROWS){
+                        if(isEmptyField(i,rightNeighbour) == 1 || isEmptyField(i,leftNeighbour) == 1){
+                            if(isEmptyField(i,rightNeighbour) == 1){
+                                finalPlace = rightNeighbour;
+                            } else {
+                                finalPlace = leftNeighbour;
+                            }
 
-                        if(isEmptyField(i,rightNeighbour) == 1){
-                            finalPlace = rightNeighbour;
-                        } else {
-                            finalPlace = leftNeighbour;
+                            i = COLS;
+                            j = ROWS;
                         }
+                    } else {
+                        if((isEmptyField(i,rightNeighbour) == 1 && !isEmptyField(i+1,rightNeighbour)) || (isEmptyField(i,leftNeighbour) == 1 && !isEmptyField(i+1,leftNeighbour))){
+                            if(isEmptyField(i,rightNeighbour) == 1 && !isEmptyField(i+1,rightNeighbour)){
+                                finalPlace = rightNeighbour;
+                            } else {
+                                finalPlace = leftNeighbour;
+                            }
 
-                        i = COLS;
-                        j = ROWS;
+                            i = COLS;
+                            j = ROWS;
+                        }
                     }
 
                 }
