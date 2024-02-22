@@ -26,16 +26,17 @@ int smartBotColChoice();
 int isEmptyField(int row, int col);
 int searchHorizontalFinals();
 int searchVerticalFinals();
+int searchDiagBlTrFinals();
 
 
 //instructor way of filling field (static, not automatically adjusting)
 int field[ROWS][COLS]={
     0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,
-    0,1,1,0,0,0,0,
-    0,1,1,0,0,0,0,
+    0,0,0,1,0,0,0,
+    0,0,1,2,0,0,0,
+    0,0,2,1,1,0,0,
+    0,0,1,2,2,0,0,
+    0,0,1,2,1,0,0,
 };
 
 // Definiton
@@ -388,12 +389,20 @@ int smartBotColChoice(){
     int place = searchHorizontalFinals();
     if(place == -1){
 
-        //check if player hast 3 placings in line vertically
+        //check if player has 3 placings in line vertically
 
         place = searchVerticalFinals();
 
         if(place == -1){
-            place = randomNotEmptyCol();
+
+            //check if player has 3 placings diagonal bottom left - top right
+
+            place = searchDiagBlTrFinals();
+
+            if(place == -1){
+                place = randomNotEmptyCol();
+            }
+
         }
 
     }
@@ -484,6 +493,84 @@ int searchVerticalFinals(){
             }
         }
         neighbourCount = 0;
+    }
+
+    return finalPlace;
+}
+
+int searchDiagBlTrFinals(){
+    int neighbourCount = 0;
+    int finalPlace = -1;
+
+    //vertical start positions
+    for(int i = (ROWS-1);i> (ROWS-1)-3;i-- ){
+        for(int j = 0; j < COLS-1 && i-j >= 0; j++){
+            if(field[i-j][j]==1){
+                neighbourCount++;
+                if(neighbourCount == 3){
+                    int topNeighbour = j+1;
+
+                    if(isEmptyField(ROWS-(i+1),topNeighbour) && !isEmptyField(ROWS-i,topNeighbour)){
+                        finalPlace = topNeighbour;
+                        i = 0;
+                        j = COLS;
+                    }
+
+                    if(finalPlace == -1){
+                        int bottomNeighbour = j-3;
+
+                        if(isEmptyField(i, bottomNeighbour) && !isEmptyField(i+1, bottomNeighbour)){
+                            finalPlace = bottomNeighbour;
+                            i = 0;
+                            j = COLS;
+                        }
+
+                    }
+                }
+            } else {
+                neighbourCount = 0;
+            }
+        }
+        neighbourCount = 0;
+    }
+
+    if(finalPlace == -1){
+        neighbourCount = 0;
+
+        //horizontal start positions
+        for(int i = 1; i < COLS-3; i++){
+            for(int j = ROWS-1; j >= 0;j--){
+                if(field[j][i+(ROWS-1)-j]==1){
+                    neighbourCount++;
+                    if(neighbourCount == 3){
+                        int topNeighbour = i+3;
+
+                        if(isEmptyField(ROWS-(j+1),topNeighbour) && !isEmptyField(ROWS-j,topNeighbour)){
+                            finalPlace = topNeighbour;
+                            j = 0;
+                            i = COLS;
+                        }
+
+                        if(finalPlace == -1){
+                            int bottomNeighbour = i;
+                            int bottomNeighbourRow = j-2;
+
+                            printf("\nbn: %d - row: %d",bottomNeighbour, bottomNeighbourRow);
+
+                            if(isEmptyField(j-2, bottomNeighbour) && !isEmptyField(j-3, bottomNeighbour)){
+                                finalPlace = bottomNeighbour;
+                                j = 0;
+                                i = COLS;
+                            }
+
+                        }
+
+                    }
+                } else {
+                    neighbourCount = 0;
+                }
+            }
+        }
     }
 
     return finalPlace;
