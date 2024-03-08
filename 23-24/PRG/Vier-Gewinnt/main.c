@@ -23,10 +23,10 @@ int checkPlayAgain();
 int checkBotGame();
 void initField();
 int initGame();
-int smartBotColChoice();
+int smartBotColChoice(int level);
 int isEmptyField(int row, int col);
-int searchHorizontalFinals();
-int searchVerticalFinals();
+int searchHorizontalFinals(int limit);
+int searchVerticalFinals(int limit);
 int searchDiagBlTrFinals();
 int searchDiagTlBrFinals();
 
@@ -36,9 +36,9 @@ int field[ROWS][COLS]={
     0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,
-    0,0,0,2,1,1,0,
-    0,0,0,1,2,2,0,
-    0,0,0,1,2,1,0,
+    0,0,0,0,0,0,0,
+    0,0,1,2,2,0,0,
+    0,0,2,1,2,2,0,
 };
 
 // Definiton
@@ -386,15 +386,21 @@ int initGame(){
 
 
 // Advanced Bot Moves
-int smartBotColChoice(){
-    //check if player has 3 placings in line horizontally
+int smartBotColChoice(int level){
 
-    int place = searchHorizontalFinals();
+    int limit = 3;
+
+    if(level == 2){
+        limit = 2;
+    }
+
+    //check if player has 3 placings in line horizontally
+    int place = searchHorizontalFinals(limit);
     if(place == -1){
 
         //check if player has 3 placings in line vertically
 
-        place = searchVerticalFinals();
+        place = searchVerticalFinals(limit);
 
         if(place == -1){
 
@@ -429,11 +435,11 @@ int isEmptyField(int row, int col){
         }
     }
 
-
+// printf("\n\nrow: %d - col: %d -- empty: %d",row,col,isEmpty);
     return isEmpty;
 }
 
-int searchHorizontalFinals(){
+int searchHorizontalFinals(int limit){
     int neighbourCount = 0;
     int finalPlace = -1;
 
@@ -441,9 +447,9 @@ int searchHorizontalFinals(){
         for(int j = 0; j < COLS; j++){
             if(field[i][j] == 1){
                 neighbourCount++;
-                if(neighbourCount == 3){
+                if(neighbourCount == limit){
                     int rightNeighbour = j+1;
-                    int leftNeighbour = j-3;
+                    int leftNeighbour = j-limit;
 
                     //edge case: unterste reihe
                     if(i+1 == ROWS){
@@ -481,7 +487,7 @@ int searchHorizontalFinals(){
     return finalPlace;
 }
 
-int searchVerticalFinals(){
+int searchVerticalFinals(int limit){
     int neighbourCount = 0;
     int finalPlace = -1;
 
@@ -489,8 +495,8 @@ int searchVerticalFinals(){
         for(int j = 0; j < ROWS; j++){
             if(field[j][i] == 1){
                 neighbourCount++;
-                if(neighbourCount == 3){
-                    int topNeighbour = j-3;
+                if(neighbourCount == limit){
+                    int topNeighbour = j-limit;
 
                     if(isEmptyField(topNeighbour,i)){
                         finalPlace = i;
@@ -657,6 +663,8 @@ int main()
 
         int botGame = initGame();
 
+        int botDifficulty = 2;
+
 
         while(isGameOver == 0){
 
@@ -669,7 +677,7 @@ int main()
                 if(botGame == 1 && player == 1){
                     makeTurn(selectCol(player),player);
                 } else if(botGame == 1 && player == 2) {
-                    makeTurn(smartBotColChoice(),player);
+                    makeTurn(smartBotColChoice(botDifficulty),player);
                 } else {
                     makeTurn(selectCol(player),player);
                 }
