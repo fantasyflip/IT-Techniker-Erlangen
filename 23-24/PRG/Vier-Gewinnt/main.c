@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <windows.h>
 #include <unistd.h>
+#include <time.h>
 
 #define ROWS 6
 #define COLS 7
@@ -27,16 +28,17 @@ int isEmptyField(int row, int col);
 int searchHorizontalFinals();
 int searchVerticalFinals();
 int searchDiagBlTrFinals();
+int searchDiagTlBrFinals();
 
 
 //instructor way of filling field (static, not automatically adjusting)
 int field[ROWS][COLS]={
     0,0,0,0,0,0,0,
-    0,0,0,1,0,0,0,
-    0,0,1,2,0,0,0,
-    0,0,2,1,1,0,0,
-    0,0,1,2,2,0,0,
-    0,0,1,2,1,0,0,
+    0,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,
+    0,0,0,2,1,1,0,
+    0,0,0,1,2,2,0,
+    0,0,0,1,2,1,0,
 };
 
 // Definiton
@@ -146,6 +148,7 @@ int checkFieldFull(){
 
 int randomNotEmptyCol(){
     //get random Col number
+    srand(time(NULL));
     int randomCol = rand() % COLS;
 
     int hasFreeSpace = 0;
@@ -375,7 +378,7 @@ void initField(){
 int initGame(){
     // 1 -> bot game
     // 0 -> local multiplayer
-//    initField();
+    initField();
     return checkBotGame();
 
 
@@ -400,12 +403,19 @@ int smartBotColChoice(){
             place = searchDiagBlTrFinals();
 
             if(place == -1){
-                place = randomNotEmptyCol();
+                place = searchDiagTlBrFinals();
+
+                if(place == -1){
+                    place = randomNotEmptyCol();
+                }
+
             }
 
         }
 
     }
+
+//    getchar();
 
     return place;
 }
@@ -413,11 +423,12 @@ int smartBotColChoice(){
 int isEmptyField(int row, int col){
     int isEmpty = 0;
 
-    if((col <= COLS && col >=0) && (row <= ROWS && row >=0) ){
+    if((col < COLS && col >=0) && (row < ROWS && row >=0) ){
         if(field[row][col]==0){
             isEmpty = 1;
         }
     }
+
 
     return isEmpty;
 }
@@ -510,7 +521,9 @@ int searchDiagBlTrFinals(){
                 if(neighbourCount == 3){
                     int topNeighbour = j+1;
 
-                    if(isEmptyField(ROWS-(i+1),topNeighbour) && !isEmptyField(ROWS-i,topNeighbour)){
+                    printf("\ndiag-bl-tr\n");
+
+                    if(isEmptyField(i-j-1,topNeighbour) && !isEmptyField(i-j,topNeighbour)){
                         finalPlace = topNeighbour;
                         i = 0;
                         j = COLS;
@@ -555,8 +568,6 @@ int searchDiagBlTrFinals(){
                             int bottomNeighbour = i;
                             int bottomNeighbourRow = j-2;
 
-                            printf("\nbn: %d - row: %d",bottomNeighbour, bottomNeighbourRow);
-
                             if(isEmptyField(j-2, bottomNeighbour) && !isEmptyField(j-3, bottomNeighbour)){
                                 finalPlace = bottomNeighbour;
                                 j = 0;
@@ -565,6 +576,60 @@ int searchDiagBlTrFinals(){
 
                         }
 
+                    }
+                } else {
+                    neighbourCount = 0;
+                }
+            }
+        }
+    }
+
+    return finalPlace;
+}
+
+int searchDiagTlBrFinals(){
+    int neighbourCount = 0;
+    int finalPlace = -1;
+
+    //vertical start positions
+    for(int i = 0; i < ROWS-3; i++){
+        for(int j = 0; j < COLS && i+j < ROWS; j++){
+            if(field[i+j][j]==1){
+                neighbourCount++;
+                if(neighbourCount == 3){
+                    //third neighbour found at row: i+j
+                    int topNeighbour = j - 3;
+                    if(isEmptyField(i+j-3,topNeighbour) && !isEmptyField(i+j-2,topNeighbour)){
+                        finalPlace = topNeighbour;
+                        i = ROWS;
+                        j = COLS;
+                    }
+
+                    if(finalPlace == -1){
+                        int bottomNeighbour = j+1;
+                        if(isEmptyField(i+j+1,bottomNeighbour) && !isEmptyField(i+j+2,bottomNeighbour)){
+                            finalPlace = bottomNeighbour;
+                            i = ROWS;
+                            j = COLS;
+                        }
+                    }
+
+                }
+            } else {
+                neighbourCount = 0;
+            }
+        }
+    }
+
+    if(finalPlace == 0){
+        //horizontal start positions
+        for(int i = 1; i < COLS-3;i++){
+            for(int j = 0; j < ROWS; j++){
+                if(field[j][i+j-1]==1){
+                    neighbourCount++;
+                    if(neighbourCount == 3){
+                        finalPlace = 1;
+                        i = COLS-3;
                     }
                 } else {
                     neighbourCount = 0;
