@@ -3,6 +3,7 @@
 
 int stringIndex(char text[], char symbol);
 int enthaeltString(char wrappingText[], char innerText[]);
+int isEqual(char text1[], char text2[]);
 
 int stringIndex(char text[], char symbol){
     int length = strlen(text);
@@ -44,8 +45,25 @@ int enthaeltString(char wrappingText[], char innerText[]){
     return isContaining;
 }
 
+int isEqual(char text1[], char text2[]){
+    int length1 = strlen(text1);
+    int length2 = strlen(text2);
+    int isEqual = 1;
+
+    if(length1 != length2) return 0;
+
+    for(int i = 0; i < length1; i++){
+        if(text1[i] != text2[i]){
+            i = length1;
+            isEqual = 0;
+        }
+    }
+
+    return isEqual;
+}
+
 int main()
 {
-    printf("enthaelt: %d\n\n", enthaeltString("abctestefg","test"));
+    printf("gleich: %d\n\n", isEqual("test","test"));
     return 0;
 }
