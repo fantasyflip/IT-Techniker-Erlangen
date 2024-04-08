@@ -442,6 +442,13 @@ double roundToDecimalPlaces(double num, int decimalPlaces) {
 
 int main()
 {
+    printf("1. Aufgabe\n\nIndex des Zeichens 'e' im String 'das ist ein text': %d\n\n",stringIndex("das ist ein text", 'e'));
+    printf("\n\n2. Aufgabe\n\nDer Text 'das ist ein text' enthaelt das Wort 'ist': %d\n\n",enthaeltString("das ist ein text", "ist"));
+    printf("\n\n3. Aufgabe\n\nDer Text 'ABC' und 'DEF' sind nicht identisch: %d\n\n", isEqual("ABC","DEF"));
+    printf("\n\n4. Aufgabe\n\n");
+    fahrkarte();
+    printf("\n\n");
+    printf("\n\n5.Aufgabe\n\n");
     currencyCalculator();
     return 0;
 }
