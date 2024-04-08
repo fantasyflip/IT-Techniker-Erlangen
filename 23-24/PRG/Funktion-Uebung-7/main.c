@@ -1,14 +1,34 @@
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
+#include <stdlib.h>
+#include <math.h>
 
+//defines for task #4
 #define SINGLE 3.0
 #define STRIPE 10.0
 #define MONTH 29.0
 #define CHILD_REDUCTION 0.85
 
+//defines for task #5
+#define MAX_INPUT_LENGTH 100
+
+//struct for task #5
+struct TypedCurrency {
+    char type[4];
+    double value;
+};
+
+//defintion for task #1
 int stringIndex(char text[], char symbol);
+
+//defintion for task #2
 int enthaeltString(char wrappingText[], char innerText[]);
+
+//defintion for task #3
 int isEqual(char text1[], char text2[]);
+
+//defintion for task #4
 void fahrkarte();
 int fetchTicketType();
 int fetchTicketSize();
@@ -17,6 +37,17 @@ float getMoneyInput(float ticketPrize);
 void splitReturnMoney(float moneyReturn);
 float getTicketPrizeBySize(int ticketSize);
 
+//defintion for task #5
+void currencyCalculator();
+void printIntroduction();
+struct TypedCurrency getInput();
+int isValidCurrency(char cur[4]);
+char* getTargetCurrency();
+double getTargetValue(char fromCur[4], char toCur[4],double fromVal);
+float getRateFromCurrency(char cur[4]);
+double roundToDecimalPlaces(double num, int decimalPlaces);
+
+//task #1
 int stringIndex(char text[], char symbol){
     int length = strlen(text);
     int position = -1;
@@ -31,6 +62,7 @@ int stringIndex(char text[], char symbol){
     return position;
 }
 
+//task #2
 int enthaeltString(char wrappingText[], char innerText[]){
     int isContaining = 0;
     int wrappingTextLength = strlen(wrappingText);
@@ -57,6 +89,7 @@ int enthaeltString(char wrappingText[], char innerText[]){
     return isContaining;
 }
 
+//task #3
 int isEqual(char text1[], char text2[]){
     int length1 = strlen(text1);
     int length2 = strlen(text2);
@@ -74,6 +107,7 @@ int isEqual(char text1[], char text2[]){
     return isEqual;
 }
 
+//task #4
 void fahrkarte(){
     int isChild = fetchTicketType();
     printPrices();
@@ -241,9 +275,173 @@ void splitReturnMoney(float moneyReturn){
     printf("1  Cent:\t%d\n", cent1);
 }
 
+//task #5
+void currencyCalculator(){
+    printIntroduction();
+    struct TypedCurrency initialCurrency = getInput();
+
+    char *targetCurrency = getTargetCurrency();
+
+    if(isEqual(initialCurrency.type,targetCurrency)){
+        printf("\nSie haben die identische Waehrung gewaehlt. Eine Umrechnung ist nicht erforderlich.\n\n%.2f %s sind %.2f %s.\n\n",initialCurrency.value, initialCurrency.type, initialCurrency.value, targetCurrency);
+        return;
+    }
+
+    double targetValue = getTargetValue(initialCurrency.type, targetCurrency, initialCurrency.value);
+
+    if(targetValue == -1.0) return;
+
+    printf("\n\n%.2f %s sind %.2f %s.\n\n\n", initialCurrency.value, initialCurrency.type, targetValue, targetCurrency);
+
+    //Free previously allocated memory in getTargetCurrency()
+    free(targetCurrency);
+}
+
+void printIntroduction(){
+    printf("Waehrungsrechner\n\n\nGeben Sie den umzurechnenden Betrag im folgenden Format ein:\n\n\n\t20.34 Waehrung\n\n\nFuer die Waehrung sind folgende Abluerzungen zulaessig:\n\n\n\tUSD\tUS-Dollar\n\tGBP\tBritische Pfund\n\tEUR\tEuro\n\n\n");
+}
+
+struct TypedCurrency getInput(){
+    struct TypedCurrency inputCurrency;
+    char inputString[MAX_INPUT_LENGTH];
+    char numberString[MAX_INPUT_LENGTH];
+    char currencyString[4]; // 4th for null terminator
+
+
+    printf("Eingabe: ");
+    fgets(inputString, sizeof(inputString), stdin);
+
+    int arrayToPrintIn = 0;
+    int numberIndex = 0;
+    int currencyIndex = 0;
+
+    for (int i = 0; i < strlen(inputString); i++) {
+        // Handle space or newline character
+        if (inputString[i] == ' ' || inputString[i] == '\n') {
+            arrayToPrintIn++;
+            // If we have both parts, exit the loop
+            if (arrayToPrintIn == 2) {
+                break;
+            }
+            continue; // Skip processing space or newline character
+        }
+
+        if (arrayToPrintIn == 0) {
+            //check if char is a number
+            if(isdigit(inputString[i]) || inputString[i] == '.'){
+                numberString[numberIndex++] = inputString[i];
+            } else {
+                printf("\nFalsche Eingabe. Bitte versuchen Sie es erneut!\n");
+                return getInput();
+            }
+        }
+        else if (arrayToPrintIn == 1) {
+            if(currencyIndex < 3){
+                currencyString[currencyIndex++] = inputString[i];
+            } else {
+                break;
+            }
+
+        }
+    }
+
+    // Null-terminate the strings
+    numberString[numberIndex] = '\0';
+    currencyString[currencyIndex] = '\0';
+
+    if(isValidCurrency(currencyString) == 0){
+        printf("\nFalsche Eingabe. Bitte versuchen Sie es erneut!\n");
+        return getInput();
+    }
+
+    printf("\n\nIhre Eingabe:\n\nWert:\t\t%s\nWaehrung:\t%s",numberString,currencyString);
+
+    //parse numberString to float value
+
+    inputCurrency.value = atof(numberString);
+    strcpy(inputCurrency.type,currencyString);
+
+    return inputCurrency;
+}
+
+int isValidCurrency(char cur[4]){
+    char *availableCurrencies[] = {"EUR","USD","GBP"};
+    int currencyAmount = sizeof(availableCurrencies) / sizeof(availableCurrencies[0]);
+
+    int isValid = 0;
+
+    for(int i = 0; i < currencyAmount; i++){
+        if(isEqual(cur,availableCurrencies[i])){
+            i = currencyAmount;
+            isValid = 1;
+        }
+    }
+
+    return isValid;
+}
+
+char* getTargetCurrency(){
+    // Allocate memory. If the memory is not allocated, the memory will be rewritten after the function is finished, since it is a local variable
+    char *currencyString = (char*)malloc(MAX_INPUT_LENGTH * sizeof(char));
+
+    printf("\n\nEingabe der Zielwaehrung: ");
+    fgets(currencyString, 4, stdin);
+
+    // Remove newline character if present
+    int len = strlen(currencyString);
+    if (len > 0 && currencyString[len - 1] == '\n') {
+        currencyString[len - 1] = '\0';
+    }
+
+    if(!isValidCurrency(currencyString)){
+        printf("\nFalsche Eingabe. Bitte versuchen Sie es erneut!\n");
+        free(currencyString); // Free the memory before the recursive call
+
+        // Clear the input buffer
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF);
+
+        return getTargetCurrency();
+    }
+
+    return currencyString;
+}
+
+double getTargetValue(char fromCur[4], char toCur[4],double fromVal){
+
+    float sourceRate = getRateFromCurrency(fromCur);
+    float destRate = getRateFromCurrency(toCur);
+
+    if(sourceRate == -1.0 || destRate == -1.0){
+        printf("\n\nEs ist ein Anwendungsfehler aufgetreten.");
+        return -1.0;
+    }
+
+    return roundToDecimalPlaces((destRate/sourceRate)*fromVal,2);
+
+}
+
+float getRateFromCurrency(char cur[4]){
+    //Rates relative to EUR
+    float eurRate = 1.0;
+    float gbpRate = 0.6254;
+    float usdRate = 0.9036;
+
+    if(isEqual(cur,"EUR")) return eurRate;
+    if(isEqual(cur,"GBP")) return gbpRate;
+    if(isEqual(cur,"USD")) return usdRate;
+
+    return -1.0;
+}
+
+double roundToDecimalPlaces(double num, int decimalPlaces) {
+    double factor = pow(10, decimalPlaces);
+    return round(num * factor) / factor;
+}
+
 
 int main()
 {
-    fahrkarte();
+    currencyCalculator();
     return 0;
 }
