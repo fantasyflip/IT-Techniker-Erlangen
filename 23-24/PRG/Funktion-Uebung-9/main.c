@@ -1,9 +1,25 @@
 #include <stdio.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
+//task 2 defines
+#define ARRAY_SIZE 10
+
+//prototypes
+//task 1
 float getFloatInput();
 int getIntInput();
 float multiRecursive(float a, float b, int n, int current);
 
+//task 2
+void initRandom();
+int getRandomNumber(int min, int max);
+void printArray(int arr[], int size);
+void mySort(int arr[], int size, int firstIndex);
+
+//functions
+//task 1
 void task1a(){
     float a = getFloatInput();
     float b = getFloatInput();
@@ -41,6 +57,74 @@ float multiRecursive(float a, float b, int n, int current){
     }
 }
 
+//task2
+void initRandom() {
+    srand(time(NULL));
+}
+
+int getRandomNumber(int min, int max) {
+    return min + rand() % (max - min + 1);
+}
+
+
+
+void printArray(int arr[], int size) {
+    printf("Array-Inhalt:\n");
+    for (int i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+void task2(){
+    int array[ARRAY_SIZE];
+
+    initRandom();
+
+    for(int i = 0; i < ARRAY_SIZE; i++){
+        array[i]=getRandomNumber(1,100);
+    }
+
+    printArray(array,ARRAY_SIZE);
+
+    mySort(array, 0, ARRAY_SIZE - 1);
+
+    printArray(array,ARRAY_SIZE);
+}
+
+void mySort(int arr[],int firstIndex, int size ) {
+    if(firstIndex < size){
+        int compareValue = arr[(firstIndex+size)/2]; //Select middle item
+        int i = firstIndex;
+        int j = size;
+        int temp;
+
+        //while i and j dont meet or pass each other
+        while (i<=j){
+
+            //search for a bigger value to the right
+            while(arr[i] < compareValue) i++;
+            //search for a smaller value to the left
+            while(arr[j] > compareValue) j--;
+
+            //swap item
+            if(i <= j){
+                temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+                i++;
+                j--;
+
+            }
+        }
+
+        //recursive calls
+        //repeat with items between j and the firstIndex (left subarray)
+        if(firstIndex < j) mySort(arr, firstIndex, j);
+        //repeat with items between i and size (right subarray)
+        if(i < size) mySort(arr, i, size);
+    }
+}
 
 float getFloatInput(){
     float inputFloat;
@@ -88,6 +172,8 @@ int main()
     task1a();
     printf("\n\nAufgabe 1:\nb) - Rekursiv:\n\n");
     task1b();
+    printf("\n\nAufgabe 2:\n");
+    task2();
 
     return 0;
 }
