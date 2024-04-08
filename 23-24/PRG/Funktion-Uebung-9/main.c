@@ -57,6 +57,46 @@ float multiRecursive(float a, float b, int n, int current){
     }
 }
 
+float getFloatInput(){
+    float inputFloat;
+    int castCount = -1;
+
+    printf("Geben Sie eine Zahl ein: ");
+    castCount = scanf("%f",&inputFloat);
+
+    // Clear the input buffer
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+
+    if(castCount != 1){
+        printf("\n\nUngueltige Eingabe. Bitte erneut versuchen.");
+
+
+        return getFloatInput();
+    }
+    return inputFloat;
+}
+
+int getIntInput(){
+    int inputInt;
+    int castCount = -1;
+
+    printf("Geben Sie eine Zahl ein: ");
+    castCount = scanf("%d",&inputInt);
+
+    // Clear the input buffer
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+
+    if(castCount != 1){
+        printf("\n\nUngueltige Eingabe. Bitte erneut versuchen.");
+
+
+        return getIntInput();
+    }
+    return inputInt;
+}
+
 //task2
 void initRandom() {
     srand(time(NULL));
@@ -124,46 +164,6 @@ void mySort(int arr[],int firstIndex, int size ) {
         //repeat with items between i and size (right subarray)
         if(i < size) mySort(arr, i, size);
     }
-}
-
-float getFloatInput(){
-    float inputFloat;
-    int castCount = -1;
-
-    printf("Geben Sie eine Zahl ein: ");
-    castCount = scanf("%f",&inputFloat);
-
-    // Clear the input buffer
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF);
-
-    if(castCount != 1){
-        printf("\n\nUngueltige Eingabe. Bitte erneut versuchen.");
-
-
-        return getFloatInput();
-    }
-    return inputFloat;
-}
-
-int getIntInput(){
-    int inputInt;
-    int castCount = -1;
-
-    printf("Geben Sie eine Zahl ein: ");
-    castCount = scanf("%d",&inputInt);
-
-    // Clear the input buffer
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF);
-
-    if(castCount != 1){
-        printf("\n\nUngueltige Eingabe. Bitte erneut versuchen.");
-
-
-        return getIntInput();
-    }
-    return inputInt;
 }
 
 int main()
