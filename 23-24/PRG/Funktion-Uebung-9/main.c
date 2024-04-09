@@ -257,47 +257,59 @@ void task3(){
 
     getchar();
 
-
-
     int currentPlayer = 1;
     int winner = -1;
     int field[3][3] = {{0,0,0},{0,0,0},{0,0,0}};
     int coords[2] = {0,0};
     int playerTurn[2]={0,0};
+    int useBrain = 0;
+
+    initRandom();
 
     while(winner == -1){
 
 
+            int validCoords = 0;
+            do {
 
-        int validCoords = 0;
-        do {
+                printHeader(field, currentPlayer);
 
-            printHeader(field, currentPlayer);
+                validCoords = 1;
+
+            //get user input (player 1)
+            if(currentPlayer == 1){
+
+                if(validCoords == 2){
+                    printf("\n\nIhre Eingabe ist ungueltig. Bitte versuchen Sie es erneut. Der Wert muss 1, 2 oder 3 sein.\n\n");
+                } else if (validCoords == 3){
+                    printf("\n\nDieses Feld ist bereits belegt. Bitte verwenden Sie andere Werte.\n\n");
+                } else {
+                    printf("\n\nBitte geben Sie die X und Y-Koordinate durch ein Leerzeichen getrennt ein.\n\n");
+                }
 
 
 
-            if(validCoords == 2){
-                printf("\n\nIhre Eingabe ist ungueltig. Bitte versuchen Sie es erneut. Der Wert muss 1, 2 oder 3 sein.\n\n");
-            } else if (validCoords == 3){
-                printf("\n\nDieses Feld ist bereits belegt. Bitte verwenden Sie andere Werte.\n\n");
+
+                scanf("%d %d", &coords[0], &coords[1]);
             } else {
-                printf("\n\nBitte geben Sie die X und Y-Koordinate durch ein Leerzeichen getrennt ein.\n\n");
+                if(useBrain == 0){
+                    coords[0] = getRandomNumber(1,3);
+                    coords[1] = getRandomNumber(1,3);
+                }
             }
 
-            validCoords = 1;
 
 
-            scanf("%d %d", &coords[0], &coords[1]);
+                if(coords[0] > 3 || coords[0] < 0 || coords[1] > 3 || coords[1] < 0){
+                    validCoords = 2;
+                }
 
-            if(coords[0] > 3 || coords[0] < 0 || coords[1] > 3 || coords[1] < 0){
-                validCoords = 2;
-            }
+                if(field[coords[1]-1][coords[0]-1] != 0){
+                    validCoords = 3;
+                }
 
-            if(field[coords[1]-1][coords[0]-1] != 0){
-                validCoords = 3;
-            }
+            } while(validCoords != 1);
 
-        } while(validCoords != 1);
 
 
         printf("\nSpieler %d setzt eine Markierung auf %d/%d\n\nDas Spielfeld sieht nun wie folgt aus:\n\n", currentPlayer,coords[0],coords[1]);
@@ -428,12 +440,12 @@ void clrscr()
 
 int main()
 {
-    printf("Aufgabe 1:\na) - Iterativ:\n\n");
-    task1a();
-    printf("\n\nAufgabe 1:\nb) - Rekursiv:\n\n");
-    task1b();
-    printf("\n\nAufgabe 2:\n");
-    task2();
+//    printf("Aufgabe 1:\na) - Iterativ:\n\n");
+//    task1a();
+//    printf("\n\nAufgabe 1:\nb) - Rekursiv:\n\n");
+//    task1b();
+//    printf("\n\nAufgabe 2:\n");
+//    task2();
     printf("\n\nAufgabe 3:\n");
     task3();
 
