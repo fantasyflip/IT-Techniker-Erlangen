@@ -6,6 +6,15 @@
 //task 2 defines
 #define ARRAY_SIZE 10
 
+//task 3 defines
+#define OPPONENT 1
+#define BOT 2
+
+//task 3 structs
+struct Move {
+    int row, col;
+};
+
 //prototypes
 //task 1
 float getFloatInput();
@@ -22,6 +31,10 @@ void mySort(int arr[], int size, int firstIndex);
 void printField(int array[3][3]);
 void printHeader(int field[3][3], int currentPlayer);
 void clrscr();
+int areMovesLeft(int field[3][3], int size);
+int evaluate (int field[3][3]);
+int minimax(int field[3][3], int depth, int isMax);
+struct Move brain(int field[3][3]);
 
 //functions
 //task 1
@@ -110,7 +123,6 @@ void initRandom() {
 int getRandomNumber(int min, int max) {
     return min + rand() % (max - min + 1);
 }
-
 
 
 void printArray(int arr[], int size) {
@@ -252,8 +264,9 @@ void mySort(int arr[],int firstIndex, int size ) {
     }
 }
 
+//task3
 void task3(){
-    printf("Druecken Sie eine beliebige Taste um zu starten...");
+    printf("Druecken Sie eine beliebige Taste um Tic-Tac-Toe zu starten...");
 
     getchar();
 
@@ -262,53 +275,57 @@ void task3(){
     int field[3][3] = {{0,0,0},{0,0,0},{0,0,0}};
     int coords[2] = {0,0};
     int playerTurn[2]={0,0};
-    int useBrain = 0;
+    int useBrain = 1;
 
     initRandom();
 
     while(winner == -1){
+        int validCoords = 0;
+        do {
+            printHeader(field, currentPlayer);
 
+            validCoords = 1;
 
-            int validCoords = 0;
-            do {
+        //get user input (player 1)
+        if(currentPlayer == 1){
 
-                printHeader(field, currentPlayer);
-
-                validCoords = 1;
-
-            //get user input (player 1)
-            if(currentPlayer == 1){
-
-                if(validCoords == 2){
-                    printf("\n\nIhre Eingabe ist ungueltig. Bitte versuchen Sie es erneut. Der Wert muss 1, 2 oder 3 sein.\n\n");
-                } else if (validCoords == 3){
-                    printf("\n\nDieses Feld ist bereits belegt. Bitte verwenden Sie andere Werte.\n\n");
-                } else {
-                    printf("\n\nBitte geben Sie die X und Y-Koordinate durch ein Leerzeichen getrennt ein.\n\n");
-                }
-
-
-
-
-                scanf("%d %d", &coords[0], &coords[1]);
+            if(validCoords == 2){
+                printf("\n\nIhre Eingabe ist ungueltig. Bitte versuchen Sie es erneut. Der Wert muss 1, 2 oder 3 sein.\n\n");
+            } else if (validCoords == 3){
+                printf("\n\nDieses Feld ist bereits belegt. Bitte verwenden Sie andere Werte.\n\n");
             } else {
-                if(useBrain == 0){
-                    coords[0] = getRandomNumber(1,3);
-                    coords[1] = getRandomNumber(1,3);
-                }
+                printf("\n\nBitte geben Sie die X und Y-Koordinate durch ein Leerzeichen getrennt ein.\n\n");
             }
 
 
 
-                if(coords[0] > 3 || coords[0] < 0 || coords[1] > 3 || coords[1] < 0){
-                    validCoords = 2;
-                }
 
-                if(field[coords[1]-1][coords[0]-1] != 0){
-                    validCoords = 3;
-                }
+            scanf("%d %d", &coords[0], &coords[1]);
+        } else {
+            if(useBrain == 0){
+                coords[0] = getRandomNumber(1,3);
+                coords[1] = getRandomNumber(1,3);
+            } else {
+                struct Move botMove = brain(field);
 
-            } while(validCoords != 1);
+                coords[0] = botMove.col + 1;
+                coords[1] = botMove.row +1;
+            }
+        }
+
+
+
+
+
+            if(coords[0] > 3 || coords[0] < 0 || coords[1] > 3 || coords[1] < 0){
+                validCoords = 2;
+            }
+
+            if(field[coords[1]-1][coords[0]-1] != 0){
+                validCoords = 3;
+            }
+
+        } while(validCoords != 1);
 
 
 
@@ -401,7 +418,10 @@ void task3(){
 }
 
 void printField(int array[3][3]){
+    printf("\n    1   2   3\n");
+    printf("\n---------------\n");
     for(int i = 0; i < 3; i++){
+        printf("%d |",i+1);
         for(int j = 0; j < 3; j++){
             if(array[i][j] == 1){
                 printf(" O ");
@@ -415,7 +435,7 @@ void printField(int array[3][3]){
             }
         }
         if(i < 2){
-            printf("\n-----------\n");
+            printf("\n  |-----------\n");
         } else {
             printf("\n");
         }
@@ -426,7 +446,7 @@ void printField(int array[3][3]){
 void printHeader(int field[3][3], int currentPlayer){
     clrscr();
 
-    printf("Willkommen bei Tic Tac Toe\n\nSpieler 1:\tO\nSpieler 2:\tX\n\n");
+    printf("Willkommen bei Tic Tac Toe\n\nSpieler 1:\tO\nComputer:\tX\n\n");
     printf("\n--------------------------------------------------------\n\n");
     printField(field);
     printf("\n--------------------------------------------------------\n");
@@ -438,14 +458,181 @@ void clrscr()
     system("@cls||clear");
 }
 
+int areMovesLeft(int field[3][3], int size){
+    for(int i = 0; i < 3; i++){
+        for(int j = 0; j < 3; j++){
+            if(field[i][j] == 0){
+                return 1; //true
+            }
+        }
+    }
+    return 0; //false
+}
+
+int evaluate (int field[3][3]){
+    //check if win in horizontal for either players
+    for(int row = 0; row < 3; row++){
+        //if row is full with same values
+        if(field[row][0] == field[row][1] && field[row][1] == field[row][2]){
+            //if bot(2) wins return 10, if player wins return -10
+            if(field[row][0] == 2){
+                return +10;
+            } else if(field[row][0] == 1){
+                return -10;
+            }
+        }
+    }
+
+    //check if win in vertical for either players
+    for(int col = 0; col < 3; col++){
+        //if row is full with same values
+        if(field[0][col] == field[1][col] && field[1][col] == field[2][col]){
+            //if bot(2) wins return 10, if player wins return -10
+            if(field[0][col] == BOT){
+                return +10;
+            } else if(field[0][col] == OPPONENT){
+                return -10;
+            }
+        }
+    }
+
+    //check if win in diagonal for either player
+    //top left - bottom right
+    if(field[0][0] == field[1][1] && field[1][1] == field[2][2]){
+        //if bot(2) wins return 10, if player wins return -10
+        if(field[0][0] == BOT){
+            return +10;
+        } else if(field[0][0] == OPPONENT){
+            return -10;
+        }
+    }
+
+    //top right - bottom left
+    if(field[0][2] == field[1][1] && field[1][1] == field[2][0]){
+        //if bot(2) wins return 10, if player wins return -10
+        if(field[0][2] == BOT){
+            return +10;
+        } else if(field[0][2] == OPPONENT){
+            return -10;
+        }
+    }
+
+    //if its anything else its a draw -> return 0
+    return 0;
+}
+
+int minimax(int field[3][3], int depth, int isMax){
+    int score = evaluate(field);
+
+    //if max wins return score
+    if(score == 10){
+        return score;
+    }
+
+    //if min wins return score
+    if(score == -10){
+        return score;
+    }
+
+    //if no moves are left over return 0
+    if(areMovesLeft(field,3) == 0){
+        return 0;
+    }
+
+    //if its maximizer move
+    if(isMax == 1){
+        int best = -1000;
+        //run through all positions
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                //check if position is empty
+                if(field[i][j]==0){
+                    //set player in empty field
+                    field[i][j] = BOT;
+
+                    //recursive brain call choosing maximising
+                    int minimaxBest = minimax(field, depth + 1, 0);
+
+                    if(minimaxBest > best){
+                        best = minimaxBest;
+                    }
+
+                    //undo move to keep field clean
+                    field[i][j] = 0;
+                }
+            }
+        }
+        return best;
+    }
+    //if its minimizer move
+    else {
+        int best = 1000;
+        //run through all positions
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                //check if position is empty
+                if(field[i][j]==0){
+                    //set player in empty field
+                    field[i][j] = OPPONENT;
+
+                    //recursive brain call choosing maximising
+                    int minimaxBest = minimax(field, depth + 1, 1);
+
+                    if(minimaxBest < best){
+                        best = minimaxBest;
+                    }
+
+                    //undo move to keep field clean
+                    field[i][j] = 0;
+                }
+            }
+        }
+        return best;
+    }
+
+}
+
+struct Move brain(int field[3][3]){
+    int bestRating = -1000;
+    struct Move bestMove;
+    bestMove.row = -1;
+    bestMove.col = -1;
+
+    //go through all empty positions
+    for(int i = 0; i < 3; i++){
+        for(int j = 0; j < 3; j++){
+            //check if position is empty
+            if(field[i][j]==0){
+                //set player in empty field
+                field[i][j] = BOT;
+
+                //get rating for the move
+                int moveRating = minimax(field, 0, 0);
+
+                //undo move
+                field[i][j] = 0;
+
+                //if the moveRating is better than the bestRating set bestMove and update bestRating
+                if(moveRating > bestRating){
+                    bestMove.row = i;
+                    bestMove.col = j;
+                    bestRating = moveRating;
+                }
+            }
+        }
+    }
+
+    return bestMove;
+}
+
 int main()
 {
-//    printf("Aufgabe 1:\na) - Iterativ:\n\n");
-//    task1a();
-//    printf("\n\nAufgabe 1:\nb) - Rekursiv:\n\n");
-//    task1b();
-//    printf("\n\nAufgabe 2:\n");
-//    task2();
+    printf("Aufgabe 1:\na) - Iterativ:\n\n");
+    task1a();
+    printf("\n\nAufgabe 1:\nb) - Rekursiv:\n\n");
+    task1b();
+    printf("\n\nAufgabe 2:\n");
+    task2();
     printf("\n\nAufgabe 3:\n");
     task3();
 
