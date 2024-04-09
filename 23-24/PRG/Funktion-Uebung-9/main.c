@@ -18,6 +18,11 @@ int getRandomNumber(int min, int max);
 void printArray(int arr[], int size);
 void mySort(int arr[], int size, int firstIndex);
 
+//task 3
+void printField(int array[3][3]);
+void printHeader(int field[3][3], int currentPlayer);
+void clrscr();
+
 //functions
 //task 1
 void task1a(){
@@ -247,6 +252,180 @@ void mySort(int arr[],int firstIndex, int size ) {
     }
 }
 
+void task3(){
+    printf("Druecken Sie eine beliebige Taste um zu starten...");
+
+    getchar();
+
+
+
+    int currentPlayer = 1;
+    int winner = -1;
+    int field[3][3] = {{0,0,0},{0,0,0},{0,0,0}};
+    int coords[2] = {0,0};
+    int playerTurn[2]={0,0};
+
+    while(winner == -1){
+
+
+
+        int validCoords = 0;
+        do {
+
+            printHeader(field, currentPlayer);
+
+
+
+            if(validCoords == 2){
+                printf("\n\nIhre Eingabe ist ungueltig. Bitte versuchen Sie es erneut. Der Wert muss 1, 2 oder 3 sein.\n\n");
+            } else if (validCoords == 3){
+                printf("\n\nDieses Feld ist bereits belegt. Bitte verwenden Sie andere Werte.\n\n");
+            } else {
+                printf("\n\nBitte geben Sie die X und Y-Koordinate durch ein Leerzeichen getrennt ein.\n\n");
+            }
+
+            validCoords = 1;
+
+
+            scanf("%d %d", &coords[0], &coords[1]);
+
+            if(coords[0] > 3 || coords[0] < 0 || coords[1] > 3 || coords[1] < 0){
+                validCoords = 2;
+            }
+
+            if(field[coords[1]-1][coords[0]-1] != 0){
+                validCoords = 3;
+            }
+
+        } while(validCoords != 1);
+
+
+        printf("\nSpieler %d setzt eine Markierung auf %d/%d\n\nDas Spielfeld sieht nun wie folgt aus:\n\n", currentPlayer,coords[0],coords[1]);
+
+
+        field[coords[1]-1][coords[0]-1] = currentPlayer;
+
+        printField(field);
+
+
+        playerTurn[currentPlayer-1]++;
+
+
+        printf("\n--------------------------------------------------------\n");
+
+        if(playerTurn[0]+playerTurn[1] == 9){
+            printf("\nDas Spiel ist vorbei. Ergebnis: Unentschieden.");
+            winner = 0;
+        }
+
+        //Check winning conditions
+
+        //horizontal
+        for(int i = 0; i < 3; i++){
+            int counter = 0;
+            for(int j = 0; j < 3; j++){
+                if(field[i][j] == currentPlayer){
+                    counter++;
+                }
+
+            }
+
+            if(counter == 3){
+                winner = currentPlayer;
+                printf("\nDas Spiel ist vorbei. Spieler %d hat durch eine horizontale Linie gewonnen!\n", winner);
+            } else {
+                counter = 0;
+            }
+        }
+
+        //vertical
+        for(int i = 0; i < 3; i++){
+            int counter = 0;
+            for(int j = 0; j < 3; j++){
+                if(field[j][i] == currentPlayer){
+                    counter++;
+                }
+
+            }
+
+            if(counter == 3){
+                winner = currentPlayer;
+                printf("\nDas Spiel ist vorbei. Spieler %d hat durch eine vertikale Linie gewonnen!\n", winner);
+            } else {
+                counter = 0;
+            }
+        }
+
+        //diagonal
+        //top left - bottom right
+        int diagonalCounter = 0;
+        for(int i = 0; i < 3; i++){
+            if(field[i][i]==currentPlayer){
+                diagonalCounter++;
+            }
+
+        }
+
+
+        if(diagonalCounter == 3){
+            winner = currentPlayer;
+            printf("\nDas Spiel ist vorbei. Spieler %d hat durch eine Diagonale Linie von oben links nach unten rechts gewonnen!\n", winner);
+        }
+
+
+        //top right - bottom left
+        if(field[2][0] == currentPlayer && field[1][1] == currentPlayer && field[0][2] == currentPlayer){
+            winner = currentPlayer;
+            printf("\nDas Spiel ist vorbei. Spieler %d hat durch eine Diagonale Linie von oben rechts nach unten links gewonnen!\n", winner);
+        }
+
+
+        if(currentPlayer == 1){
+            currentPlayer = 2;
+        } else {
+            currentPlayer = 1;
+        }
+    }
+}
+
+void printField(int array[3][3]){
+    for(int i = 0; i < 3; i++){
+        for(int j = 0; j < 3; j++){
+            if(array[i][j] == 1){
+                printf(" O ");
+            } else if (array[i][j] == 2){
+                printf(" X ");
+            } else {
+                printf("   ");
+            }
+            if(j < 2){
+                printf("|");
+            }
+        }
+        if(i < 2){
+            printf("\n-----------\n");
+        } else {
+            printf("\n");
+        }
+
+    }
+}
+
+void printHeader(int field[3][3], int currentPlayer){
+    clrscr();
+
+    printf("Willkommen bei Tic Tac Toe\n\nSpieler 1:\tO\nSpieler 2:\tX\n\n");
+    printf("\n--------------------------------------------------------\n\n");
+    printField(field);
+    printf("\n--------------------------------------------------------\n");
+    printf("Spieler %d ist am Zug.", currentPlayer);
+}
+
+void clrscr()
+{
+    system("@cls||clear");
+}
+
 int main()
 {
     printf("Aufgabe 1:\na) - Iterativ:\n\n");
@@ -255,6 +434,8 @@ int main()
     task1b();
     printf("\n\nAufgabe 2:\n");
     task2();
+    printf("\n\nAufgabe 3:\n");
+    task3();
 
     return 0;
 }
