@@ -539,7 +539,7 @@ int minimax(int field[3][3], int depth, int isMax){
         return 0;
     }
 
-    //if its maximizer move
+    //if its maximizer move (the player that currently has to make a move and obviously aims to win)
     if(isMax == 1){
         int best = -1000;
         //run through all positions
@@ -564,7 +564,7 @@ int minimax(int field[3][3], int depth, int isMax){
         }
         return best;
     }
-    //if its minimizer move
+    //if its minimizer move (the player that currently has NOT to make a move and the current move making player wants to loose)
     else {
         int best = 1000;
         //run through all positions
