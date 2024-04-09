@@ -140,28 +140,109 @@ void mySort(int arr[],int firstIndex, int size ) {
         int temp;
 
         //while i and j dont meet or pass each other
+        //
+        //Example-Array: 2 7 1 6 8 5 3 4
         while (i<=j){
 
-            //search for a bigger value to the right
+            //search for a bigger value to the left, starting at the firstIndex
+            //while loop exits when a bigger value than the compareValue was found
+            //due to incrementing i every time the value was lower, the bigger item is now at the index of i
+            //Example:
+            //
+            // FirstIndex: 0
+            //
+            // 2 7 1 6 8 5 3 4
+            //       ^
+            // Compare Value
+            //
+            // 1. run: 2 is lower than 6 -> i++ (i is 1)
+            // 2. run: 7 is bigger than 6 -> exit while loop -> bigger element is at i = 1 (7)
+            //
+            //  after first swap:
+            //  i is 2
+            //
+            //   2 4 1 6 8 5 3 7
+            //         ^
+            //   Compare Value
+            //
+            //  1. run: 1 is lower than 6 -> i++ (i is 3)
+            //  2. run: 6 is not lower than 6 -> exit while loop -> bigger element is at i = 3 (6)
+            //
+            //      after second swap:
+            //      i is 4
+            //
+            //      2 4 1 3 8 5 6 7
+            //                  ^
+            //            Compare Value
+            //
+            //      1. run: 8 is bigger than 6 -> exit while loop -> bigger element is at i = 4 (8)
+            //
+            //          after third swap:
+            //          i is 5 and j is 4 -> main while loop condition is not fulfilled -> exit main while loop
+            //
             while(arr[i] < compareValue) i++;
-            //search for a smaller value to the left
+            //search for a smaller value to the right
+            //while loop exits when a lower value than the compareValue was found
+            //due to decrementing j every time the value was bigger, the lower item is now at the index of j
+            //Example:
+            //
+            // size: 7
+            //
+            // 2 7 1 6 8 5 3 4
+            //       ^
+            // Compare Value
+            //
+            // 1. run: 4 is lower than 6 -> exit while loop -> lower element is at j = 7 (4)
+            //
+            //  after first swap:
+            //  j is 6
+            //
+            //   2 4 1 6 8 5 3 7
+            //         ^
+            //   Compare Value
+            //
+            //  1.run: 3 is lower than 6 -> exit while loop -> lower element is at j = 6 (3)
+            //
+            //      after second swap:
+            //      j is 5
+            //
+            //      2 4 1 3 8 5 6 7
+            //                  ^
+            //            Compare Value
+            //
+            //      1.run: 5 is lower than 6 -> exit while loop -> lower element is at j = 5 (5)
+            //
+            //          after third swap:
+            //          j is 4 and i is 5 -> main while loop condition is not fulfilled -> exit main while loop
+            //
             while(arr[j] > compareValue) j--;
 
             //swap item
             if(i <= j){
+                //now we know of an element on the left side that belongs to the right side,
+                //and an element on the right side that belongs to the left side
+                //simply swap them
                 temp = arr[i];
                 arr[i] = arr[j];
                 arr[j] = temp;
+
+                //increase i by one to continue with the next item on the left side
                 i++;
+                //decrease j by one to continue with the next item on the right side
                 j--;
 
             }
         }
 
+        //array after main while loop:
+        // 2 4 1 3 5 8 6 7
+
         //recursive calls
         //repeat with items between j and the firstIndex (left subarray)
+        //left subarray in example: 2 4 1 3 5
         if(firstIndex < j) mySort(arr, firstIndex, j);
         //repeat with items between i and size (right subarray)
+        //right subarray in example: 8 6 7
         if(i < size) mySort(arr, i, size);
     }
 }
