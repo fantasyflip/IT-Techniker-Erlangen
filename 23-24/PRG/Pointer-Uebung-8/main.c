@@ -2,6 +2,7 @@
 
 void task1(int* a, int* b);
 void task2();
+void task3();
 
 void task1(int* a, int* b){
     int temp;
@@ -32,7 +33,19 @@ void task2(){
     **ppd_number = temp;
 
     printf("Integer:\t%d\t%p\n",i_number, &i_number);
-    printf("Double:\t\t%.2f\t%p\n\n",d_number, &d_number);
+    printf("Double:\t\t%.2f\t%p\n\n\n",d_number, &d_number);
+}
+
+void task3(){
+    unsigned int ui_number = 0x7fed15a0;
+
+    printf("Unsigned Integer:\t%d\n\n", ui_number);
+
+    unsigned char* pui_number = (unsigned char*)&ui_number;   //using unsigned char since it's only one byte in size
+
+    for(int i = 0; i < 4; i++){
+        printf("Byte %d\t%x\n",i+1,*(pui_number + i));
+    }
 }
 
 int main()
@@ -48,6 +61,10 @@ int main()
     printf("Task 2: Elementares Zeiger-Handling\n\n");
 
     task2();
+
+    printf("Task 3: Zeiger auf void\n\n");
+
+    task3();
 
     return 0;
 }
