@@ -48,6 +48,7 @@ float getRateFromCurrency(char cur[4]);
 double roundToDecimalPlaces(double num, int decimalPlaces);
 
 //task #1
+//transfer task: all occurences of a symbol (without returning an array)
 int stringIndex(char text[], char symbol){
     int length = strlen(text);
     int position = -1;
