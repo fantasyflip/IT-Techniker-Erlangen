@@ -61,5 +61,46 @@ int main()
 
     free(spielfeld);
 
+    // Drei Dimensional
+    int sideLength = 5;
+
+    int*** dice = (int***)calloc(sizeof(int**),sideLength);
+
+    if(dice == NULL){
+        printf("Fehler beim Anlegen des Arrays zahlen. Beende nun das Programm... \n");
+        exit(42);
+    }
+
+    for(int i = 0; i < sideLength; i++){
+        dice[i] = (int**)calloc(sizeof(int*),sideLength);
+
+        if(dice[i] == NULL){
+            printf("Fehler beim Anlegen des Arrays zahlen. Beende nun das Programm... \n");
+            exit(42);
+        }
+
+        for(int j = 0; j < sideLength; j++){
+            dice[i][j] = (int*)calloc(sizeof(int),sideLength);
+
+            if(dice[i][j] == NULL){
+                printf("Fehler beim Anlegen des Arrays zahlen. Beende nun das Programm... \n");
+                exit(42);
+            }
+        }
+    }
+
+    dice[0][1][2] = 123;
+
+    printf("%d\n", dice[0][1][2]);
+
+    for(int i = 0; i < sideLength; i++){
+        for(int j = 0; j < sideLength; j++){
+            free(dice[i][j]);
+        }
+        free(dice[i]);
+    }
+
+    free(dice);
+
     return 0;
 }
