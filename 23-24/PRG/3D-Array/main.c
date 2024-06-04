@@ -5,6 +5,27 @@
 //malloc: Allocates the requested memory and returns a pointer to it.
 //calloc: Allocates the requested memory and returns a pointer to it.
 //reallocAttempts to resize the memory block pointed to by ptr that was previously allocated with a call to malloc or calloc.
+void cleanup1(int ***array, int x, int i);
+void cleanup2(int ***array, int x, int i, int y);
+
+
+void cleanup1(int ***array, int x, int i){
+    for(int j = 0; j < i; j++){
+        free(array[j]);
+    }
+    free(array);
+}
+
+void cleanup2(int ***array, int x, int i, int y){
+    for(int j= 0; j < i; j++){
+        for(int k= 0; k < y; k++){
+            free(array[j][k]);
+        }
+        free(array[j]);
+    }
+    free(array);
+}
+
 int main()
 {
     int x = 3;
@@ -18,20 +39,23 @@ int main()
     }
     for (int i = 0; i < y; i++) {
         array_3d[i] = (int **)malloc(y * sizeof(int *));
-        if(array_3d == NULL){
+        if(array_3d[i] == NULL){
             printf("Speicher ist voll !! Allokierung ist nicht möglich.");
             //free(array_3d); //Speicher freigeben
             // Schreibe Funktion, die alle Teilarrays array_3d[i] von Index i: 0 bis i -1 freigibt
             // und Array array_3d
+            cleanup1(array_3d, x, i);
+
         }
         for (int j = 0; j < z; j++) {
             array_3d[i][j] = (int *)malloc(z * sizeof(int));
-            if(array_3d == NULL){
+            if(array_3d[i][j] == NULL){
                 printf("Speicher ist voll !! Allokierung ist nicht möglich.");
                 //free(array_3d); //Speicher freigeben
                 // Schreibe Funktion, die alle Teilarrays array_3d[i][j] von Index j: 0 bis j-1 freigibt
                 // und alle Teilarrays array_3d[i] mit Index i: 0 bis y-1 freigibt
                 // und Array array_3d freigibt
+                cleanup2(array_3d,x,i,y);
             }
         }
     }
