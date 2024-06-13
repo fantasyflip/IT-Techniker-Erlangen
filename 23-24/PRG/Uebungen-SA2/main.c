@@ -10,6 +10,7 @@ void task4(); // 3D-Textarray umsortieren
 void task5a(); // Dynamischer int
 void task5b(); // Dynamischer int array
 void task5c(); // Dynamischer 2D int array
+void task6(); // String suchen
 
 //Funktionen zu Task1: Bubblesort
 void doubleBubbleSort(double *items, int length);
@@ -38,7 +39,8 @@ int main()
 //    task4();
 //    task5a();
 //    task5b();
-    task5c();
+//    task5c();
+    task6();
 
     printf("\n\n");
     return 0;
@@ -371,4 +373,57 @@ void task5c() {
     }
     // Speicher für Zeilen freigeben
     free(field);
+}
+
+// Task6: String suchen
+void task6(){
+    char text[] = "Der String Hallo Welt wird oft verwendet, um Hallo Welt auszugeben. Hallo Welt ist super!";
+    char searchString[] = "Hallo Welt";
+
+    // textlänge berechnen
+    int textLength = sizeof(text)/sizeof(char)-1;
+    int searchLength = sizeof(searchString)/sizeof(char)-1;
+    // maximale anzahl von vorkommnissen
+    int maxOccurences = textLength / searchLength;
+
+    // Vorkommnisse Startwerte und Anzahl
+    int occurences[maxOccurences];
+    int occurenceCount = 0;
+
+    // Text durchgehen
+    for(int i = 0; i < textLength; i++){
+        // Wenn Anfangsbuchstabe passt
+        if(text[i] == searchString[0]){
+            // Kompletten searchString mit folgendem Text-Abschnittabgleichen
+            for(int j = 0; j < searchLength; j++){
+               if(text[i+j]!=searchString[j]){
+                   // Bei unterschieden Abgleich beenden
+                   break;
+               } else if(j == searchLength - 1){
+                   // Wenn identisch Startwert speichern und Anzahl erhöhen
+                   occurences[occurenceCount] = i;
+                   occurenceCount++;
+               }
+            }
+        }
+    }
+
+    // Guide-String genauso lang wie text
+    char guideString[textLength + 1];
+
+    // Guide-String mit Leerzeichen füllen und Terminator setzen
+    for(int i = 0; i < textLength; i++){
+        guideString[i] = ' ';
+    }
+    guideString[textLength] = '\0';
+
+    // Occurence Pointer passend setzen
+    for(int i = 0; i < occurenceCount; i++){
+        guideString[occurences[i]] = '^';
+        guideString[occurences[i]+searchLength-1] = '^';
+    }
+
+    // Text und Guide-String ausgeben
+    printf("%s\n", text);
+    printf("%s\n", guideString);
 }
