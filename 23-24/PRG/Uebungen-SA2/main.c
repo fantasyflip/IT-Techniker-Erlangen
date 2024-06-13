@@ -9,6 +9,7 @@ void task3(); // 2D-Array sortieren
 void task4(); // 3D-Textarray umsortieren
 void task5a(); // Dynamischer int
 void task5b(); // Dynamischer int array
+void task5c(); // Dynamischer 2D int array
 
 //Funktionen zu Task1: Bubblesort
 void doubleBubbleSort(double *items, int length);
@@ -36,7 +37,8 @@ int main()
 //    task3();
 //    task4();
 //    task5a();
-    task5b();
+//    task5b();
+    task5c();
 
     printf("\n\n");
     return 0;
@@ -322,4 +324,51 @@ void task5b(){
 
     // Speicher freigeben
     free(numbers);
+}
+
+// Task5c: Dynamischer 2D int array
+void task5c() {
+    int rows = 8;
+    int cols = 5;
+
+    // Speicher reservieren
+    int **field = calloc(rows, sizeof(int*));
+    // Fehler abfangen
+    if(field == NULL){
+        printf("Speicher konnte nicht angefordert werden.");
+        exit(1);
+    }
+
+    // Speicher für Spalten in Zeilen reservieren und ggf. Fehler abfangen
+    for(int i = 0; i < rows; i++){
+        field[i] = calloc(cols, sizeof(int));
+        if(field[i] == NULL){
+            printf("Speicher konnte nicht angefordert werden.");
+            exit(1);
+        }
+    }
+
+    srand(time(NULL));
+
+    // 2D Array mit Zufallszahlen reservieren
+    for(int i = 0; i < rows; i ++){
+        for(int j = 0; j < cols; j++){
+            field[i][j] = (rand() % 10) + 1;
+        }
+    }
+
+    // 2D Array ausgeben
+    for(int i = 0; i < rows; i ++){
+        for(int j = 0; j < cols; j++){
+            printf("%-3d", field[i][j]);
+        }
+        printf("\n");
+    }
+
+    // Speicher für jede Spalte freigeben
+    for(int i = 0; i < rows; i++){
+        free(field[i]);
+    }
+    // Speicher für Zeilen freigeben
+    free(field);
 }
