@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 void task1(); // Bubblesort
 void task2(); // 1D-Array sortieren
 void task3(); // 2D-Array sortieren
+void task4(); // 3D-Textarray umsortieren
 
 //Funktionen zu Task1: Bubblesort
 void doubleBubbleSort(double *items, int length);
@@ -19,11 +21,18 @@ void charArrayInvert(char *items, int length);
 void printWords(char **items, int length);
 void stringBubbleSort(char **items, int length);
 
+// Funktionen zu Task4: 3D-Textarray umsortieren
+#define IND_MAX 4
+#define LEN_MAX 15
+void printNames(char names[IND_MAX][IND_MAX][LEN_MAX]);
+void exchangeNames(char names[IND_MAX][IND_MAX][LEN_MAX]);
+
 int main()
 {
 //    task1();
 //    task2();
-    task3();
+//    task3();
+    task4();
 
     printf("\n\n");
     return 0;
@@ -220,3 +229,46 @@ void stringBubbleSort(char **items, int length){
         }
     } while(swaps != 0);
 }
+
+// Task4: 3D-Textarray umsortieren
+
+void task4(){
+    char names[IND_MAX][IND_MAX][LEN_MAX]={
+     "Peter","Paul","Eva","Adelheid",
+     "Sepp","Anna","Karlheinz","Christina",
+     "Magdalena","Maria","Klaus","Thomas",
+     "Michael","Ernst","Timo","Toni"};
+
+    // Namen ausgeben
+    printNames(names);
+
+    // Position der Namen tauschen
+    exchangeNames(names);
+    printf("\n");
+    // Namen ausgeben
+    printNames(names);
+}
+
+void printNames(char names[IND_MAX][IND_MAX][LEN_MAX]){
+    for(int i = 0; i < IND_MAX; i++){
+        for(int j = 0; j < IND_MAX; j++){
+            printf("%-12s\t",names[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+
+void exchangeNames(char names[IND_MAX][IND_MAX][LEN_MAX]){
+    for(int i = 0; i < IND_MAX; i++){
+        // j = i + 1 ---- Damit die Namen nicht wieder zurück getauscht werden in einem spätern Durchlauf
+        for(int j = i + 1; j < IND_MAX; j++){
+            // Dreieckstausch der Namen
+            char temp[LEN_MAX];
+            strcpy(temp, names[i][j]);
+            strcpy(names[i][j], names[j][i]);
+            strcpy(names[j][i], temp);
+        }
+    }
+}
+
