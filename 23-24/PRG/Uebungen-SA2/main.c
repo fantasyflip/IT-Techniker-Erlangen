@@ -11,6 +11,7 @@ void task5a(); // Dynamischer int
 void task5b(); // Dynamischer int array
 void task5c(); // Dynamischer 2D int array
 void task6(); // String suchen
+void task7(); // Speicher-Adressen
 
 //Funktionen zu Task1: Bubblesort
 void doubleBubbleSort(double *items, int length);
@@ -40,7 +41,8 @@ int main()
 //    task5a();
 //    task5b();
 //    task5c();
-    task6();
+//    task6();
+    task7();
 
     printf("\n\n");
     return 0;
@@ -426,4 +428,31 @@ void task6(){
     // Text und Guide-String ausgeben
     printf("%s\n", text);
     printf("%s\n", guideString);
+}
+
+// Task7: Speicher-Adressen
+void task7(){
+    // a)
+    int zahlen[20];
+
+    for(int i = 0; i < 20; i++){
+        zahlen[i] = i;
+    }
+
+    // b)
+    for(int i = 0; i < 20; i++){
+        printf("Adresse fuer Index %d:\t %p\n", i, &zahlen[i]);
+    }
+
+    // c)
+    int *adressen[20];
+    for(int i = 0; i < 20; i++){
+        adressen[i] = &zahlen[i];
+    }
+
+    printf("\n\n");
+    // d)
+    for(int i = 0; i < 20; i++){
+        printf("Adresse der Adresse am Index %d: %p\n", i, &adressen[i]);
+    }
 }
