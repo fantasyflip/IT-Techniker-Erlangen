@@ -4,6 +4,7 @@
 
 void task1(); // Bubblesort
 void task2(); // 1D-Array sortieren
+void task3(); // 2D-Array sortieren
 
 //Funktionen zu Task1: Bubblesort
 void doubleBubbleSort(double *items, int length);
@@ -14,9 +15,15 @@ void printSentence(char *sentence, int length);
 void charBubbleSort(char *items, int length);
 void charArrayInvert(char *items, int length);
 
+//Funktionen zu Task3: 2D-Array sortieren
+void printWords(char **items, int length);
+void stringBubbleSort(char **items, int length);
+
 int main()
 {
-    task2();
+//    task1();
+//    task2();
+    task3();
 
     printf("\n\n");
     return 0;
@@ -147,4 +154,69 @@ void charArrayInvert(char *items, int length){
         start++;
         end--;
     }
+}
+
+// Task3: 2D-Array sortieren
+void task3(){
+    char *words[] = {"Zeppelin", "Anton", "Hugo", "Xaver", "Alfred", "Eva", "Anna", "Anne", NULL};
+
+    // Anzahl der Wörter erhalten
+    int wordCount = 0;
+    while (words[wordCount] != NULL) {
+        wordCount++;
+    }
+
+    // Wörter ausgeben
+    printWords(words, wordCount);
+
+    // Wörter sortieren
+    stringBubbleSort(words, wordCount);
+
+    //Wörter ausgeben
+    printf("\n");
+    printWords(words, wordCount);
+
+}
+
+void printWords(char **items, int length){
+    int wordCount = 0;
+    for(int i = 0; i < length; i++) {
+        printf("%d.\t%s\n", i + 1, items[i]);
+    }
+}
+
+void stringBubbleSort(char **items, int length){
+    int swaps;
+    // Solange im letzten Vorgang ein Swap gemacht wurde wird wiederholt
+    do {
+        swaps = 0;
+        // Alle Wörter durchgehen
+        for(int i = 0; i < length-1; i++){
+           // Wortpaar auswählen
+            char *word1 = items[i];
+            char *word2 = items[i+1];
+
+            // Wortpaar Buchstabe für Buchstabe vergleichen
+            int needsSwap = 0;
+            for(int j = 0; (word1[j] != '\0') && (word2[j] != '\0'); j++){
+               // Buchstabe ist größer -> Swap
+               if (word1[j] > word2[j]){
+                   needsSwap = 1;
+                   break;
+               } else if (word1[j] < word2[j]) {
+                   // Buchstabe ist kleiner -> Kein Swap
+                   break;
+               }
+               // Buchstaben sind identisch -> Nächster Buchstabe
+            }
+
+            // Elemente im Wort-Array tauschen
+            if(needsSwap == 1){
+               char *temp = items[i];
+               items[i] = items[i+1];
+               items[i+1] = temp;
+               swaps++;
+            }
+        }
+    } while(swaps != 0);
 }
