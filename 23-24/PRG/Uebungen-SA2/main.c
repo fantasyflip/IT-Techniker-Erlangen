@@ -7,6 +7,7 @@ void task1(); // Bubblesort
 void task2(); // 1D-Array sortieren
 void task3(); // 2D-Array sortieren
 void task4(); // 3D-Textarray umsortieren
+void task5a(); // Dynamischer int
 
 //Funktionen zu Task1: Bubblesort
 void doubleBubbleSort(double *items, int length);
@@ -32,7 +33,8 @@ int main()
 //    task1();
 //    task2();
 //    task3();
-    task4();
+//    task4();
+    task5a();
 
     printf("\n\n");
     return 0;
@@ -231,7 +233,6 @@ void stringBubbleSort(char **items, int length){
 }
 
 // Task4: 3D-Textarray umsortieren
-
 void task4(){
     char names[IND_MAX][IND_MAX][LEN_MAX]={
      "Peter","Paul","Eva","Adelheid",
@@ -258,7 +259,6 @@ void printNames(char names[IND_MAX][IND_MAX][LEN_MAX]){
     }
 }
 
-
 void exchangeNames(char names[IND_MAX][IND_MAX][LEN_MAX]){
     for(int i = 0; i < IND_MAX; i++){
         // j = i + 1 ---- Damit die Namen nicht wieder zurück getauscht werden in einem spätern Durchlauf
@@ -272,3 +272,20 @@ void exchangeNames(char names[IND_MAX][IND_MAX][LEN_MAX]){
     }
 }
 
+// Task5a: Dynamischer int
+void task5a(){
+    int * number = calloc(1, sizeof(int));
+
+    if(number == NULL){
+        printf("Speicher konnte nicht angefordert werden.");
+        exit(1);
+    }
+
+    srand(time(NULL));
+
+    *number = (rand() % 10) + 1;
+
+    printf("Zufallszahl: %d", *number);
+
+    free(number);
+}
