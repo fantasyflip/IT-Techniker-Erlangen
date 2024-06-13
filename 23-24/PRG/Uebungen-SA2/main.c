@@ -8,6 +8,7 @@ void task2(); // 1D-Array sortieren
 void task3(); // 2D-Array sortieren
 void task4(); // 3D-Textarray umsortieren
 void task5a(); // Dynamischer int
+void task5b(); // Dynamischer int array
 
 //Funktionen zu Task1: Bubblesort
 void doubleBubbleSort(double *items, int length);
@@ -34,7 +35,8 @@ int main()
 //    task2();
 //    task3();
 //    task4();
-    task5a();
+//    task5a();
+    task5b();
 
     printf("\n\n");
     return 0;
@@ -274,8 +276,10 @@ void exchangeNames(char names[IND_MAX][IND_MAX][LEN_MAX]){
 
 // Task5a: Dynamischer int
 void task5a(){
+    // Speicher für int reservieren
     int * number = calloc(1, sizeof(int));
 
+    // Fehler bei der Reservierung abfangen
     if(number == NULL){
         printf("Speicher konnte nicht angefordert werden.");
         exit(1);
@@ -283,9 +287,39 @@ void task5a(){
 
     srand(time(NULL));
 
+    // Zufallszal zwischen 1 und 10
     *number = (rand() % 10) + 1;
 
     printf("Zufallszahl: %d", *number);
 
+    // Speicher freigeben
     free(number);
+}
+
+// Task5b: Dynmischer int array
+void task5b(){
+    int arrayLength = 8;
+    // Speicher für Array reservieren
+    int * numbers = calloc(arrayLength, sizeof(int));
+
+    // Fehler bei der Reservierung abfangen
+    if(numbers == NULL){
+        printf("Speicher konnte nicht angefordert werden.");
+        exit(1);
+    }
+
+    srand(time(NULL));
+
+    // Array mit Zufallszahlen füllen
+    for(int i = 0; i < arrayLength; i++){
+        numbers[i] = (rand() % 10) + 1;
+    }
+
+    // Array ausgeben
+    for(int i = 0; i < arrayLength; i++){
+        printf("%d\n", numbers[i]);
+    }
+
+    // Speicher freigeben
+    free(numbers);
 }
