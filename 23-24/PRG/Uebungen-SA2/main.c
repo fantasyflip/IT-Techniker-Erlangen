@@ -12,6 +12,7 @@ void task5b(); // Dynamischer int array
 void task5c(); // Dynamischer 2D int array
 void task6(); // String suchen
 void task7(); // Speicher-Adressen
+void task8(); // Dezimal-zu-Irgendetwas
 
 //Funktionen zu Task1: Bubblesort
 void doubleBubbleSort(double *items, int length);
@@ -32,6 +33,10 @@ void stringBubbleSort(char **items, int length);
 void printNames(char names[IND_MAX][IND_MAX][LEN_MAX]);
 void exchangeNames(char names[IND_MAX][IND_MAX][LEN_MAX]);
 
+//Funktionen zu Task8: Dezimal-zu-Irgendetwas
+#define TARGET_BASE 16
+void convertToBase(int number, int base, char* result);
+
 int main()
 {
 //    task1();
@@ -42,7 +47,8 @@ int main()
 //    task5b();
 //    task5c();
 //    task6();
-    task7();
+//    task7();
+    task8();
 
     printf("\n\n");
     return 0;
@@ -198,7 +204,6 @@ void task3(){
 }
 
 void printWords(char **items, int length){
-    int wordCount = 0;
     for(int i = 0; i < length; i++) {
         printf("%d.\t%s\n", i + 1, items[i]);
     }
@@ -455,4 +460,41 @@ void task7(){
     for(int i = 0; i < 20; i++){
         printf("Adresse der Adresse am Index %d: %p\n", i, &adressen[i]);
     }
+}
+
+// Task8: Dezimal-zu-Irgendetwas
+void task8(){
+    int number;
+    char result[33];  // Ein zusätzlicher Platz für die Nullterminierung
+
+    printf("Geben Sie eine Dezimalzahl ein: ");
+    scanf("%d", &number);
+
+    convertToBase(number, TARGET_BASE, result);
+
+    printf("Dezimalzahl: %d\n", number);
+    printf("Zahl im Basis-%d-System: %s\n", TARGET_BASE, result);
+}
+
+void convertToBase(int number, int base, char* result) {
+    char digits[] = "0123456789ABCDEF";
+    int index = 31;  // Maximal 32 Stellen für Binärdarstellung
+    result[32] = '\0';  // Nullterminierung
+
+    // Wenn die Zahl 0 ist
+    if (number == 0) {
+        result[31] = '0';
+        return;
+    }
+
+    while (number > 0) {
+        result[index--] = digits[number % base];
+        number /= base;
+    }
+
+    // Verschiebe das Ergebnis nach vorne, falls erforderlich
+    for (int i = index + 1; i < 32; i++) {
+        result[i - (index + 1)] = result[i];
+    }
+    result[32 - (index + 1)] = '\0';  // Nullterminierung des verschobenen Strings
 }
