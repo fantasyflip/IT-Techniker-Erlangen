@@ -13,6 +13,7 @@ void task5c(); // Dynamischer 2D int array
 void task6(); // String suchen
 void task7(); // Speicher-Adressen
 void task8(); // Dezimal-zu-Irgendetwas
+void task9(); // String vertauschen
 
 //Funktionen zu Task1: Bubblesort
 void doubleBubbleSort(double *items, int length);
@@ -48,7 +49,8 @@ int main()
 //    task5c();
 //    task6();
 //    task7();
-    task8();
+//    task8();
+    task9();
 
     printf("\n\n");
     return 0;
@@ -497,4 +499,32 @@ void convertToBase(int number, int base, char* result) {
         result[i - (index + 1)] = result[i];
     }
     result[32 - (index + 1)] = '\0';  // Nullterminierung des verschobenen Strings
+}
+
+// Task9: String vertauschen
+void task9(){
+    char string[] = "12345678901234567890";
+
+    // index, länge und offset definieren
+    int index = 0;
+    int length = sizeof(string)/sizeof(string[0])-1;
+    int offset = 3;
+
+    // string ausgeben
+    printf("Startstring: %s\n", string);
+
+    // Fußgesteuerte while schleife
+    do {
+        // dreieckstausch
+        char temp = string[index];
+        string[index] = string[index + offset];
+        string [index + offset] = temp;
+
+        // index um 2*offset erhöhen damit immer einzelne paare getauscht werden und nicht im Folgedurchlauf wieder eine Zahl aus dem vorherigen Durchlauf vertauscht wird
+        index = index + 2*offset;
+
+        // Schleife beenden wenn das nächste Tauschelement außerhalb des Arrays liegt
+    } while (index+3 <= length);
+
+    printf("Endstring: %s\n", string);
 }
