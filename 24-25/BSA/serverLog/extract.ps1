@@ -2,7 +2,7 @@
 $serverLog = Get-Content -Path .\server.log
 
 # set the filter
-$filter = "warning"
+$filter = "error"
 
 # create an array to store the collected items
 $collectedItems = @()
