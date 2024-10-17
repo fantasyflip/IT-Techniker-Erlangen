@@ -18,18 +18,18 @@ public class Main {
         String input = "Das ist der Input Text.";
         String charToCount = "s";
 
-        boolean noApperanceLeft = false;
+        boolean apperanceLeft = true;
         int appearanceCount = 0;
         do {
             int firstAppearance = input.indexOf(charToCount);
 
             if(firstAppearance == -1){
-                noApperanceLeft = true;
+                apperanceLeft = false;
             } else {
                 appearanceCount++;
                 input = input.substring(firstAppearance+1);
             }
-        } while(!noApperanceLeft);
+        } while(apperanceLeft);
 
         System.out.println("Das Zeichen '" + charToCount + "' kommt " + appearanceCount + " mal vor.");
 
@@ -63,7 +63,7 @@ public class Main {
 
         String separator = " ";
 
-        boolean noSeparatorLeft = false;
+        boolean separatorLeft = true;
         int wordCount = 0;
         do {
             char charToAppend;
@@ -73,7 +73,7 @@ public class Main {
             wordCount++;
 
             if(firstSeparator == -1){
-                noSeparatorLeft = true;
+                separatorLeft = false;
                 word = sentence;
             } else {
                 word = sentence.substring(0, firstSeparator);
@@ -91,7 +91,7 @@ public class Main {
 
 
 
-        } while(!noSeparatorLeft);
+        } while(separatorLeft);
 
         return wordCount + password;
     }
