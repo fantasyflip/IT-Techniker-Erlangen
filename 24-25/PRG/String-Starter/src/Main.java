@@ -49,7 +49,7 @@ public class Main {
             result = input.toUpperCase();
         }
 
-        System.out.println(result);
+        System.out.println("Aus '" + input + "' wird '" + result + "'");
     }
 
     public static void task10(){
