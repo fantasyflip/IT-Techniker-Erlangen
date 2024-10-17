@@ -15,8 +15,8 @@ public class Main {
     }
 
     public static void task2(){
-        String input = new String("Das ist der Input Text.");
-        String charToCount = new String("s");
+        String input = "Das ist der Input Text.";
+        String charToCount = "s";
 
         boolean noApperanceLeft = false;
         int appearanceCount = 0;
@@ -36,9 +36,9 @@ public class Main {
     }
 
     public static void task3(){
-        String input = new String("Gartenzaun");
+        String input = "Gartenzaun";
 
-        String result = new String();
+        String result;
 
         if(input.length() > 3){
             String substring = input.substring(0,input.length()-3);
@@ -53,21 +53,21 @@ public class Main {
     }
 
     public static void task10(){
-        String sentence = new String("Das ist ein Satz der keinen Sinn macht.");
+        String sentence = "Das ist ein Satz der keinen Sinn macht.";
         String password = pwdGenerator(sentence);
         System.out.println("Aus dem Satz '" + sentence + "' wird das Passwort '" + password + "' generiert.");
     }
 
     public static String pwdGenerator(String sentence){
-        String password = new String();
+        String password = "";
 
-        String separator = new String(" ");
+        String separator = " ";
 
         boolean noSeparatorLeft = false;
         int wordCount = 0;
         do {
             char charToAppend;
-            String word = new String();
+            String word;
             int firstSeparator = sentence.indexOf(separator);
 
             wordCount++;
