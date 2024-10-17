@@ -2,10 +2,16 @@ public class Main {
     // https://info-wsf.de/uebungsaufgaben-char-und-strings/
     public static void main(String[] args) {
         //task 2
-        //task2();
+        task2();
+
+        System.out.println();
 
         //task 3
         task3();
+        System.out.println();
+
+        //task 10
+        task10();
     }
 
     public static void task2(){
@@ -44,5 +50,49 @@ public class Main {
         }
 
         System.out.println(result);
+    }
+
+    public static void task10(){
+        String sentence = new String("Das ist ein Satz der keinen Sinn macht.");
+        String password = pwdGenerator(sentence);
+        System.out.println("Aus dem Satz '" + sentence + "' wird das Passwort '" + password + "' generiert.");
+    }
+
+    public static String pwdGenerator(String sentence){
+        String password = new String();
+
+        String separator = new String(" ");
+
+        boolean noSeparatorLeft = false;
+        int wordCount = 0;
+        do {
+            char charToAppend;
+            String word = new String();
+            int firstSeparator = sentence.indexOf(separator);
+
+            wordCount++;
+
+            if(firstSeparator == -1){
+                noSeparatorLeft = true;
+                word = sentence;
+            } else {
+                word = sentence.substring(0, firstSeparator);
+            }
+
+            if(wordCount % 2 == 0){
+                charToAppend = word.charAt(0);
+            } else {
+                charToAppend = word.charAt(word.length()-1);
+            }
+
+            password += charToAppend;
+
+            sentence = sentence.substring(firstSeparator+1);
+
+
+
+        } while(noSeparatorLeft == false);
+
+        return wordCount + password;
     }
 }
