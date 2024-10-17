@@ -29,7 +29,7 @@ public class Main {
                 appearanceCount++;
                 input = input.substring(firstAppearance+1);
             }
-        } while(noApperanceLeft == false);
+        } while(!noApperanceLeft);
 
         System.out.println("Das Zeichen '" + charToCount + "' kommt " + appearanceCount + " mal vor.");
 
@@ -91,7 +91,7 @@ public class Main {
 
 
 
-        } while(noSeparatorLeft == false);
+        } while(!noSeparatorLeft);
 
         return wordCount + password;
     }
