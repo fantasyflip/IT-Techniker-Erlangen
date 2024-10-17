@@ -80,9 +80,9 @@ public class Main {
             }
 
             if(wordCount % 2 == 0){
-                charToAppend = word.charAt(0);
-            } else {
                 charToAppend = word.charAt(word.length()-1);
+            } else {
+                charToAppend = word.charAt(0);
             }
 
             password += charToAppend;
