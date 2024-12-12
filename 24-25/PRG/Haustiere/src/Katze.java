@@ -1,6 +1,9 @@
 public class Katze extends Haustiere {
-    public Katze(String name, double futtervorrat) {
+    String haltung;
+
+    public Katze(String name, double futtervorrat, String haltung) {
         super(name, futtervorrat);
+        this.haltung = haltung;
     }
 
     public void sprich(){
@@ -11,5 +14,10 @@ public class Katze extends Haustiere {
         System.out.println(super.name + ": " + super.futtervorrat);
         futtervorrat = futtervorrat - 0.5;
         super.anzahlTage++;
+    }
+
+    public void anzeigen(){
+        System.out.print("(Haltung: " + haltung + ") ");
+        super.anzeigen();
     }
 }

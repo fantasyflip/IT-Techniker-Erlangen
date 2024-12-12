@@ -1,6 +1,9 @@
 public class Hund extends Haustiere {
-    public Hund(String name, double futtervorrat) {
+    String kategorie;
+
+    public Hund(String name, double futtervorrat, String kategorie) {
         super(name, futtervorrat);
+        this.kategorie = kategorie;
     }
 
     public void sprich(){
@@ -11,5 +14,10 @@ public class Hund extends Haustiere {
         System.out.println(super.name + ": " + super.futtervorrat);
         futtervorrat = futtervorrat - 1.0;
         super.anzahlTage++;
+    }
+
+    public void anzeigen(){
+        System.out.print("(Kategorie: " + kategorie + ") ");
+        super.anzeigen();
     }
 }
