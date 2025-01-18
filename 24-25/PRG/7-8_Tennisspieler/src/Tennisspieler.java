@@ -1,8 +1,11 @@
 public class Tennisspieler {
     public String name;
     public int alter;
+    // g)
     public Tennisspieler verfolger;
     public int startNummer;
+    // h)
+    public static int folgeNummer = 1;
 
     // e)
     Tennisspieler(String name, int alter) {
