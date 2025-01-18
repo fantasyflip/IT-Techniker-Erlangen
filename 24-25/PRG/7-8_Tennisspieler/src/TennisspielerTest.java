@@ -22,5 +22,16 @@ public class TennisspielerTest {
         // Beim erstellen von schmid wird die startNummer von schmid auf 2 gesetzt und die folgeNummer in der gesamten Klasse Tennisspieler auf 3 erhöht.
         // Beim erstellen von berger wird die startNummer von berger auf 3 gesetzt und die folgeNummer in der gesamten Klasse Tennisspieler auf 4 erhöht.
 
+        //m)
+        System.out.println(maier);
+        System.out.println(schmid);
+        System.out.println(berger);
+
+        // Ausgabe auf der Konsole
+        // Maier (1)
+        // G. Schmid (2) liegt vor Maier (1)
+        // I. Berger (3) liegt vor G. Schmid (2) liegt vor Maier (1)
+
+
     }
 }

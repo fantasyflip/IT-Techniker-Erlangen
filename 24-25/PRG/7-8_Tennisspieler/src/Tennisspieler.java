@@ -46,6 +46,14 @@ public class Tennisspieler {
     public boolean istLetzter(){
         return this.verfolger == null;
     }
+
+    //m
+    public String toString () {
+        String printText = name + " (" + startNummer + ")";
+        if (verfolger != null)
+            printText = printText + " liegt vor " + verfolger.toString();
+        return printText;
+    }
 }
 
 // f)
