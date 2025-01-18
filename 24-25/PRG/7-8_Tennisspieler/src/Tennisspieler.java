@@ -1,6 +1,8 @@
 public class Tennisspieler {
     public String name;
     public int alter;
+    public Tennisspieler verfolger;
+    public int startNummer;
 
     // e)
     Tennisspieler(String name, int alter) {
