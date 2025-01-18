@@ -24,3 +24,9 @@ public class Tennisspieler {
         // auf das aktuelle Objekt in dem man sich befindet.
     }
 }
+
+// f)
+// Instanzvariablen: Variablen, die zu einer konkreten Instanz einer Klasse gehören.
+//                      Jede Instanz hat eine eigene Kopie dieser Variable.
+// Klassenvariablen: Variablen, die zu einer Klasse gehören und nicht zu einer Instanz.
+//                      Alle Instanzen verwenden die gleiche Variante der Variable. Definiert mit 'static'
