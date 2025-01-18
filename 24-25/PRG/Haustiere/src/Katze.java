@@ -1,8 +1,8 @@
 public class Katze extends Haustiere {
     String haltung;
 
-    public Katze(String name, double futtervorrat, String haltung) {
-        super(name, futtervorrat);
+    public Katze(String name, double futtervorrat, String haltung, int gewicht) {
+        super(name, futtervorrat, gewicht);
         this.haltung = haltung;
     }
 

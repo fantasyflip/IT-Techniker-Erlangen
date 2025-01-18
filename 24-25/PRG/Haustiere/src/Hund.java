@@ -1,8 +1,8 @@
 public class Hund extends Haustiere {
     String kategorie;
 
-    public Hund(String name, double futtervorrat, String kategorie) {
-        super(name, futtervorrat);
+    public Hund(String name, double futtervorrat, String kategorie, int gewicht) {
+        super(name, futtervorrat, gewicht);
         this.kategorie = kategorie;
     }
 
