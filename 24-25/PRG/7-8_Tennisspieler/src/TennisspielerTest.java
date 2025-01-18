@@ -2,7 +2,7 @@ public class TennisspielerTest {
     public static void main(String[] args) {
 
         Tennisspieler maier;
-        maier = new Tennisspieler();
+        maier = new Tennisspieler("Maier", 24);
 
         // b)
         // Durch die erste Zeile wird die Variable maier vom Typ Tennisspieler definiert.
