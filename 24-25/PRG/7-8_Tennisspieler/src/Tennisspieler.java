@@ -2,6 +2,17 @@ public class Tennisspieler {
     public String name;
     public int alter;
 
+    // e)
+    Tennisspieler(String name, int alter) {
+        this.name = name;
+        this.alter = alter;
+    }
+
+    // Der Konstruktur ist eine Methode einer gleichnamigen Klasse,
+    // die beim instanziieren eines Objekts ausgeführt wird.
+    // Sobald ein Konstruktor erstellt wird, der Parameter erwartet
+    // funktioniert der Aufruf "Tennisspieler maier = new Tennisspieler();" nicht mehr.
+
     public int alterDifferenz(int alter){
         // c)
         return Math.abs(alter - this.alter);
