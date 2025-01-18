@@ -41,6 +41,11 @@ public class Tennisspieler {
         // wird die Instanzvariable mit this. angesprochen. "this" referenziert somit
         // auf das aktuelle Objekt in dem man sich befindet.
     }
+
+    // l)
+    public boolean istLetzter(){
+        return this.verfolger == null;
+    }
 }
 
 // f)
