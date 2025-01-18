@@ -11,6 +11,19 @@ public class Tennisspieler {
     Tennisspieler(String name, int alter) {
         this.name = name;
         this.alter = alter;
+
+        // i)
+        this.startNummer = folgeNummer;
+        folgeNummer++;
+    }
+
+    // i)
+    Tennisspieler(String name, int alter, Tennisspieler verfolger) {
+        this.name = name;
+        this.alter = alter;
+        this.startNummer = folgeNummer;
+        this.verfolger = verfolger;
+        folgeNummer++;
     }
 
     // Der Konstruktur ist eine Methode einer gleichnamigen Klasse,
