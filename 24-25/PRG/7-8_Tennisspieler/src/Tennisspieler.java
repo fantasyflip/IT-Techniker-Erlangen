@@ -48,3 +48,8 @@ public class Tennisspieler {
 //                      Jede Instanz hat eine eigene Kopie dieser Variable.
 // Klassenvariablen: Variablen, die zu einer Klasse gehören und nicht zu einer Instanz.
 //                      Alle Instanzen verwenden die gleiche Variante der Variable. Definiert mit 'static'
+
+
+// k)
+// Instanzmethoden: Methode einer Instanz. Eine Instanz der Klasse muss existieren um sie aufzurufen
+// Klassenmethoden: Method einer Klasse, die keine Instanz benötigt um ausgeführt werden zu können. Definiert mit 'static'
