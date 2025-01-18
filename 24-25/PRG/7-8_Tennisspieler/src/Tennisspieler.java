@@ -3,7 +3,8 @@ public class Tennisspieler {
     public int alter;
     // g)
     public Tennisspieler verfolger;
-    public int startNummer;
+    // g) & n)
+    private int startNummer;
     // h)
     public static int folgeNummer = 1;
 
@@ -54,6 +55,14 @@ public class Tennisspieler {
             printText = printText + " liegt vor " + verfolger.toString();
         return printText;
     }
+
+    //n
+    public int getStartNummer() {
+        return startNummer;
+    }
+
+    // Indem man die Variable als private definiert, kann sie von außen weder gelesen, noch geändert werden.
+    // Um das Lesen trotzdem zuzulassen kann ein Getter erstellt werden.
 }
 
 // f)
