@@ -20,5 +20,8 @@ class Sandwich extends Vesper {
         // Wurst()
         // Salat()
         // Sandwich()
+
+        // b)
+        // Konstruktoren werden beim Instanziieren von Objekten aufgerufen
     }
 }
