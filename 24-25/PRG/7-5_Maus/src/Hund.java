@@ -14,7 +14,8 @@ class Hund extends Fuchs {
         // Katze    (Hund kommt vom Fuchs, Fuchs kommt von Katze -> Katze muss zuerst erstellt werden, da oberste Elternklasse)
         // Fuchs    (Hund kommt vom Fuchs -> Fuchs muss vor Hund erstellt werden)
         // Maus     (Maus wird erstellt)
-        // Ratte    (Maus existiert bereits -> Ratte kann erstellt werden)
+        // Maus     (Ratte kommt von Maus -> Maus muss zuerst erstellt werden, da Elternklasse)
+        // Ratte    (Ratte kann erstellt werden)
         // Hund     (Konstruktor der Klasse Hund wird ausgeführt -> Instanzvariablen werden initialisiert bevor der Konstruktor ausgeführt wird)
     }
 }
