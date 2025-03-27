@@ -6,10 +6,10 @@ public class LottoZiehen {
     public static void main(String[] args) {
         List<Integer> numbers = new ArrayList<>();
         SecureRandom secureRandom = new SecureRandom();
-        int superNumber = secureRandom.nextInt(50);
+        int superNumber = secureRandom.nextInt(50)+1;
 
         while (numbers.size() < 6) {
-            int randomNumber = secureRandom.nextInt(50);
+            int randomNumber = secureRandom.nextInt(50)+1;
             if (!numbers.contains(randomNumber)) {
                 numbers.add(randomNumber);
             }

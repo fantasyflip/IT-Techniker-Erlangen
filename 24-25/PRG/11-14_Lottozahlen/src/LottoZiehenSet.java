@@ -6,10 +6,10 @@ public class LottoZiehenSet {
     public static void main(String[] args) {
         Collection<Integer> numbers = new TreeSet<Integer>();
         SecureRandom secureRandom = new SecureRandom();
-        int superNumber = secureRandom.nextInt(50);
+        int superNumber = secureRandom.nextInt(49)+1;
 
         while(numbers.size()< 6){
-            numbers.add(secureRandom.nextInt(50));
+            numbers.add(secureRandom.nextInt(49)+1);
         }
 
         Iterator<Integer> iterator = numbers.iterator();
