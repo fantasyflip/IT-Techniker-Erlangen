@@ -63,6 +63,8 @@ public class PatientTest {
         // "getFamilienversichert", die nur in "Kassenpatient" definiert wurde, würde dementsprechend
         // nicht funktionieren.
         for(int i = 0; i < patienten.length; i++){
+            // Überspringen von leeren Zellen des Arrays
+            if(patienten[i]== null) break;
             // Hier steht eigentlich:
             // System.out.println(patienten[i].toString());
             // Der Methodenaufruf ".toString()" kann hier allerdings ignoriert werden.
