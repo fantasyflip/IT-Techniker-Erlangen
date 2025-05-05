@@ -12,11 +12,10 @@ public final class Privatpatient extends Patient {
      * im Elternkonstruktor eine solche checked exception werfen kann und diese hier
      * weitergegeben wird.
      */
-    public Privatpatient(String name, String vorname, int alter) throws PraxisVollException {
-        // Ruft den Elternkonstruktor auf, der PraxisVollException werfen kann.
+    public Privatpatient(String name, String vorname, int alter) throws PraxisVollException{
+        // super: Siehe Kassenpatient
         super(name, vorname, alter);
     }
-}
 
     public void printAbrechnung(){
         System.out.println("Abrechnung: " + "ABC");
