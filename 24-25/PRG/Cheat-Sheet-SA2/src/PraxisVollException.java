@@ -9,9 +9,7 @@ public class PraxisVollException extends Exception{
 
     // Dies ist der Standardkonstruktor. Er wird verwendet, wenn die Ausnahme ohne
     // eine spezifische Fehlermeldung erstellt wird.
-    public PraxisVollException(){
-
-    }
+    public PraxisVollException(){}
 
     // Dies ist ein überladener Konstruktor, der eine formatierte Fehlermeldung entgegennimmt.
     // Er verwendet die Methode `String.format()` um die übergebenen Argumente in die Nachricht einzufügen.

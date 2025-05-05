@@ -89,9 +89,9 @@ public class PatientTest {
             // Aufruf der Default-Methode aus dem Interface "Person"
             System.out.println(kp1.getIdentitaet()); // Konsole: Mustermann, Max
 
-        }catch (UngueltigerNameException e) {
+        } catch (UngueltigerNameException e) {
             System.out.println("Fehler: " + e.getMessage());
-        }catch (PraxisVollException e) {
+        } catch (PraxisVollException e) {
             e.printStackTrace();
         }
 
