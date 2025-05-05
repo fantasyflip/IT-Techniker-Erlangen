@@ -1,3 +1,7 @@
+import java.util.Random;
+
+
+
 // Abstract: Es kann keine Instanz der Klasse Patient erstellt werden.
 // Lediglich von der Klasse Patient abstammende Klassen wie "Kassenpatient" oder
 // "Privatpatient" können instanziiert werden. Patient legt lediglich die Grundstruktur fest.
@@ -15,6 +19,14 @@
 // Somit ist es hier möglich sowohl das Interface "Person" als auch das Interface "Mensch" auf die
 // Klasse "Patient" anzuwenden.
 
+// Angenommen, PraxisVollException erbt von Exception (oder einer anderen checked exception) und NICHT von RuntimeException.
+// Das bedeutet, dass diese Ausnahme explizit in der Methodensignatur deklariert werden muss und
+// vom aufrufenden Code entweder gefangen oder weitergeworfen werden muss.
+
+// Angenommen, UngueltigerNameException erbt von RuntimeException.
+// Das bedeutet, dass diese Ausnahme eine "unchecked exception" ist und nicht explizit
+// in der Methodensignatur deklariert werden muss, aber sie kann dennoch gefangen werden.
+
 abstract class Patient implements Person, Mensch {
     private String name;
     private String vorname;
@@ -27,11 +39,48 @@ abstract class Patient implements Person, Mensch {
     // wie viele Patienten instanziiert wurden.
     private static int anzahl;
 
-    public Patient(String name, String vorname, int alter) {
-        this.name = name;
-        this.vorname = vorname;
-        this.alter = alter;
-        anzahl++;
+    // Dies ist der Konstruktor der abstrakten Klasse Patient.
+    // Er ist für die Initialisierung der grundlegenden Patientendaten zuständig.
+    // WICHTIG: Dieser Konstruktor deklariert explizit, dass er eine 'PraxisVollException' werfen kann.
+    // Da 'PraxisVollException' eine checked exception ist (da sie nicht von RuntimeException erbt),
+    // MUSS sie hier deklariert werden, damit der Compiler weiß, dass diese Ausnahme auftreten kann.
+    // Die 'UngueltigerNameException' ist eine unchecked exception (da sie von RuntimeException erbt),
+    // daher muss sie nicht explizit mit 'throws' deklariert werden, obwohl sie es hier zur Klarheit tut.
+    // Deklaration mit 'throws' ist hier eine gute Praxis, um den Aufrufer zu informieren,
+    // dass diese Fehler auftreten können.
+    public Patient(String name, String vorname, int alter) throws PraxisVollException, UngueltigerNameException {
+        // Dieser Block prüft, ob die maximale Anzahl von Patienten (hier 3) erreicht ist.
+        // Wenn ja, wird eine 'PraxisVollException' geworfen.
+        // Da 'PraxisVollException' eine checked exception ist, MUSS der Code, der diesen Konstruktor aufruft,
+        // diese Ausnahme behandeln (entweder fangen oder weiterwerfen).
+        // Das Werfen einer Ausnahme unterbricht die normale Ausführung des Konstruktors.
+        // Der Code nach dem 'throw' wird nicht ausgeführt, wenn die Bedingung erfüllt ist.
+        if(anzahl >= 3){
+            throw new PraxisVollException("Maximale Patientenanzahl 3 erreicht");
+        } else {
+            // Dieser Block prüft die Gültigkeit des übergebenen Namens.
+            // Wenn der Name null oder leer ist, wird eine 'UngueltigerNameException' geworfen.
+            // Da 'UngueltigerNameException' eine unchecked exception ist, MUSS der Aufrufer sie nicht behandeln,
+            // aber er KANN es tun, wie im 'main'-Methodenbeispiel gezeigt.
+            if (name == null || name.trim().isEmpty()) {
+                throw new UngueltigerNameException("Der Name darf nicht leer sein.");
+            }
+            // Dieser Block prüft, ob der Name Zahlen enthält.
+            // Wenn ja, wird ebenfalls eine 'UngueltigerNameException' geworfen.
+            // Auch dies ist eine unchecked exception.
+            else if (name.matches(".*\\d+.*")) {
+                throw new UngueltigerNameException("Der Name darf keine Zahlen enthalten.");
+            }
+            // Wenn keine der Fehlerbedingungen erfüllt ist, wird der Name zugewiesen.
+            else {
+                this.name = name;
+            }
+            // Wenn keine Ausnahmen geworfen wurden, wird der Rest des Konstruktors ausgeführt.
+            this.vorname = vorname;
+            this.alter = alter;
+            anzahl++; // Die Anzahl der Patienten wird nur erhöht, wenn der Konstruktor erfolgreich durchläuft (keine Ausnahme geworfen wurde).
+            setPatientNr();
+        }
     }
 
     public String getName(){
@@ -56,6 +105,7 @@ abstract class Patient implements Person, Mensch {
 
     public void setPatientNr(){
         this.patientNr = (int)((Math.random() * 100) + 1)*42;
+        // this.patientNr = r.nextInt((9999 - 1000) + 1) + 1000;
     }
 
     // Jede Klasse stammt von der Klasse "Object" ab,
@@ -75,3 +125,4 @@ abstract class Patient implements Person, Mensch {
     // Damit eine Methode abstract sein kann, muss die Klasse auch abstract sein.
     public abstract void printAbrechnung();
 }
+
