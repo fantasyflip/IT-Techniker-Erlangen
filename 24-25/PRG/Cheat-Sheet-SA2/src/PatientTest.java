@@ -6,11 +6,38 @@ public class PatientTest {
         // In diesen Array können dann alle Subklassen der Elternklasse gespeichert werden.
         // In diesem Beispiel können "Kassenpatient" und "Privatpatient" in einem Array von Patienten
         // gespeichert werden, da sie beide von der Klasse "Patient" abstammen.
-        Patient[] patienten = new Patient[3];
+        Patient[] patienten = new Patient[4];
 
-        patienten[0] = new Privatpatient("Meier", "Hans", 45);
-        patienten[1] = new Kassenpatient("Müller", "Peter", 23, true);
-        patienten[2] = new Kassenpatient("Müller", "Daniela", 51, false);
+        // Der 'try'-Block umschließt Code, der potenziell eine Ausnahme (Exception) auslösen kann.
+        // In diesem Fall sind die Konstruktoren von 'Privatpatient' und 'Kassenpatient' (die vom 'Patient'-Konstruktor aufgerufen werden)
+        // so konzipiert, dass sie 'UngueltigerNameException' oder 'PraxisVollException' werfen können.
+        try {
+            patienten[0] = new Privatpatient("Meier", "Hans", 45);
+            patienten[1] = new Kassenpatient("Müller", "Peter", 23, true);
+            //Einkommentieren um den Praxisvoll Fehler zu verursachen
+            //patienten[2] = new Kassenpatient("Müller", "Daniela", 51, false);
+            //Einkommentieren um den Falschennamen Fehler zu verursachen
+            //patienten[2] = new Kassenpatient("Müller02", "Daniela", 51, false);
+        }
+        // Der erste 'catch'-Block fängt spezifisch die 'UngueltigerNameException' ab.
+        // Wenn eine 'UngueltigerNameException' im 'try'-Block geworfen wird, wird der Code in diesem 'catch'-Block ausgeführt.
+        // Hier wird die Fehlermeldung der Ausnahme auf der Konsole ausgegeben.
+        catch (UngueltigerNameException e) {
+            System.out.println("Fehler: " + e.getMessage());
+        }
+        // Der zweite 'catch'-Block fängt spezifisch die 'PraxisVollException' ab.
+        // Wenn eine 'PraxisVollException' im 'try'-Block geworfen wird (und keine 'UngueltigerNameException' zuvor gefangen wurde),
+        // wird der Code in diesem 'catch'-Block ausgeführt.
+        // Auch hier wird die Fehlermeldung der Ausnahme auf der Konsole ausgegeben.
+        // Die Reihenfolge der 'catch'-Blöcke ist wichtig: Spezifischere Ausnahmen sollten zuerst gefangen werden,
+        // gefolgt von allgemeineren Ausnahmen. In diesem Fall sind beide Ausnahmen spezifisch, aber die Reihenfolge
+        // spielt hier keine kritische Rolle, solange beide gefangen werden.
+        catch (PraxisVollException e) {
+            e.printStackTrace();
+        }
+        // Nach dem 'try-catch'-Block wird die Programmausführung fortgesetzt, unabhängig davon, ob eine Ausnahme aufgetreten ist oder nicht (solange sie gefangen wurde).
+        // Wenn eine Ausnahme auftritt und gefangen wird, wird der Rest des 'try'-Blocks übersprungen, aber der Code nach dem 'catch'-Block wird ausgeführt.
+
 
         // Da in der Elternklasse definiert ist, dass es eine Methode "toString" gibt kann diese Methode
         // auch auf den im Array aus Patienten gespeicherten Objekten ausgeführt werden. Je nachdem ob
@@ -33,15 +60,23 @@ public class PatientTest {
 
         System.out.println(patienten[0].getAnzahl()); // Konsole: 3
 
-        Kassenpatient kp1 = new Kassenpatient("Mustermann", "Max", 34, false);
+        try {
+            Kassenpatient kp1 = new Kassenpatient("Mustermann", "Max", 34, false);
 
-        // Ausführen der Methode "getName" aus der Elternklasse
-        System.out.println(kp1.getName()); // Konsole: Mustermann
-        // Ausführen der, in "Kassenpatient" überladenen, Methode "getName"
-        System.out.println(kp1.getName("Name:")); // Konsole: Name: Mustermann
+            // Ausführen der Methode "getName" aus der Elternklasse
+            System.out.println(kp1.getName()); // Konsole: Mustermann
+            // Ausführen der, in "Kassenpatient" überladenen, Methode "getName"
+            System.out.println(kp1.getName("Herr")); // Konsole: Name: Mustermann
 
-        // Aufruf der Default-Methode aus dem Interface "Person"
-        System.out.println(kp1.getIdentitaet()); // Konsole: Mustermann, Max
+            // Aufruf der Default-Methode aus dem Interface "Person"
+            System.out.println(kp1.getIdentitaet()); // Konsole: Mustermann, Max
+
+        }catch (UngueltigerNameException e) {
+            System.out.println("Fehler: " + e.getMessage());
+        }catch (PraxisVollException e) {
+            e.printStackTrace();
+        }
+
 
         // Aufruf der statischen Methode aus dem Interface "Person"
         Person.printHello(); // Konsole: Hello World!
