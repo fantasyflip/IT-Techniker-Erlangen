@@ -1,5 +1,5 @@
 public class Kassenpatient extends Patient {
-    boolean familienversichert;
+    private boolean familienversichert;
 
     public Kassenpatient(String name, String vorname, int alter, boolean familienversichert) {
         // Mit "super(...)" kann der Konstruktor von der Elternklasse aufgerufen werden.
@@ -21,5 +21,21 @@ public class Kassenpatient extends Patient {
         // Mit dem Aufruf "super.toString()" wird innerhalb der neuen Version der Methode "toString"
         // die Version aus "Patient" ausgeführt. So müssen gleichbleibende Inhalte nicht erneut geschrieben werden.
         return super.toString() + ", " +  familie;
+    }
+
+    public boolean getFamilienversichert(){
+        return familienversichert;
+    }
+
+    public void printAbrechnung(){
+        System.out.println("Abrechnung: " + "XYZ");
+    }
+
+    // Überladung einer Methode: Die Methode "getName" existiert bereits in der Elternklasse "Patient".
+    // Dort allerdings mit einem anderen Methodenkopf. In der Elternklasse nimmt die Methode keine Parameter an.
+    // Hier schon. Somit wird die Methode hier nicht überschrieben, sondern überladen. Ein Objekt von
+    // "Kassenpatient" kann dadurch beide Varianten aufrufen und verwenden. Siehe PatientTest.
+    public String getName(String prefix){
+        return prefix + " " + super.getName();
     }
 }

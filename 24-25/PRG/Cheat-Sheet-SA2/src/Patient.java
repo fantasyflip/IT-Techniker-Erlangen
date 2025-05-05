@@ -1,12 +1,21 @@
 // Abstract: Es kann keine Instanz der Klasse Patient erstellt werden.
 // Lediglich von der Klasse Patient abstammende Klassen wie "Kassenpatient" oder
-// "Privatpatient" können instanziert werden. Patient legt lediglich die Grundstruktur fest.
+// "Privatpatient" können instanziiert werden. Patient legt lediglich die Grundstruktur fest.
 // Das macht Sinn, weil ein Patient immer entweder privatversichert oder kassenversichert ist.
 // Allerdings teilen sowohl private als auch Kassenpatienten viele Eigenschaften. Deshalb sammelt man diese
 // Eigenschaften in der Grundklasse Patient.
-// Damit die nicht instanziiert werden kann macht man sie abstrakt.
+// Damit die nicht instanziiert werden kann, macht man sie abstrakt.
 
-abstract class Patient {
+// Implements: Das Interface "Person" wird auf die Klasse Patient angewandt. Die Klasse "Patient" muss somit
+// alle Methoden aus dem Interface "Person" enthalten. Da "Patient" abstract ist, würde kein Fehler auftreten,
+// wenn eine Methode aus dem Interface nicht implementiert wäre. Dafür wird dann aber in den Subklassen erzwungen,
+// dass die entsprechende Methode definiert ist. Vorteil eines Interface ist die Mehrfachvererbung.
+// Eine abstrakte Klasse kann zwar mehrere Kindklassen haben, aber immer nur eine Elternklasse.
+// Interfaces hingegen können mehrfach auf Klassen angewandt werden.
+// Somit ist es hier möglich sowohl das Interface "Person" als auch das Interface "Mensch" auf die
+// Klasse "Patient" anzuwenden.
+
+abstract class Patient implements Person, Mensch {
     private String name;
     private String vorname;
     private int patientNr;
@@ -59,4 +68,10 @@ abstract class Patient {
     public String toString(){
         return this.name + ", " + this.vorname + ", " + this.alter + ", " + this.patientNr;
     }
+
+    // Auch Methoden können abstract sein. Damit wird nur vorgegeben, dass die Methode in der
+    // Subklasse existieren muss. Es gibt also in "Kassenpatient" und "Privatpatient" zwingend eine
+    // Methode "printAbrechnung". Dort muss für diese Methode dann auch Syntax definiert sein.
+    // Damit eine Methode abstract sein kann, muss die Klasse auch abstract sein.
+    public abstract void printAbrechnung();
 }
