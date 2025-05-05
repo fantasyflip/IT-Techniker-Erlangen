@@ -6,10 +6,17 @@
 // einem "final" versehen werden, können sie in Subklassen nicht überschrieben werden.
 // Zur Info: "final" sorgt bei Variablen dafür, dass die Werte zu Konstanten werden.
 public final class Privatpatient extends Patient {
-    public Privatpatient(String name, String vorname, int alter){
-        // super: Siehe Kassenpatient
+    /**
+     * Konstruktor für Privatpatient.
+     * Muss "throws PraxisVollException" deklarieren, weil der Aufruf von super()
+     * im Elternkonstruktor eine solche checked exception werfen kann und diese hier
+     * weitergegeben wird.
+     */
+    public Privatpatient(String name, String vorname, int alter) throws PraxisVollException {
+        // Ruft den Elternkonstruktor auf, der PraxisVollException werfen kann.
         super(name, vorname, alter);
     }
+}
 
     public void printAbrechnung(){
         System.out.println("Abrechnung: " + "ABC");
