@@ -10,7 +10,7 @@ public final class Privatpatient extends Patient {
      * Konstruktor für Privatpatient.
      * Muss "throws PraxisVollException" deklarieren, weil der Aufruf von super()
      * im Elternkonstruktor eine solche checked exception werfen kann und diese hier
-     * weitergegeben wird.
+     * weitergegeben wird. Siehe Patient
      */
     public Privatpatient(String name, String vorname, int alter) throws PraxisVollException{
         // super: Siehe Kassenpatient

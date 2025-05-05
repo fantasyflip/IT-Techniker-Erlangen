@@ -1,7 +1,5 @@
 import java.util.Random;
 
-
-
 // Abstract: Es kann keine Instanz der Klasse Patient erstellt werden.
 // Lediglich von der Klasse Patient abstammende Klassen wie "Kassenpatient" oder
 // "Privatpatient" können instanziiert werden. Patient legt lediglich die Grundstruktur fest.
@@ -19,11 +17,11 @@ import java.util.Random;
 // Somit ist es hier möglich sowohl das Interface "Person" als auch das Interface "Mensch" auf die
 // Klasse "Patient" anzuwenden.
 
-// Angenommen, PraxisVollException erbt von Exception (oder einer anderen checked exception) und NICHT von RuntimeException.
+// PraxisVollException ist eine Kindklasse von Exception und NICHT von RuntimeException.
 // Das bedeutet, dass diese Ausnahme explizit in der Methodensignatur deklariert werden muss und
-// vom aufrufenden Code entweder gefangen oder weitergeworfen werden muss.
+// vom aufrufenden Code entweder gefangen oder weiter geworfen werden muss.
 
-// Angenommen, UngueltigerNameException erbt von RuntimeException.
+// UngueltigerNameException ist eine Kindklasse von RuntimeException.
 // Das bedeutet, dass diese Ausnahme eine "unchecked exception" ist und nicht explizit
 // in der Methodensignatur deklariert werden muss, aber sie kann dennoch gefangen werden.
 
@@ -41,18 +39,20 @@ abstract class Patient implements Person, Mensch {
 
     // Dies ist der Konstruktor der abstrakten Klasse Patient.
     // Er ist für die Initialisierung der grundlegenden Patientendaten zuständig.
+
     // WICHTIG: Dieser Konstruktor deklariert explizit, dass er eine 'PraxisVollException' werfen kann.
-    // Da 'PraxisVollException' eine checked exception ist (da sie nicht von RuntimeException erbt),
-    // MUSS sie hier deklariert werden, damit der Compiler weiß, dass diese Ausnahme auftreten kann.
-    // Die 'UngueltigerNameException' ist eine unchecked exception (da sie von RuntimeException erbt),
-    // daher muss sie nicht explizit mit 'throws' deklariert werden, obwohl sie es hier zur Klarheit tut.
+    // Da 'PraxisVollException' eine checked exception ist, MUSS sie hier deklariert werden, damit der Compiler weiß,
+    // dass diese Ausnahme auftreten kann.
+    // Die 'UngueltigerNameException' ist eine unchecked exception, daher muss sie nicht explizit mit 'throws'
+    // deklariert werden. Zur Klarheit wird es hier dennoch gemacht.
+
     // Deklaration mit 'throws' ist hier eine gute Praxis, um den Aufrufer zu informieren,
     // dass diese Fehler auftreten können.
     public Patient(String name, String vorname, int alter) throws PraxisVollException, UngueltigerNameException {
         // Dieser Block prüft, ob die maximale Anzahl von Patienten (hier 3) erreicht ist.
         // Wenn ja, wird eine 'PraxisVollException' geworfen.
         // Da 'PraxisVollException' eine checked exception ist, MUSS der Code, der diesen Konstruktor aufruft,
-        // diese Ausnahme behandeln (entweder fangen oder weiterwerfen).
+        // diese Ausnahme behandeln (entweder abfangen oder weiterwerfen).
         // Das Werfen einer Ausnahme unterbricht die normale Ausführung des Konstruktors.
         // Der Code nach dem 'throw' wird nicht ausgeführt, wenn die Bedingung erfüllt ist.
         if(anzahl >= 3){
@@ -67,7 +67,6 @@ abstract class Patient implements Person, Mensch {
             }
             // Dieser Block prüft, ob der Name Zahlen enthält.
             // Wenn ja, wird ebenfalls eine 'UngueltigerNameException' geworfen.
-            // Auch dies ist eine unchecked exception.
             else if (name.matches(".*\\d+.*")) {
                 throw new UngueltigerNameException("Der Name darf keine Zahlen enthalten.");
             }

@@ -9,34 +9,51 @@ public class PatientTest {
         Patient[] patienten = new Patient[4];
 
         // Der 'try'-Block umschließt Code, der potenziell eine Ausnahme (Exception) auslösen kann.
-        // In diesem Fall sind die Konstruktoren von 'Privatpatient' und 'Kassenpatient' (die vom 'Patient'-Konstruktor aufgerufen werden)
-        // so konzipiert, dass sie 'UngueltigerNameException' oder 'PraxisVollException' werfen können.
+        // In diesem Fall kann der Konstruktor der Klasse "Patient" Exceptions werfen.
+        // Da die Exceptions in den Klassen "Kassenpatient" und "Privatpatient" nicht behandelt werden,
+        // werden die Exceptions weiter geworfen und müssen teilweise an dieser Stelle nun behandelt werden.
+        // Nur teilweise ein Muss da eine Exception von RuntimeException abstammt. Siehe Patient.
         try {
             patienten[0] = new Privatpatient("Meier", "Hans", 45);
             patienten[1] = new Kassenpatient("Müller", "Peter", 23, true);
-            //Einkommentieren um den Praxisvoll Fehler zu verursachen
-            //patienten[2] = new Kassenpatient("Müller", "Daniela", 51, false);
-            //Einkommentieren um den Falschennamen Fehler zu verursachen
-            //patienten[2] = new Kassenpatient("Müller02", "Daniela", 51, false);
+
+            // Wenn die folgende Zeile ausgeführt werden würde, würde das eine "PraxisVollException" werfen,
+            // da in "Patient" definiert ist, dass ab 3 Patienten die Praxis voll ist.
+            // patienten[2] = new Kassenpatient("Müller", "Daniela", 51, false);
+
+            // Wenn die folgende Zeile ausgeführt werden würde, würde das eine "UngueltigerNameException" werfen,
+            // da in "Patient" definiert ist, dass ein Name keine Zahl enthalten darf
+            // patienten[2] = new Kassenpatient("Müller02", "Daniela", 51, false);
         }
+
+        // Die Reihenfolge der 'catch'-Blöcke ist wichtig: Spezifischere Ausnahmen sollten zuerst gefangen werden,
+        // gefolgt von allgemeineren Ausnahmen. In diesem Fall sind beide Ausnahmen spezifisch und werden einzeln abgefangen.
+        // Alternativ könnte man auch beide Exceptions allgemein abfangen, indem man mit der Elternklasse "Exception" arbeitet.
+
         // Der erste 'catch'-Block fängt spezifisch die 'UngueltigerNameException' ab.
         // Wenn eine 'UngueltigerNameException' im 'try'-Block geworfen wird, wird der Code in diesem 'catch'-Block ausgeführt.
-        // Hier wird die Fehlermeldung der Ausnahme auf der Konsole ausgegeben.
         catch (UngueltigerNameException e) {
+            // Hier wird die Fehlermeldung der Ausnahme auf der Konsole ausgegeben.
             System.out.println("Fehler: " + e.getMessage());
         }
+
         // Der zweite 'catch'-Block fängt spezifisch die 'PraxisVollException' ab.
         // Wenn eine 'PraxisVollException' im 'try'-Block geworfen wird (und keine 'UngueltigerNameException' zuvor gefangen wurde),
         // wird der Code in diesem 'catch'-Block ausgeführt.
-        // Auch hier wird die Fehlermeldung der Ausnahme auf der Konsole ausgegeben.
-        // Die Reihenfolge der 'catch'-Blöcke ist wichtig: Spezifischere Ausnahmen sollten zuerst gefangen werden,
-        // gefolgt von allgemeineren Ausnahmen. In diesem Fall sind beide Ausnahmen spezifisch, aber die Reihenfolge
-        // spielt hier keine kritische Rolle, solange beide gefangen werden.
         catch (PraxisVollException e) {
+            // Auch hier wird die Fehlermeldung der Ausnahme auf der Konsole ausgegeben.
             e.printStackTrace();
         }
-        // Nach dem 'try-catch'-Block wird die Programmausführung fortgesetzt, unabhängig davon, ob eine Ausnahme aufgetreten ist oder nicht (solange sie gefangen wurde).
-        // Wenn eine Ausnahme auftritt und gefangen wird, wird der Rest des 'try'-Blocks übersprungen, aber der Code nach dem 'catch'-Block wird ausgeführt.
+
+        // Allgemeines Abfangen jedes Fehlers
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Nach dem 'try-catch'-Block wird die Programmausführung fortgesetzt, unabhängig davon,
+        // ob eine Ausnahme aufgetreten ist oder nicht (solange sie gefangen wurde).
+        // Wenn eine Ausnahme auftritt und gefangen wird, wird der Rest des 'try'-Blocks übersprungen,
+        // aber der Code nach dem 'catch'-Block wird ausgeführt.
 
 
         // Da in der Elternklasse definiert ist, dass es eine Methode "toString" gibt kann diese Methode
@@ -56,9 +73,8 @@ public class PatientTest {
         // Konsole:
         // Meier, Hans, 45, 0
         // Müller, Peter, 23, 0, familienversichert
-        // Müller, Daniela, 51, 0, nicht familienversichert
 
-        System.out.println(patienten[0].getAnzahl()); // Konsole: 3
+        System.out.println(patienten[0].getAnzahl()); // Konsole: 2
 
         try {
             Kassenpatient kp1 = new Kassenpatient("Mustermann", "Max", 34, false);
