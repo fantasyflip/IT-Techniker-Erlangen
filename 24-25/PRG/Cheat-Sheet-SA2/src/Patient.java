@@ -1,5 +1,3 @@
-import java.util.Random;
-
 // Abstract: Es kann keine Instanz der Klasse Patient erstellt werden.
 // Lediglich von der Klasse Patient abstammende Klassen wie "Kassenpatient" oder
 // "Privatpatient" können instanziiert werden. Patient legt lediglich die Grundstruktur fest.
@@ -28,8 +26,14 @@ import java.util.Random;
 abstract class Patient implements Person, Mensch {
     private String name;
     private String vorname;
-    private int patientNr;
+    // "int" ist ein elementarer Datentyp
     private int alter;
+    // "Integer" ist der dazugehörige Wrapper-Datentyp.
+    // Wrapper-Datentypen sind Referenz-Datentypen und erben somit auch von der Klasse "Object".
+    // Dadurch können Datentypen wie "String" und "Integer" in einem Array vom Typ "Object" kombiniert
+    // werden, was mit "String" und "int" nicht möglich wäre.
+    private Integer patientNr;
+
     // Static: Die Variable ist unabhängig von der Instanz und ist für jede Instanz der Klasse Patient gleich.
     // Das bedeutet egal auf welcher Instanz von "Patient" die Variable "anzahl" verwendet wird,
     // befindet sich immer der gleiche Wert dahinter. Hier macht das Sinn, da hier eine allgemeine Information
@@ -95,7 +99,9 @@ abstract class Patient implements Person, Mensch {
     }
 
     public int getPatientNr(){
-        return this.patientNr;
+        // Um an den elementaren Datentyp einer Wrapper-Klasse zu gelangen muss man diesen theoretisch "unboxen". Das passiert mittlerweile allerdings automatisch.
+        // return this.patientNr.intValue(); // Nicht notwendig
+        return this.patientNr; // Auto-Unboxing
     }
 
     public static int getAnzahl(){
@@ -103,8 +109,9 @@ abstract class Patient implements Person, Mensch {
     }
 
     public void setPatientNr(){
-        this.patientNr = (int)((Math.random() * 100) + 1)*42;
-        // this.patientNr = r.nextInt((9999 - 1000) + 1) + 1000;
+        // Um den elementaren Datentyp einer Wrapper-Klasse zu setzen, muss man diesen theoretisch "boxen". Das passiert mittlerweile allerdings automatisch.
+        // this.patientNr = Integer.valueOf((int)((Math.random() * 100) + 1)*42); // Nicht notwendig
+        this.patientNr = (int)((Math.random() * 100) + 1)*42; // Autoboxing
     }
 
     // Jede Klasse stammt von der Klasse "Object" ab,
