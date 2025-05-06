@@ -14,6 +14,7 @@
 // Interfaces hingegen können mehrfach auf Klassen angewandt werden.
 // Somit ist es hier möglich sowohl das Interface "Person" als auch das Interface "Mensch" auf die
 // Klasse "Patient" anzuwenden.
+// Außerdem wird das Interface "Comparable" angewandt um die Klasse "Patient" in einem Set verwenden zu können
 
 // PraxisVollException ist eine Kindklasse von Exception und NICHT von RuntimeException.
 // Das bedeutet, dass diese Ausnahme explizit in der Methodensignatur deklariert werden muss und
@@ -23,7 +24,7 @@
 // Das bedeutet, dass diese Ausnahme eine "unchecked exception" ist und nicht explizit
 // in der Methodensignatur deklariert werden muss, aber sie kann dennoch gefangen werden.
 
-abstract class Patient implements Person, Mensch {
+abstract class Patient implements Person, Mensch, Comparable<Patient> {
     private String name;
     private String vorname;
     // "int" ist ein elementarer Datentyp
@@ -53,13 +54,13 @@ abstract class Patient implements Person, Mensch {
     // Deklaration mit 'throws' ist hier eine gute Praxis, um den Aufrufer zu informieren,
     // dass diese Fehler auftreten können.
     public Patient(String name, String vorname, int alter) throws PraxisVollException, UngueltigerNameException {
-        // Dieser Block prüft, ob die maximale Anzahl von Patienten (hier 6) erreicht ist.
+        // Dieser Block prüft, ob die maximale Anzahl von Patienten (hier 8) erreicht ist.
         // Wenn ja, wird eine 'PraxisVollException' geworfen.
         // Da 'PraxisVollException' eine checked exception ist, MUSS der Code, der diesen Konstruktor aufruft,
         // diese Ausnahme behandeln (entweder abfangen oder weiterwerfen).
         // Das Werfen einer Ausnahme unterbricht die normale Ausführung des Konstruktors.
         // Der Code nach dem 'throw' wird nicht ausgeführt, wenn die Bedingung erfüllt ist.
-        if(anzahl >= 6){
+        if(anzahl >= 8){
             throw new PraxisVollException("Maximale Patientenanzahl erreicht");
         } else {
             // Dieser Block prüft die Gültigkeit des übergebenen Namens.
@@ -130,5 +131,9 @@ abstract class Patient implements Person, Mensch {
     // Methode "printAbrechnung". Dort muss für diese Methode dann auch Syntax definiert sein.
     // Damit eine Methode abstract sein kann, muss die Klasse auch abstract sein.
     public abstract void printAbrechnung();
+
+    public int compareTo(Patient p){
+        return Integer.compare(p.getPatientNr(), this.getPatientNr());
+    }
 }
 

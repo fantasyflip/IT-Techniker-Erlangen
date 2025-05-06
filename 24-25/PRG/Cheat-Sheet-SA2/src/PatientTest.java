@@ -1,3 +1,7 @@
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.TreeSet;
+
 public class PatientTest {
     public static void main(String[] args) {
         // Patient ist eine abstrakte Klasse. Eine Instanziierung wie
@@ -6,7 +10,7 @@ public class PatientTest {
         // In diesen Array können dann alle Subklassen der Elternklasse gespeichert werden.
         // In diesem Beispiel können "Kassenpatient" und "Privatpatient" in einem Array von Patienten
         // gespeichert werden, da sie beide von der Klasse "Patient" abstammen.
-        Patient[] patienten = new Patient[6];
+        Patient[] patienten = new Patient[8];
 
         // Der 'try'-Block umschließt Code, der potenziell eine Ausnahme (Exception) auslösen kann.
         // In diesem Fall kann der Konstruktor der Klasse "Patient" Exceptions werfen.
@@ -23,6 +27,8 @@ public class PatientTest {
             // patienten[3] = new Kassenpatient("Müller", "Daniela", 51, false);
             // patienten[4] = new Kassenpatient("Müller", "Daniela", 51, false);
             // patienten[5] = new Kassenpatient("Müller", "Daniela", 51, false);
+            // patienten[6] = new Kassenpatient("Müller", "Daniela", 51, false);
+            // patienten[7] = new Kassenpatient("Müller", "Daniela", 51, false);
 
             // Wenn die folgende Zeile ausgeführt werden würde, würde das eine "UngueltigerNameException" werfen,
             // da in "Patient" definiert ist, dass ein Name keine Zahl enthalten darf
@@ -125,6 +131,100 @@ public class PatientTest {
             printFensterbett(zimmer1); // Konsole: Schmidt, Andreas, 44, 2394, nicht familienversichert
 
             printWandbett(zimmer1); // Konsole: Hartmann, Fixi, 22, 630, familienversichert
+        }
+        catch (PraxisVollException e){
+            e.printStackTrace();
+        }
+
+        // Alternativ zu einem Array können mehrere Referenzobjekte in einer Collection gespeichert werden.
+        // Collections können dynamisch wachsen und schrumpfen und benötigen daher keine vordefinierte Größe.
+        // Die Größe kann sich während der Laufzeit verändern.
+        // Die Collection kann dabei entweder eine "List" oder ein "Set" sein.
+        // Beide Varianten haben eigene Eigenschaften.
+        // List: Geordnete Folge von Elementen
+        // Set: Sammlung von Objekten, in der jedes Objekt nur einmal vorkommen darf
+        // -> Mit einem SortedSet (Kindklasse zu Set) ist auch ein Set in einer geordneten Reihenfolge
+        try {
+            Privatpatient pp1 = new Privatpatient("Meier", "Michael", 45);
+            Kassenpatient kp1 = new Kassenpatient("Meier", "Max", 34, false);
+
+            // Abstammung von TreeSet: Collection -> Set -> SortedSet -> TreeSet
+            // Da TreeSet also ein SortedSet ist muss die Klasse, aus der ein TreeSet erstellt werden soll,
+            // das Interface "Comparable<T>" implementieren (Siehe Patient)
+            // Das TreeSet fügt Elemente automatisch in der richtigen, sortierten Reihenfolge aus.
+            TreeSet<Patient> patientSet = new TreeSet<>();
+            patientSet.add(pp1);
+            patientSet.add(kp1);
+
+            // Jede Collection enthält einen Iterator, um über die Collection zu iterieren
+            // und alle Elemente zu erreichen
+            Iterator<Patient> it = patientSet.iterator();
+
+            // Jeder Iterator hat die Methoden "next", "hasNext" und "remove".
+            // Damit kann über jedes Element iteriert werden
+            // While-Schleife
+            while(it.hasNext()){
+                System.out.println(it.next());
+            }
+            // For-Schleife (ausführlich)
+            for(Iterator<Patient> i = patientSet.iterator(); i.hasNext();){
+                System.out.println(i.next());
+            }
+            // For-Schleife (simpel/kurz)
+            for(Patient p : patientSet){
+                System.out.println(p);
+            }
+
+            // Konsole bei allen drei Varianten:
+            // Meier, Michael, 45, 3612
+            // Meier, Max, 34, 882, nicht familienversichert
+
+            // Mit "size" lässt sich die Größe einer Collection ausgeben
+            System.out.println(patientSet.size()); // Konsole: 2
+
+            // Da ein Set keine Duplikate enthalten darf, hat die folgende Zeile keine Auswirkung auf die Collection. Es bleiben weiterhin 2 Elemente.
+            patientSet.add(pp1);
+            System.out.println(patientSet.size()); // Konsole: 2
+
+
+            // Gleicher Programmablauf mit einer LinkedList:
+
+            // Abstammung von LinkedList: Collection -> List -> LinkedList
+            // Die List fügt Elemente immer am Ende an.
+            LinkedList<Patient> patientList = new LinkedList<>();
+            patientList.add(pp1);
+            patientList.add(kp1);
+
+            // Jede Collection enthält einen Iterator, um über die Collection zu iterieren
+            // und alle Elemente zu erreichen
+            Iterator<Patient> it2 = patientList.iterator();
+
+            // Jeder Iterator hat die Methoden "next", "hasNext" und "remove".
+            // Damit kann über jedes Element iteriert werden
+            // While-Schleife
+            while(it.hasNext()){
+                System.out.println(it2.next());
+            }
+            // For-Schleife (ausführlich)
+            for(Iterator<Patient> i = patientList.iterator(); i.hasNext();){
+                System.out.println(i.next());
+            }
+            // For-Schleife (simpel/kurz)
+            for(Patient p : patientList){
+                System.out.println(p);
+            }
+
+            // Konsole bei allen drei Varianten:
+            // Meier, Michael, 45, 3612
+            // Meier, Max, 34, 882, nicht familienversichert
+
+            // Mit "size" lässt sich die Größe einer Collection ausgeben
+            System.out.println(patientList.size()); // Konsole: 2
+
+            // Anders als bei einem Set wird bei einer List nicht auf Duplikate überprüft
+            patientList.add(pp1);
+            System.out.println(patientList.size()); // Konsole: 3
+
         }
         catch (PraxisVollException e){
             e.printStackTrace();
