@@ -49,14 +49,14 @@ abstract class Patient implements Person, Mensch {
     // Deklaration mit 'throws' ist hier eine gute Praxis, um den Aufrufer zu informieren,
     // dass diese Fehler auftreten können.
     public Patient(String name, String vorname, int alter) throws PraxisVollException, UngueltigerNameException {
-        // Dieser Block prüft, ob die maximale Anzahl von Patienten (hier 3) erreicht ist.
+        // Dieser Block prüft, ob die maximale Anzahl von Patienten (hier 6) erreicht ist.
         // Wenn ja, wird eine 'PraxisVollException' geworfen.
         // Da 'PraxisVollException' eine checked exception ist, MUSS der Code, der diesen Konstruktor aufruft,
         // diese Ausnahme behandeln (entweder abfangen oder weiterwerfen).
         // Das Werfen einer Ausnahme unterbricht die normale Ausführung des Konstruktors.
         // Der Code nach dem 'throw' wird nicht ausgeführt, wenn die Bedingung erfüllt ist.
-        if(anzahl >= 3){
-            throw new PraxisVollException("Maximale Patientenanzahl 3 erreicht");
+        if(anzahl >= 6){
+            throw new PraxisVollException("Maximale Patientenanzahl erreicht");
         } else {
             // Dieser Block prüft die Gültigkeit des übergebenen Namens.
             // Wenn der Name null oder leer ist, wird eine 'UngueltigerNameException' geworfen.
