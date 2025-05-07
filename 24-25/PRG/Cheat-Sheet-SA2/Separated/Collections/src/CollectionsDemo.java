@@ -1,5 +1,13 @@
-
 import java.util.*;
+
+// Alternativ zu einem Array können mehrere Referenzobjekte in einer Collection gespeichert werden.
+// Collections können dynamisch wachsen und schrumpfen und benötigen daher keine vordefinierte Größe.
+// Die Größe kann sich während der Laufzeit verändern.
+// Die Collection kann dabei entweder eine "List" oder ein "Set" sein.
+// Beide Varianten haben eigene Eigenschaften.
+// List: Geordnete Folge von Elementen
+// Set: Sammlung von Objekten, in der jedes Objekt nur einmal vorkommen darf
+// -> Mit einem SortedSet (Kindklasse zu Set) ist auch ein Set in einer geordneten Reihenfolge
 
 class CollectionsDemo {
     public static void main(String[] args){
@@ -115,3 +123,32 @@ class CollectionsDemo {
 //        | LinkedHashMap | ❌        | Schlüssel: ❌      | ✅                    | ❌              |
 //        | TreeMap       | ✅        | Schlüssel: ❌      | automatisch sortiert  | ❌              |
 //        | Hashtable     | ❌        | Schlüssel: ❌      | ❌                    | ✅ (veraltet)   |
+
+// Für jeden elementaren Datentyp gibt es eine entsprechende Wrapper-Klasse im Paket java.lang.
+// Diese Klassen ermöglichen es, primitive Werte als Objekte zu behandeln. (Sie erben somit ebenfalls von "Object")
+// Dies ist notwendig, wenn man primitive Werte in Kontexten verwenden möchte,
+// die Objekte erfordern (z.B. in Collections wie ArrayList oder wenn man Methoden auf den Werten aufrufen möchte).
+//
+// Elementarer Datentyp		|	Wrapper-Klasse
+//		boolean 			|		Boolean
+//		byte 				|		Byte
+//		short 				|		Short
+//		int 				|		Integer
+//		long 				|		Long
+//		float 				|		Float
+//		double 				|		Double
+//		char		 		|		Character
+//
+// Boxing - Beispiel:
+// public int getPatientNr(){
+//        // Um an den elementaren Datentyp einer Wrapper-Klasse zu gelangen muss man diesen theoretisch "unboxen". Das passiert mittlerweile allerdings automatisch.
+//        // return this.patientNr.intValue(); // Nicht notwendig
+//        return this.patientNr; // Auto-Unboxing
+//    }
+//
+// Unboxing - Beispiel:
+// public void setPatientNr(){
+//        // Um den elementaren Datentyp einer Wrapper-Klasse zu setzen, muss man diesen theoretisch "boxen". Das passiert mittlerweile allerdings automatisch.
+//        // this.patientNr = Integer.valueOf((int)((Math.random() * 100) + 1)*42); // Nicht notwendig
+//        this.patientNr = (int)((Math.random() * 100) + 1)*42; // Autoboxing
+//    }
