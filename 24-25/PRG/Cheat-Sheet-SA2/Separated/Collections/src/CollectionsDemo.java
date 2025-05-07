@@ -1,13 +1,15 @@
 import java.util.*;
 
-// Alternativ zu einem Array können mehrere Referenzobjekte in einer Collection gespeichert werden.
-// Collections können dynamisch wachsen und schrumpfen und benötigen daher keine vordefinierte Größe.
+// Alternativ zu einem Array können mehrere Referenzobjekte in einer Collection
+// gespeichert werden. Collections können dynamisch wachsen und schrumpfen und
+// benötigen daher keine vordefinierte Größe.
 // Die Größe kann sich während der Laufzeit verändern.
 // Die Collection kann dabei entweder eine "List" oder ein "Set" sein.
 // Beide Varianten haben eigene Eigenschaften.
 // List: Geordnete Folge von Elementen
 // Set: Sammlung von Objekten, in der jedes Objekt nur einmal vorkommen darf
-// -> Mit einem SortedSet (Kindklasse zu Set) ist auch ein Set in einer geordneten Reihenfolge
+// -> Mit einem SortedSet (Kindklasse zu Set) ist auch ein Set in einer
+// geordneten Reihenfolge
 
 class CollectionsDemo {
     public static void main(String[] args){
@@ -47,9 +49,11 @@ class CollectionsDemo {
 
 
         // Abstammung von TreeSet: Collection -> Set -> SortedSet -> TreeSet
-        // Da TreeSet also ein SortedSet ist muss die Klasse, aus der ein TreeSet erstellt werden soll,
-        // das Interface "Comparable<T>" implementieren (siehe Auto)
-        // Das TreeSet fügt Elemente automatisch in der richtigen sortierten Reihenfolge hinzu.
+        // Da TreeSet also ein SortedSet ist muss die Klasse, aus der ein TreeSet
+        // erstellt werden soll, das Interface "Comparable<T>" implementieren
+        // (siehe Auto)
+        // Das TreeSet fügt Elemente automatisch in der richtigen sortierten
+        // Reihenfolge hinzu.
         Set<Integer> treeSet = new TreeSet<>();
         treeSet.add(100);
         treeSet.add(50);
@@ -112,22 +116,11 @@ class CollectionsDemo {
 
 
 
-//        | Typ           | Sortiert  | Duplikate erlaubt   | Einfügereihenfolge    | Synchronisiert  |
-//        | ------------- | --------- | ------------------ | ---------------------- | --------------- |
-//        | ArrayList     | ❌        | ✅                 | ✅                    | ❌              |
-//        | LinkedList    | ❌        | ✅                 | ✅                    | ❌              |
-//        | HashSet       | ❌        | ❌                 | ❌                    | ❌              |
-//        | LinkedHashSet | ❌        | ❌                 | ✅                    | ❌              |
-//        | TreeSet       | ✅        | ❌                 | automatisch sortiert  | ❌              |
-//        | HashMap       | ❌        | Schlüssel: ❌      | ❌                    | ❌              |
-//        | LinkedHashMap | ❌        | Schlüssel: ❌      | ✅                    | ❌              |
-//        | TreeMap       | ✅        | Schlüssel: ❌      | automatisch sortiert  | ❌              |
-//        | Hashtable     | ❌        | Schlüssel: ❌      | ❌                    | ✅ (veraltet)   |
-
-// Für jeden elementaren Datentyp gibt es eine entsprechende Wrapper-Klasse im Paket java.lang.
-// Diese Klassen ermöglichen es, primitive Werte als Objekte zu behandeln. (Sie erben somit ebenfalls von "Object")
-// Dies ist notwendig, wenn man primitive Werte in Kontexten verwenden möchte,
-// die Objekte erfordern (z.B. in Collections wie ArrayList oder wenn man Methoden auf den Werten aufrufen möchte).
+// Für jeden elementaren Datentyp gibt es eine entsprechende Wrapper-Klasse im Paket
+// java.lang. Diese Klassen ermöglichen es, primitive Werte als Objekte zu behandeln.
+// (Sie erben somit ebenfalls von "Object") Dies ist notwendig, wenn man primitive
+// Werte in Kontexten verwenden möchte, die Objekte erfordern (z.B. in Collections
+// wie ArrayList oder wenn man Methoden auf den Werten aufrufen möchte).
 //
 // Elementarer Datentyp		|	Wrapper-Klasse
 //		boolean 			|		Boolean
@@ -141,14 +134,17 @@ class CollectionsDemo {
 //
 // Boxing - Beispiel:
 // public int getPatientNr(){
-//        // Um an den elementaren Datentyp einer Wrapper-Klasse zu gelangen muss man diesen theoretisch "unboxen". Das passiert mittlerweile allerdings automatisch.
+//        // Um an den elementaren Datentyp einer Wrapper-Klasse zu gelangen muss man
+//        // diesen theoretisch "unboxen". Das passiert mittlerweile allerdings
+//        // automatisch.
 //        // return this.patientNr.intValue(); // Nicht notwendig
 //        return this.patientNr; // Auto-Unboxing
 //    }
 //
 // Unboxing - Beispiel:
 // public void setPatientNr(){
-//        // Um den elementaren Datentyp einer Wrapper-Klasse zu setzen, muss man diesen theoretisch "boxen". Das passiert mittlerweile allerdings automatisch.
-//        // this.patientNr = Integer.valueOf((int)((Math.random() * 100) + 1)*42); // Nicht notwendig
-//        this.patientNr = (int)((Math.random() * 100) + 1)*42; // Autoboxing
+//        // Um den elementaren Datentyp einer Wrapper-Klasse zu setzen, muss man diesen
+//        // theoretisch "boxen". Das passiert mittlerweile allerdings automatisch.
+//        // this.patientNr = Integer.valueOf(42); // Nicht notwendig
+//        this.patientNr = 42; // Autoboxing
 //    }

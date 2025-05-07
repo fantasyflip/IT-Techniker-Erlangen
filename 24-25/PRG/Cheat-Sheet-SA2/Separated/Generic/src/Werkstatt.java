@@ -1,9 +1,11 @@
-// Generische Klassen ermöglichen es allgemeine Klassendefinitionen zu erstellen. Dazu wird innerhalb
-// der Klasse kein konkreter Datentyp verwendet, sondern ein Platzhalter. In diesem Fall ist der
-// Platzhalter "T". Bei der Instanziierung wird der gewünschte Datentyp dann als Parameter in
-// </>-Klammern übergeben. In diesem Fall soll eine Werkstatt als Klasse definiert werden. In
-// eine Werkstatt dürfen nur Autos des gleichen Typs. Außerdem wird durch das "extends Auto" festgelegt,
-// dass der übergebene Datentyp "Auto" oder eine Kindklasse davon sein muss. Da "Auto" abstract ist, muss es eine Kindklasse sein.
+// Generische Klassen ermöglichen es allgemeine Klassendefinitionen zu erstellen.
+// Dazu wird innerhalb der Klasse kein konkreter Datentyp verwendet, sondern ein
+// Platzhalter. In diesem Fall ist der Platzhalter "T". Bei der Instanziierung
+// wird der gewünschte Datentyp dann als Parameter in </>-Klammern übergeben. In
+// diesem Fall soll eine Werkstatt als Klasse definiert werden. In eine Werkstatt
+// dürfen nur Autos des gleichen Typs. Außerdem wird durch das "extends Auto"
+// festgelegt, dass der übergebene Datentyp "Auto" oder eine Kindklasse davon sein
+// muss. Da "Auto" abstract ist, muss es eine Kindklasse sein.
 public class Werkstatt<T extends Auto> {
 
     private T hebeBuehne1, hebeBuehne2;

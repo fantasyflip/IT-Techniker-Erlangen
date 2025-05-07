@@ -6,22 +6,26 @@ public class PatientTest {
     public static void main(String[] args) {
         // Patient ist eine abstrakte Klasse. Eine Instanziierung wie
         // Patient p1  = new Patient();
-        // würde also nicht funktionieren. Allerdings lässt sich ein Array der Elternklasse anlegen.
-        // In diesen Array können dann alle Subklassen der Elternklasse gespeichert werden.
-        // In diesem Beispiel können "Kassenpatient" und "Privatpatient" in einem Array von Patienten
-        // gespeichert werden, da sie beide von der Klasse "Patient" abstammen.
+        // würde also nicht funktionieren. Allerdings lässt sich ein Array der
+        // Elternklasse anlegen. In diesen Array können dann alle Subklassen der
+        // Elternklasse gespeichert werden.
+        // In diesem Beispiel können "Kassenpatient" und "Privatpatient" in einem
+        // Array von Patienten gespeichert werden, da sie beide von der Klasse "Patient"
+        // abstammen.
         Patient[] patienten = new Patient[8];
 
-        // Der 'try'-Block umschließt Code, der potenziell eine Ausnahme (Exception) auslösen kann.
-        // In diesem Fall kann der Konstruktor der Klasse "Patient" Exceptions werfen.
-        // Da die Exceptions in den Klassen "Kassenpatient" und "Privatpatient" nicht behandelt werden,
-        // werden die Exceptions weiter geworfen und müssen teilweise an dieser Stelle nun behandelt werden.
-        // Nur teilweise ein Muss da eine Exception von RuntimeException abstammt. Siehe Patient.
+        // Der 'try'-Block umschließt Code, der potenziell eine Ausnahme (Exception)
+        // auslösen kann. In diesem Fall kann der Konstruktor der Klasse "Patient"
+        // Exceptions werfen. Da die Exceptions in den Klassen "Kassenpatient" und
+        // "Privatpatient" nicht behandelt werden, werden die Exceptions weiter geworfen
+        // und müssen teilweise an dieser Stelle nun behandelt werden. Nur teilweise ein
+        // Muss da eine Exception von RuntimeException abstammt. Siehe Patient.
         try {
             patienten[0] = new Privatpatient("Meier", "Hans", 45);
             patienten[1] = new Kassenpatient("Müller", "Peter", 23, true);
 
-            // Wenn die folgenden Zeilen ausgeführt werden würden, würde das eine "PraxisVollException" werfen,
+            // Wenn die folgenden Zeilen ausgeführt werden würden, würde das eine
+            // "PraxisVollException" werfen,
             // da in "Patient" definiert ist, dass ab 6 Patienten die Praxis voll ist.
             // patienten[2] = new Kassenpatient("Müller", "Daniela", 51, false);
             // patienten[3] = new Kassenpatient("Müller", "Daniela", 51, false);
@@ -30,25 +34,30 @@ public class PatientTest {
             // patienten[6] = new Kassenpatient("Müller", "Daniela", 51, false);
             // patienten[7] = new Kassenpatient("Müller", "Daniela", 51, false);
 
-            // Wenn die folgende Zeile ausgeführt werden würde, würde das eine "UngueltigerNameException" werfen,
-            // da in "Patient" definiert ist, dass ein Name keine Zahl enthalten darf
+            // Wenn die folgende Zeile ausgeführt werden würde, würde das eine
+            // "UngueltigerNameException" werfen, da in "Patient" definiert ist, dass
+            // ein Name keine Zahl enthalten darf
             // patienten[2] = new Kassenpatient("Müller02", "Daniela", 51, false);
         }
 
-        // Die Reihenfolge der 'catch'-Blöcke ist wichtig: Spezifischere Ausnahmen sollten zuerst gefangen werden,
-        // gefolgt von allgemeineren Ausnahmen. In diesem Fall sind beide Ausnahmen spezifisch und werden einzeln abgefangen.
-        // Alternativ könnte man auch beide Exceptions allgemein abfangen, indem man mit der Elternklasse "Exception" arbeitet.
+        // Die Reihenfolge der 'catch'-Blöcke ist wichtig: Spezifischere Ausnahmen
+        // sollten zuerst gefangen werden, gefolgt von allgemeineren Ausnahmen. In diesem
+        // Fall sind beide Ausnahmen spezifisch und werden einzeln abgefangen.
+        // Alternativ könnte man auch beide Exceptions allgemein abfangen, indem man mit
+        // der Elternklasse "Exception" arbeitet.
 
         // Der erste 'catch'-Block fängt spezifisch die 'UngueltigerNameException' ab.
-        // Wenn eine 'UngueltigerNameException' im 'try'-Block geworfen wird, wird der Code in diesem 'catch'-Block ausgeführt.
+        // Wenn eine 'UngueltigerNameException' im 'try'-Block geworfen wird, wird der
+        // Code in diesem 'catch'-Block ausgeführt.
         catch (UngueltigerNameException e) {
             // Hier wird die Fehlermeldung der Ausnahme auf der Konsole ausgegeben.
             System.out.println("Fehler: " + e.getMessage());
         }
 
         // Der zweite 'catch'-Block fängt spezifisch die 'PraxisVollException' ab.
-        // Wenn eine 'PraxisVollException' im 'try'-Block geworfen wird (und keine 'UngueltigerNameException' zuvor gefangen wurde),
-        // wird der Code in diesem 'catch'-Block ausgeführt.
+        // Wenn eine 'PraxisVollException' im 'try'-Block geworfen wird (und keine
+        // 'UngueltigerNameException' zuvor gefangen wurde), wird der Code in diesem
+        // 'catch'-Block ausgeführt.
         catch (PraxisVollException e) {
             // Auch hier wird die Fehlermeldung der Ausnahme auf der Konsole ausgegeben.
             e.printStackTrace();
@@ -59,18 +68,20 @@ public class PatientTest {
             e.printStackTrace();
         }
 
-        // Nach dem 'try-catch'-Block wird die Programmausführung fortgesetzt, unabhängig davon,
-        // ob eine Ausnahme aufgetreten ist oder nicht (solange sie gefangen wurde).
-        // Wenn eine Ausnahme auftritt und gefangen wird, wird der Rest des 'try'-Blocks übersprungen,
-        // aber der Code nach dem 'catch'-Block wird ausgeführt.
+        // Nach dem 'try-catch'-Block wird die Programmausführung fortgesetzt,
+        // unabhängig davon, ob eine Ausnahme aufgetreten ist oder nicht (solange sie
+        // gefangen wurde). Wenn eine Ausnahme auftritt und gefangen wird, wird der Rest
+        // des 'try'-Blocks übersprungen, aber der Code nach dem 'catch'-Block wird
+        // ausgeführt.
 
 
-        // Da in der Elternklasse definiert ist, dass es eine Methode "toString" gibt kann diese Methode
-        // auch auf den im Array aus Patienten gespeicherten Objekten ausgeführt werden. Je nachdem ob
-        // das betroffene Objekt dann ein "Kassenpatient" oder ein "Privatpatient" ist, wird die
-        // entsprechende Version der Methode "toString" ausgeführt. Der Aufruf der Methode
-        // "getFamilienversichert", die nur in "Kassenpatient" definiert wurde, würde dementsprechend
-        // nicht funktionieren.
+        // Da in der Elternklasse definiert ist, dass es eine Methode "toString" gibt
+        // kann diese Methode auch auf den im Array aus Patienten gespeicherten Objekten
+        // ausgeführt werden. Je nachdem ob das betroffene Objekt dann ein
+        // "Kassenpatient" oder ein "Privatpatient" ist, wird die entsprechende Version
+        // der Methode "toString" ausgeführt. Der Aufruf der Methode
+        // "getFamilienversichert", die nur in "Kassenpatient" definiert wurde, würde
+        // dementsprechend nicht funktionieren.
         for(int i = 0; i < patienten.length; i++){
             // Überspringen von leeren Zellen des Arrays
             if(patienten[i]== null) break;
@@ -78,7 +89,9 @@ public class PatientTest {
             // System.out.println(patienten[i].toString());
             // Der Methodenaufruf ".toString()" kann hier allerdings ignoriert werden.
             System.out.println(patienten[i]);
-            // System.out.println(patienten[i].getFamilienversichert()); // Funktioniert nicht!
+
+            // Funktioniert nicht!
+            // System.out.println(patienten[i].getFamilienversichert());
         }
 
         // Konsole:
@@ -110,14 +123,16 @@ public class PatientTest {
 
 
         try {
-            // Erstellen eines Zweibettzimmers. Es wird angenommen, dass nur gleiche Patiententypen gemeinsam in ein Zimmer dürfen
+            // Erstellen eines Zweibettzimmers. Es wird angenommen, dass nur gleiche
+            // Patiententypen gemeinsam in ein Zimmer dürfen
             Kassenpatient kpA = new Kassenpatient("Schmidt", "Andreas", 44, false);
             Kassenpatient kpB = new Kassenpatient("Hartmann", "Fixi", 22, true);
 
             // In den </> Klammern wird der generischen Klasse der Datentyp übergeben
             ZweiBettZimmer<Kassenpatient> zimmer1 = new ZweiBettZimmer<>(kpA, kpB);
 
-            // Da nur Patienten des gleichen Typs in ein Zimmer dürfen, wäre folgender Aufruf nicht möglich
+            // Da nur Patienten des gleichen Typs in ein Zimmer dürfen, wäre folgender
+            // Aufruf nicht möglich
             //  Kassenpatient kpA = new Kassenpatient("Schmidt", "Andreas", 44, false);
             //  Privatpatient ppA = new Kassenpatient("Hartmann", "Fixi", 22);
             //  ZweiBettZimmer<Kassenpatient> zimmer1 = new ZweiBettZimmer<>(kpA, ppA);
@@ -128,35 +143,42 @@ public class PatientTest {
             // Fensterseite: Schmidt, Andreas, 44, 3528, nicht familienversichert
             // Wandseite: Hartmann, Fixi, 22, 294, familienversichert
 
-            printFensterbett(zimmer1); // Konsole: Schmidt, Andreas, 44, 2394, nicht familienversichert
+            printFensterbett(zimmer1);
+            // Konsole: Schmidt, Andreas, 44, 2394, nicht familienversichert
 
-            printWandbett(zimmer1); // Konsole: Hartmann, Fixi, 22, 630, familienversichert
+            printWandbett(zimmer1);
+            // Konsole: Hartmann, Fixi, 22, 630, familienversichert
         }
         catch (PraxisVollException e){
             e.printStackTrace();
         }
 
-        // Alternativ zu einem Array können mehrere Referenzobjekte in einer Collection gespeichert werden.
-        // Collections können dynamisch wachsen und schrumpfen und benötigen daher keine vordefinierte Größe.
+        // Alternativ zu einem Array können mehrere Referenzobjekte in einer Collection
+        // gespeichert werden. Collections können dynamisch wachsen und schrumpfen und
+        // benötigen daher keine vordefinierte Größe.
         // Die Größe kann sich während der Laufzeit verändern.
         // Die Collection kann dabei entweder eine "List" oder ein "Set" sein.
         // Beide Varianten haben eigene Eigenschaften.
         // List: Geordnete Folge von Elementen
         // Set: Sammlung von Objekten, in der jedes Objekt nur einmal vorkommen darf
-        // -> Mit einem SortedSet (Kindklasse zu Set) ist auch ein Set in einer geordneten Reihenfolge
+        // -> Mit einem SortedSet (Kindklasse zu Set) ist auch ein Set in einer
+        // geordneten Reihenfolge
         try {
             Privatpatient pp1 = new Privatpatient("Meier", "Michael", 45);
             Kassenpatient kp1 = new Kassenpatient("Meier", "Max", 34, false);
 
             // Abstammung von TreeSet: Collection -> Set -> SortedSet -> TreeSet
-            // Da TreeSet also ein SortedSet ist muss die Klasse, aus der ein TreeSet erstellt werden soll,
-            // das Interface "Comparable<T>" implementieren (Siehe Patient)
-            // Das TreeSet fügt Elemente automatisch in der richtigen, sortierten Reihenfolge aus.
+            // Da TreeSet also ein SortedSet ist muss die Klasse, aus der ein TreeSet
+            // erstellt werden soll, das Interface "Comparable<T>" implementieren
+            // (Siehe Patient)
+            // Das TreeSet fügt Elemente automatisch in der richtigen, sortierten
+            // Reihenfolge aus.
             TreeSet<Patient> patientSet = new TreeSet<>();
             patientSet.add(pp1);
             patientSet.add(kp1);
 
-            // Jede Collection enthält einen Iterator, um über die Collection zu iterieren
+            // Jede Collection enthält einen Iterator, um über die Collection zu
+            // iterieren
             // und alle Elemente zu erreichen
             Iterator<Patient> it = patientSet.iterator();
 
@@ -182,7 +204,8 @@ public class PatientTest {
             // Mit "size" lässt sich die Größe einer Collection ausgeben
             System.out.println(patientSet.size()); // Konsole: 2
 
-            // Da ein Set keine Duplikate enthalten darf, hat die folgende Zeile keine Auswirkung auf die Collection. Es bleiben weiterhin 2 Elemente.
+            // Da ein Set keine Duplikate enthalten darf, hat die folgende Zeile
+            // keine Auswirkung auf die Collection. Es bleiben weiterhin 2 Elemente.
             patientSet.add(pp1);
             System.out.println(patientSet.size()); // Konsole: 2
 
@@ -195,7 +218,8 @@ public class PatientTest {
             patientList.add(pp1);
             patientList.add(kp1);
 
-            // Jede Collection enthält einen Iterator, um über die Collection zu iterieren
+            // Jede Collection enthält einen Iterator, um über die Collection zu
+            // iterieren
             // und alle Elemente zu erreichen
             Iterator<Patient> it2 = patientList.iterator();
 
@@ -221,7 +245,8 @@ public class PatientTest {
             // Mit "size" lässt sich die Größe einer Collection ausgeben
             System.out.println(patientList.size()); // Konsole: 2
 
-            // Anders als bei einem Set wird bei einer List nicht auf Duplikate überprüft
+            // Anders als bei einem Set wird bei einer List nicht auf Duplikate
+            // überprüft
             patientList.add(pp1);
             System.out.println(patientList.size()); // Konsole: 3
 
@@ -232,12 +257,13 @@ public class PatientTest {
 
     }
 
-    // Diese Methode verwendet keinen generischen Datentyp für die Übergabe des Parameters.
-    // Da bei generischen Datentypen die Vererbung allerdings irrelevant ist, kann diese Methode
-    // niemals aufgerufen werden. Das liegt daran, dass es kein ZweiBettZimmer vom Typ "Patient"
-    // geben kann, da "Patient" abstrakt ist. Es kann also nur "Kassenpatient" oder "Privatpatient"
-    // sein. Hätte die Methode "ZweiBettZimmer<Privatpatient> bett" als Parameter könnte die Methode
-    // aufgerufen werden. Allerdings nicht mit einem ZweiBettZimmer vom Typ "Kassenpatient".
+    // Diese Methode verwendet keinen generischen Datentyp für die Übergabe des
+    // Parameters. Da bei generischen Datentypen die Vererbung allerdings irrelevant
+    // ist, kann diese Methode niemals aufgerufen werden. Das liegt daran, dass es
+    // kein ZweiBettZimmer vom Typ "Patient" geben kann, da "Patient" abstrakt ist.
+    // Es kann also nur "Kassenpatient" oder "Privatpatient" sein. Hätte die Methode
+    // "ZweiBettZimmer<Privatpatient> bett" als Parameter könnte die Methode aufgerufen
+    // awerden. Allerdings nicht mit einem ZweiBettZimmer vom Typ "Kassenpatient".
     // Um das zu lösen gibt es zwei Möglichkeiten:
     // 1. Methode mit generischem Datentyp
     // 2. Methode mit einer Wildcard
@@ -246,14 +272,15 @@ public class PatientTest {
     }
 
     // Auch Methoden können generische Datentypen verwenden. Diese Methode kann sowohl
-    // ein Zweibettzimmer mit Privatpatienten, als auch eins mit Kassenpatienten verarbeiten.
+    // ein Zweibettzimmer mit Privatpatienten, als auch eins mit Kassenpatienten
+    // verarbeiten.
     public static <T extends Patient> void printFensterbett(ZweiBettZimmer<T> bett){
         System.out.println(bett.getFensterSeite().toString());
     }
 
     // Alternativ kan auch mit einer Wildcard gearbeitet werden. Damit wird die doppelte
-    // Prüfung des korrekten generischen Datentyps vermieden. Es wird nur bei der Instanziierung
-    // der generischen Klasse geprüft.
+    // Prüfung des korrekten generischen Datentyps vermieden. Es wird nur bei der
+    // Instanziierung der generischen Klasse geprüft.
     public static void printWandbett(ZweiBettZimmer<?> bett){
         System.out.println(bett.getWandSeite().toString());
     }
