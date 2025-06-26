@@ -3,121 +3,145 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 
 public class SchwimmerGUI extends JFrame {
-    // Textfeld Instanzvariablen anlegen
-    JTextField lastName, firstName, className;
-
-    // Array für Teilnehmer anlegen
+    // Anlegen der Instanzvariablen
+    private JTextField lastName, firstName, className;
     private Schwimmer[] participants = new Schwimmer[100];
     private int participantIndex = 0;
+    private JTextArea participantsArea;
+    private JButton saveButton, resetButton;
 
-    // Konstruktor der GUI
     public SchwimmerGUI() {
-        // JFrame initialisieren
         super("Schulmeisterschaft Schwimmen");
-        setSize(400, 300);
+        setSize(700, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
 
-        // Layout setzen
-        setLayout(new GridLayout(6,1));
+        // Layout für zwei Spalten
+        setLayout(new BorderLayout());
 
-        // GUI Komponenten erstellen und hinzufügen
-        // Schriftart für Überschrift
-        Font fontHeader = new Font("Courier", Font.ITALIC,20);
-        // Überschrift
+        // Linke Spalte mit Eingaben
+        JPanel inputPanel = new JPanel(new GridLayout(7, 1));
+
+        Font fontHeader = new Font("Courier", Font.ITALIC, 20);
         JLabel heading = new JLabel("Teilnehmerin / Teilnehmer", JLabel.CENTER);
-        // Setze Schriftart für Überschrift
         heading.setFont(fontHeader);
-        // Füge Überschrift zur GUI hinzu
-        add(heading);
+        inputPanel.add(heading);
 
-        // Panels für Eingabefelder erstellen und hinzufügen
-        // Panel erstellen
+        // Nachname
         JPanel lastNamePanel = new JPanel();
-        JLabel lastNameLabel = new JLabel("Nachname:");
+        lastNamePanel.add(new JLabel("Nachname:"));
         lastName = new JTextField(20);
-        lastNamePanel.add(lastNameLabel);
         lastNamePanel.add(lastName);
-        add(lastNamePanel);
+        inputPanel.add(lastNamePanel);
 
+        // Vorname
         JPanel firstNamePanel = new JPanel();
-        JLabel firstNameLabel = new JLabel("Vorname:");
+        firstNamePanel.add(new JLabel("Vorname:"));
         firstName = new JTextField(20);
-        firstNamePanel.add(firstNameLabel);
         firstNamePanel.add(firstName);
-        add(firstNamePanel);
+        inputPanel.add(firstNamePanel);
 
-        JPanel classNamePanel = new JPanel();
-        JLabel classNameLabel = new JLabel("Klasse:");
+        // Klasse
+        JPanel classPanel = new JPanel();
+        classPanel.add(new JLabel("Klasse:"));
         className = new JTextField(3);
-        classNamePanel.add(classNameLabel);
-        classNamePanel.add(className);
-        add(classNamePanel);
+        classPanel.add(className);
+        inputPanel.add(classPanel);
 
-        // Buttons erstellen und hinzufügen
-        JButton saveButton = new JButton("Speichern");
-        // ActionListener für den Speichern-Button
+        // Speichern
+        saveButton = new JButton("Speichern");
+        saveButton.setEnabled(false);
+        // ActionListener für speichern
         saveButton.addActionListener(e -> {
-            // Speichern der Eingaben in das Array
-            String last = lastName.getText();
-            String first = firstName.getText();
-            String classInfo = className.getText();
+            String last = lastName.getText().trim();
+            String first = firstName.getText().trim();
+            String klasse = className.getText().trim();
 
-            // Überprüfen, ob der Array voll ist
-            if (participantIndex < participants.length) {
-                participants[participantIndex] = new Schwimmer(first, last, classInfo);
-                participantIndex++;
-
-                JOptionPane.showMessageDialog(this, "Gespeichert:\n" + first + " " + last + "\nKlasse: " + classInfo);
-                resetFields();
-            } else {
-                JOptionPane.showMessageDialog(this, "Maximale Teilnehmerzahl erreicht!");
+            if (!last.isEmpty() && !first.isEmpty() && !klasse.isEmpty()) {
+                if (participantIndex < participants.length) {
+                    participants[participantIndex++] = new Schwimmer(first, last, klasse);
+                    updateParticipantsArea();
+                    resetFields();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Maximale Teilnehmerzahl erreicht!");
+                }
             }
         });
-        add(saveButton);
+        inputPanel.add(saveButton);
 
-        // Button zum Zurücksetzen der Eingabefelder
-        JButton resetButton = new JButton("Eingaben löschen");
+        // Eingaben löschen
+        resetButton = new JButton("Eingaben löschen");
+        // ActionListener für zurücksetzen
         resetButton.addActionListener(e -> {
             resetFields();
+            saveButton.setEnabled(false);
         });
-        add(resetButton);
+        inputPanel.add(resetButton);
 
-        // Überprüfen, ob die Eingabefelder leer sind
+        // Teilnehmer zurücksetzen
+        JButton resetParticipantsButton = new JButton("Teilnehmer zurücksetzen");
+        resetParticipantsButton.addActionListener(e -> {
+            resetParticipants();
+            updateParticipantsArea();
+        });
+        inputPanel.add(resetParticipantsButton);
+
+        add(inputPanel, BorderLayout.CENTER);
+
+        // Rechte Spalte: Teilnehmerliste
+        participantsArea = new JTextArea();
+        participantsArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(participantsArea);
+        scrollPane.setPreferredSize(new Dimension(300, 300));
+        add(scrollPane, BorderLayout.EAST);
+
+
+
+
+
+
+
+        // DocumentListener zur Validierung der Eingaben
         DocumentListener inputListener = new DocumentListener() {
-            public void insertUpdate(javax.swing.event.DocumentEvent e) { checkFields(); }
-            public void removeUpdate(javax.swing.event.DocumentEvent e) { checkFields(); }
-            public void changedUpdate(javax.swing.event.DocumentEvent e) { checkFields(); } // rarely used
+            public void insertUpdate(javax.swing.event.DocumentEvent e) { validateInput(); }
+            public void removeUpdate(javax.swing.event.DocumentEvent e) { validateInput(); }
+            public void changedUpdate(javax.swing.event.DocumentEvent e) { validateInput(); }
 
-            // Methode zum Überprüfen der Eingabefelder
-            private void checkFields() {
-                boolean enabled = !lastName.getText().trim().isEmpty()
+            private void validateInput() {
+                boolean ready = !lastName.getText().trim().isEmpty()
                         && !firstName.getText().trim().isEmpty()
                         && !className.getText().trim().isEmpty();
-                // Aktiviere oder deaktiviere den Speichern-Button basierend auf den Eingabefeldern
-                saveButton.setEnabled(enabled);
+                saveButton.setEnabled(ready);
             }
         };
 
         lastName.getDocument().addDocumentListener(inputListener);
         firstName.getDocument().addDocumentListener(inputListener);
         className.getDocument().addDocumentListener(inputListener);
-
-        // Deaktiviere den Speichern-Button initial
-        saveButton.setEnabled(false);
-
-
     }
 
-    // Methode zum Zurücksetzen der Eingabefelder
     private void resetFields() {
         lastName.setText("");
         firstName.setText("");
         className.setText("");
     }
 
-    // Main-Methode zum Starten der GUI
+    private void resetParticipants() {
+        participants = new Schwimmer[100];
+        participantIndex = 0;
+        participantsArea.setText("");
+    }
+
+    private void updateParticipantsArea() {
+        String text = "";
+        for (int i = 0; i < participantIndex; i++) {
+            text += (i + 1) + ". " + participants[i] + "\n";
+        }
+        participantsArea.setText(text);
+    }
+
+
     public static void main(String[] args) {
-        SchwimmerGUI gui = new SchwimmerGUI();
-        gui.setVisible(true);
+        SwingUtilities.invokeLater(() -> new SchwimmerGUI().setVisible(true));
     }
 }
