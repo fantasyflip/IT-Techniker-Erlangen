@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 
 public class SchwimmerGUI extends JFrame {
@@ -61,6 +62,25 @@ public class SchwimmerGUI extends JFrame {
             resetFields();
         });
         add(resetButton);
+
+        DocumentListener inputListener = new DocumentListener() {
+            public void insertUpdate(javax.swing.event.DocumentEvent e) { checkFields(); }
+            public void removeUpdate(javax.swing.event.DocumentEvent e) { checkFields(); }
+            public void changedUpdate(javax.swing.event.DocumentEvent e) { checkFields(); } // rarely used
+
+            private void checkFields() {
+                boolean enabled = !lastName.getText().trim().isEmpty()
+                        && !firstName.getText().trim().isEmpty()
+                        && !className.getText().trim().isEmpty();
+                saveButton.setEnabled(enabled);
+            }
+        };
+
+        lastName.getDocument().addDocumentListener(inputListener);
+        firstName.getDocument().addDocumentListener(inputListener);
+        className.getDocument().addDocumentListener(inputListener);
+
+        saveButton.setEnabled(false);
 
 
     }
