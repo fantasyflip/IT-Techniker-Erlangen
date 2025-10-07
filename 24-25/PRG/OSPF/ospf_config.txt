@@ -1,5 +1,7 @@
 Router 1: enable
 Router 1: configure terminal
 Router 1: router ospf 10
-Router 1: router-id 10.10.10.10
+Router 1: router-id 3.3.3.3
+Router 1: network 10.40.20.0 255.255.255.0 area 3
+Router 1: passive-interface g0/0/0
 Router 1: end

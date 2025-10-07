@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.io.*;
 
 public class OSPF_GUI_v2 extends JFrame {
 
@@ -10,6 +11,10 @@ public class OSPF_GUI_v2 extends JFrame {
 
     // Buttons
     private JButton btnEnable, btnConfigT, btnRouterOSPF, btnRouterID, btnNetwork, btnPassive, btnEnd;
+
+    // File to save configuration
+    private static final String CONFIG_FILE_NAME = "ospf_config.txt";
+    File configFile = new File(CONFIG_FILE_NAME);
 
     public OSPF_GUI_v2(String title) {
         super(title);
@@ -131,6 +136,14 @@ public class OSPF_GUI_v2 extends JFrame {
         String fullCmd = "Router " + routerCount + ": " + cmd;
         config.add(fullCmd);
         System.out.println(fullCmd);
+
+        // Append to file
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(configFile, true))) {
+            writer.write(fullCmd);
+            writer.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private boolean validateIP(String ip) {
