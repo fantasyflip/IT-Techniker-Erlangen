@@ -1,0 +1,5 @@
+Router 1: enable
+Router 1: configure terminal
+Router 1: router ospf 10
+Router 1: router-id 10.10.10.10
+Router 1: end
