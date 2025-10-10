@@ -35,7 +35,7 @@ Die folgenden Anleitungen zeigen Installationswege für macOS und Windows. Empfo
 
 ## Installation auf macOS (CLI, empfohlen)
 
-Folgt dem offiziellen Quickstart (siehe Link in der Anfrage). Die folgenden Befehle führen eine stille Installation aus. Mit der stillen Installation akzeptierst du die Anaconda Terms of Service.
+Die folgenden Befehle führen eine stille Installation aus. Mit der stillen Installation akzeptierst du die Anaconda Terms of Service.
 
 1. Öffne Terminal (zsh). Für Apple Silicon (M1/M2/M3) oder Intel unterscheiden sich die Installer-URLs. Beispiel Apple Silicon:
    ```zsh
