@@ -1,0 +1,34 @@
+# Jupyter temporary and cache files
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Python cache
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor folders
+.vscode/
+.idea/
+
+# Data caches or large temp files (keep small sample data only)
+*.tmp
+*.log
+*.cache/
+**/.cache/
+
+# Jupyter runtime (local runtime files)
+.jupyter/
+**/.local/share/jupyter/runtime/
