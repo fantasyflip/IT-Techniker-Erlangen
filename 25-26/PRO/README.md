@@ -108,6 +108,7 @@ Die folgenden Befehle führen eine stille Installation aus. Mit der stillen Inst
    rem Einmalig: Anaconda Terms of Service für die Standard-Channels akzeptieren
    conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main
    conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
+   conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/msys2
 
    conda create -n ai4all python=3.11 -y
    conda activate ai4all
