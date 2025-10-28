@@ -3,20 +3,20 @@ import javax.swing.JOptionPane;
 public class JOptionPaneDemo {
 
     public static void main(String[] args) {
-        // --- 1️⃣ MESSAGE DIALOG ---
-        // Displays a simple message box with information for the user.
+        // --- MESSAGE DIALOG ---
+        // Displays a simple message box
         JOptionPane.showMessageDialog(
                 null,
-                "Willkommen zur OptionPane Demo!",
+                "OptionPane Demo",
                 "Message Dialog",
                 JOptionPane.INFORMATION_MESSAGE
         );
 
-        // --- 2️⃣ INPUT DIALOG ---
-        // Asks the user to input a value (e.g., their name).
+        // --- INPUT DIALOG ---
+        // Asks the user to input their name
         String name = JOptionPane.showInputDialog(
                 null,
-                "Wie heißt du?",
+                "Name?",
                 "Input Dialog",
                 JOptionPane.QUESTION_MESSAGE
         );
@@ -26,11 +26,11 @@ public class JOptionPaneDemo {
             name = "Fremder";
         }
 
-        // --- 3️⃣ CONFIRM DIALOG ---
+        // --- CONFIRM DIALOG ---
         // Asks the user a Yes/No/Cancel type question.
         int confirm = JOptionPane.showConfirmDialog(
                 null,
-                "Möchtest du fortfahren, " + name + "?",
+                "Weiter, " + name + "?",
                 "Confirm Dialog",
                 JOptionPane.YES_NO_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE
@@ -40,32 +40,32 @@ public class JOptionPaneDemo {
         if (confirm == JOptionPane.YES_OPTION) {
             JOptionPane.showMessageDialog(
                     null,
-                    "Toll, lass uns weiter machen!",
+                    "Weiter geht's!",
                     "Response",
                     JOptionPane.INFORMATION_MESSAGE
             );
         } else if (confirm == JOptionPane.NO_OPTION) {
             JOptionPane.showMessageDialog(
                     null,
-                    "Okay, bis zum nächsten Mal.",
+                    "Bye.",
                     "Response",
                     JOptionPane.WARNING_MESSAGE
             );
         } else {
             JOptionPane.showMessageDialog(
                     null,
-                    "Aktion abgebrochen!",
+                    "Abbruch!",
                     "Response",
                     JOptionPane.PLAIN_MESSAGE
             );
         }
 
-        // --- 4️⃣ OPTION DIALOG ---
-        // Lets you define custom button labels and behavior.
+        // --- OPTION DIALOG ---
+        // Custom option dialog
         Object[] options = {"Speichern", "Nicht speichern", "Abbrechen"};
         int choice = JOptionPane.showOptionDialog(
                 null,
-                "Möchtest du deinen Fortschritt speichern?",
+                "Fortschritt speichern?",
                 "Option Dialog",
                 JOptionPane.YES_NO_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
@@ -89,10 +89,10 @@ public class JOptionPaneDemo {
         }
 
         // --- END ---
-        // Notify the user that the demo is complete.
+        // Final message before exiting
         JOptionPane.showMessageDialog(
                 null,
-                "Demo beendet. Vielen Dank fürs Teilnehmen, " + name + ".",
+                "Demo beendet, " + name + ".",
                 "Goodbye",
                 JOptionPane.INFORMATION_MESSAGE
         );
