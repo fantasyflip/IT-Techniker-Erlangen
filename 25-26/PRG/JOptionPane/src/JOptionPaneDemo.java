@@ -7,7 +7,7 @@ public class JOptionPaneDemo {
         // Displays a simple message box
         JOptionPane.showMessageDialog(
                 null,
-                "OptionPane Demo",
+                "<html> <div style='color: red; background: blue'>OptionPane Demo</div> </html>",
                 "Message Dialog",
                 JOptionPane.INFORMATION_MESSAGE
         );
